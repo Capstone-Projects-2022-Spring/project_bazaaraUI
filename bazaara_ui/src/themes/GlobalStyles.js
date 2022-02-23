@@ -9,4 +9,4 @@ export const GlobalStyles = createGlobalStyle`
      text-align: center;
      transition: all 0.50s linear; 
   }
-`
+`;

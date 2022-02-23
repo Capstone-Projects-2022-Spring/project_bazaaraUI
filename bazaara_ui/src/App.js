@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./themes/GlobalStyles";
 import theme from "./themes/themes";
+import Button from "./components/Button";
 
 const App = () => {
    return (
@@ -9,7 +10,7 @@ const App = () => {
          <>
           <GlobalStyles />
               <p>BAZAARA</p>
-
+<Button>here</Button>
 
          </>
       </ThemeProvider>
