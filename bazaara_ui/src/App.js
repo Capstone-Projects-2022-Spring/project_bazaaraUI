@@ -1,19 +1,24 @@
-import React from "react";
+import React from 'react';
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./themes/GlobalStyles";
 import theme from "./themes/themes";
 import Button from "./components/Button";
+import './App.css';
+import { LoginForm } from './Components/Pages/LoginPage/LoginForm';
+import { RegisterForm } from './Components/Pages/RegisterPage/RegisterForm';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom';
 
-const App = () => {
-   return (
-      <ThemeProvider theme={theme}>
-         <>
-          <GlobalStyles />
-              <p>BAZAARA</p>
-<Button>here</Button>
-
-         </>
-      </ThemeProvider>
-   )
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-export default App;
