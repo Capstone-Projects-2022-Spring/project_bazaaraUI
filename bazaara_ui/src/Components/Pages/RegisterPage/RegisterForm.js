@@ -6,11 +6,16 @@ import { Link } from 'react-router-dom';
 export class RegisterForm extends React.Component {
     render(){
     return(
+        <>
+        <section className='regiser'>
         <div id="registerform">
             <FormHeader title="Register" />
             <Form />
             <LoginButton />
         </div>
+        </section>
+        
+        </>
     )
     }
 }
