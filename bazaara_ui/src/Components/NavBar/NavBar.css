@@ -1,0 +1,14 @@
+/* nav selector */
+nav{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+    align-items: center;
+    background-color: #E3C5C5;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    
+}

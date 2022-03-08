@@ -6,12 +6,17 @@ import { Link } from 'react-router-dom';
 export class LoginForm extends React.Component {
     render(){
     return(
+      <>
+      <section className='login_form'>
+
         <div id="loginform">
             <FormHeader title="Login" />
             <Form />
             <RegisterButton />
             <OtherMethods />
         </div>
+      </section>
+      </>
     )
     }
 }
