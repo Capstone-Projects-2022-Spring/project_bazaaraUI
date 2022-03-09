@@ -3,6 +3,7 @@ import './styles.css';
 import { Link } from 'react-router-dom';
 import GetMockData from './GetMockData'
 import ShoppingList from './ShoppingList';
+import { shoppingList, ListObject } from './mockdata'
 
 /* const select = [
     {index: 0, name: 'Breakfast', food: 'bread', products: ['bread', 'eggs', 'milk']},
@@ -12,19 +13,7 @@ import ShoppingList from './ShoppingList';
 ]*/
 
 let chosenList = 0;
-class ListObject {
-    constructor(index, name, food, products) {
-        this.index = index;
-        this.name = name;
-        this.food = food;
-        this.products = products;
-    }
 
-}
-
-let select = [];
-select.push(new ListObject(0, 'Breakfast', 'bread', ['bread', 'eggs', 'milk']));
-select.push(new ListObject(1, 'Dinner', 'steak', ['fries', 'ketchup', 'soda']));
 
 export class ShoppingListViewer extends React.Component {
     render() {
@@ -44,7 +33,7 @@ export class ShoppingListViewer extends React.Component {
                         <h1>Shopping Lists</h1>
                             <button onClick="">+ Create New List</button>
 
-                            {select.map(listName => (
+                            {shoppingList.map(listName => (
                                     <p><button onClick={() => showList(listName.index)} >
                                         <GetMockData
                                             key={listName.name}
