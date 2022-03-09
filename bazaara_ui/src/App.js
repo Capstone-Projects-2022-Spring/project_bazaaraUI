@@ -8,6 +8,7 @@ import { LoginForm } from './Components/Pages/LoginPage/LoginForm';
 import { RegisterForm } from './Components/Pages/RegisterPage/RegisterForm';
 import  HomeForm  from './Components/Pages/HomePage/HomeForm';
 import Navbar from './Components/NavBar/Navbar';
+import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
 import {
   BrowserRouter,
   Routes,
@@ -22,6 +23,7 @@ export default function App() {
         <Route index element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/home" element={<HomeForm />} />
+        <Route path="/search" element={<ProductSearch />} />
       </Routes>
     </BrowserRouter>
   );
