@@ -51,15 +51,19 @@ button {
     overflow: auto;
 }
 
-#listofproducts {
-    max-width: 4000px;
-    min-width: 300px;
-    max-height: 700px;
-    width: 80%;
-    height: 90%;
+.listofproducts {
+    max-width: 80%;
+    min-width: 40%;
+    max-height: 100%;
+
    
     margin: 20px auto;
-    background-color: #9d34da;
+    background-color: #dd7e7e;
     border-radius: 30px;
+    overflow: auto;
 
+}
+
+.dropdown {
+    justify-content: left;
 }

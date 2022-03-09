@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import GetMockData from './GetMockData'
 import ShoppingList from './ShoppingList';
 import { shoppingList, ListObject } from './mockdata'
+import InputPopUp from  './InputPopUp'
+import ThreeDotDropdown from './ThreeDotDropdown'
 
 /* const select = [
     {index: 0, name: 'Breakfast', food: 'bread', products: ['bread', 'eggs', 'milk']},
@@ -16,6 +18,15 @@ let chosenList = 0;
 
 
 export class ShoppingListViewer extends React.Component {
+    state = {
+        seen: false
+        };
+       togglePop = () => {
+        this.setState({
+         seen: !this.state.seen
+        });
+       };
+
     render() {
         const showList = (index) => {
             
@@ -31,30 +42,25 @@ export class ShoppingListViewer extends React.Component {
        
                     <div className='listoflists'>
                         <h1>Shopping Lists</h1>
-                            <button onClick="">+ Create New List</button>
-
+                            <button onClick={this.togglePop}>+ Create New List</button>
+                            {this.state.seen ? <InputPopUp toggle={this.togglePop} /> : null}
+                            
                             {shoppingList.map(listName => (
                                     <p><button onClick={() => showList(listName.index)} >
                                         <GetMockData
                                             key={listName.name}
                                             name={listName.name}
-                                            
-                                            
                                         />
                                     </button></p>
                             ))}
                     </div>
-
-                    <div className='listoflists'>
-
-                        
-
-
+                    
+                    <div className='listofproducts'>
+                    
                     <ShoppingList selectedList={chosenList}/>
+                    
                     </div>
-
-                        
-
+                    <ThreeDotDropdown />
 
                 
                 </div>
