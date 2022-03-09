@@ -8,6 +8,9 @@ import { LoginForm } from './Components/Pages/LoginPage/LoginForm';
 import { RegisterForm } from './Components/Pages/RegisterPage/RegisterForm';
 import  HomeForm  from './Components/Pages/HomePage/HomeForm';
 import Navbar from './Components/NavBar/Navbar';
+import ShoppingListViewer from './Components/Pages/ShoppingLists/ShoppingListViewer';
+import ShoppingList from './Components/Pages/ShoppingLists/ShoppingList';
+
 import {
   BrowserRouter,
   Routes,
@@ -22,6 +25,8 @@ export default function App() {
         <Route index element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/home" element={<HomeForm />} />
+        <Route path="/shoppinglists" element={<ShoppingListViewer />} />
+        <Route path="/testlist" element={<ShoppingList />} />
       </Routes>
     </BrowserRouter>
   );
