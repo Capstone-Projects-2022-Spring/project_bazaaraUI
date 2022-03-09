@@ -6,7 +6,7 @@ nav{
     align-items: center;
     background-color: #E3C5C5;
     position: fixed;
-    bottom: 0;
+    bottom: 100; 
     left: 0;
     width: 100%;
     z-index: 20;
