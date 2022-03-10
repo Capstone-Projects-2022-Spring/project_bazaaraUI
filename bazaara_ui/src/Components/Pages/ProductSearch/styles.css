@@ -1,0 +1,9 @@
+/* .product-search{
+  height: 300;
+  width: "100%";
+} */
+.wrapper{
+  display: 'flex';
+  justify-content: 'center';
+}
+  

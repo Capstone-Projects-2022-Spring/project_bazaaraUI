@@ -10,7 +10,7 @@ import  HomeForm  from './Components/Pages/HomePage/HomeForm';
 import Navbar from './Components/NavBar/Navbar';
 import ShoppingListViewer from './Components/Pages/ShoppingLists/ShoppingListViewer';
 import ShoppingList from './Components/Pages/ShoppingLists/ShoppingList';
-
+import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
 import {
   BrowserRouter,
   Routes,
@@ -27,6 +27,7 @@ export default function App() {
         <Route path="/home" element={<HomeForm />} />
         <Route path="/shoppinglists" element={<ShoppingListViewer />} />
         <Route path="/testlist" element={<ShoppingList />} />
+        <Route path="/search" element={<ProductSearch />} />
       </Routes>
     </BrowserRouter>
   );

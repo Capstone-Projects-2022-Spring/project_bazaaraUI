@@ -27,21 +27,3 @@ const Navbar = () => {
 
 export default Navbar
 
-
-
-
-/*
-
-function  display(){
-   this
-    return 
-}
-
-const data=()=>{
-   this
-}
-
-
-
-
-*/

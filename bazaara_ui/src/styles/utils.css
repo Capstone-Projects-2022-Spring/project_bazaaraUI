@@ -42,7 +42,7 @@
     display: block;
 }
 .my-4{
-    margin-top: 20px ;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 .w-full{
@@ -56,4 +56,9 @@
 }
 .text-xs{
     font-size: 0.7rem;
+}
+
+.my-6{
+    position: relative;
+    top:100px;
 }
