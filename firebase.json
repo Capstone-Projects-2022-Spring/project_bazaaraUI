@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "bazaara_ui",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
