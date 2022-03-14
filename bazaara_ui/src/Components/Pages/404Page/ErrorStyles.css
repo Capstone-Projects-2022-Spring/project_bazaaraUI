@@ -1,0 +1,22 @@
+
+.bg-purple-50 {
+    background-color: #6977e4;
+}
+
+
+.heading {
+    font-size: 5em;
+    margin:0;
+    padding:30;
+    text-align:center;
+    font-family: cursive;
+}
+
+
+.subheading {
+    font-size: 2.5em;
+    margin:0;
+    padding:30;
+    text-align:center;
+    font-family: Arial;
+}

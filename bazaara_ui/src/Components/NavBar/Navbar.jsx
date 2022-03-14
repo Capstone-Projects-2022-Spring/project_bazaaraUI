@@ -1,26 +1,51 @@
 import React from 'react'
 import "./NavBar.css"
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <>
-    <nav>
+
+      <nav>
+
+      <main className="flex flex-col text-center">
+           <div className="t">Bazaara</div>
+           <div className="subtitle">A Super-Charged Saving App</div>
+        </main>
+
       <div>
-        <svg width="27" height="15" viewBox="0 0 27 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.375 8.95833H3.29167V6.04166H0.375V8.95833ZM0.375 14.7917H3.29167V11.875H0.375V14.7917ZM0.375 3.12499H3.29167V0.208328H0.375V3.12499ZM6.20833 8.95833H26.625V6.04166H6.20833V8.95833ZM6.20833 14.7917H26.625V11.875H6.20833V14.7917ZM6.20833 0.208328V3.12499H26.625V0.208328H6.20833Z" fill="black"/>
-</svg>
+        <Link to="/home">
+          <svg width="31" height="26" viewBox="0 0 31 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5833 25.1667V16.4167H18.4166V25.1667H25.7083V13.5H30.0833L15.5 0.375L0.916626 13.5H5.29163V25.1667H12.5833Z" fill="black" />
+          </svg>
+        </Link>
       </div>
-      <div>
-      <svg width="31" height="26" viewBox="0 0 31 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.5833 25.1667V16.4167H18.4166V25.1667H25.7083V13.5H30.0833L15.5 0.375L0.916626 13.5H5.29163V25.1667H12.5833Z" fill="black"/>
-</svg>
-      </div>
-      <div>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.6667 11.6667C14.8896 11.6667 17.5 9.05625 17.5 5.83333C17.5 2.61042 14.8896 0 11.6667 0C8.44375 0 5.83333 2.61042 5.83333 5.83333C5.83333 9.05625 8.44375 11.6667 11.6667 11.6667ZM11.6667 14.5833C7.77292 14.5833 0 16.5375 0 20.4167V23.3333H23.3333V20.4167C23.3333 16.5375 15.5604 14.5833 11.6667 14.5833Z" fill="black"/>
-</svg>
-      </div>
-    </nav>
+
+        <div>
+          <Link to="/shoppinglists"> 
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+          </Link>
+        </div>
+  
+        <div>
+        <Link to="/search">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+          </Link>
+        </div>
+
+        <div>
+        <Link to="/">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+          <path d="M0 0h24v24H0z" fill="none"/><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+        </svg>
+          </Link>
+        </div>
+
+      </nav>
     </>
   )
 }

@@ -2,14 +2,16 @@ import React from 'react'
 import '../../../styles/utils.css'
 import List from '../../List/list'
 import './styles.css'
+import Navbar from '../../NavBar/Navbar'
+
+
 const HomeForm = () => {
   return (
     <>
+     
     <section className="home w-full min-h-full my-6">
-        <main className="flex flex-col text-center">
-           <div className="t">Bazaara</div>
-           <div className="subtitle">Get free cedits</div>
-        </main>
+      
+
         <main className="flex flex-col block max-w-sm m-auto bg-orange-50 rounded text-center my-4 p-5">
             <div className="text-bold">Total Savings</div>
             <div className="flex  items-center justify-evenly p-3">

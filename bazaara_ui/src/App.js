@@ -11,6 +11,8 @@ import Navbar from './Components/NavBar/Navbar';
 import ShoppingListViewer from './Components/Pages/ShoppingLists/ShoppingListViewer';
 import ShoppingList from './Components/Pages/ShoppingLists/ShoppingList';
 import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
+import ErrorPage from "./Components/Pages/404Page/ErrorPage"
+
 import {
   BrowserRouter,
   Routes,
@@ -28,6 +30,7 @@ export default function App() {
         <Route path="/shoppinglists" element={<ShoppingListViewer />} />
         <Route path="/testlist" element={<ShoppingList />} />
         <Route path="/search" element={<ProductSearch />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
