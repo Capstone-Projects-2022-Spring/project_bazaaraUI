@@ -6,7 +6,7 @@ export class ShoppingListDisplay extends React.Component {
     render() {
         return (
             <p>
-                {ShoppingListCollection.collection[this.props.displayIndex].name}
+                {this.props.lists[this.props.displayIndex].name}
             </p>
         );
     }
