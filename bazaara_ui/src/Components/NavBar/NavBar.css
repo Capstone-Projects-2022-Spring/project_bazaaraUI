@@ -4,11 +4,12 @@ nav{
     justify-content: space-evenly;
     padding: 1rem;
     align-items: center;
-    background-color: #E3C5C5;
-    position: fixed;
+    background-color: #518FEB;
+    position: sticky;
     top: 0; 
     left: 0;
     width: 100%;
     z-index: 20;
-    
+    color: white;
 }
+

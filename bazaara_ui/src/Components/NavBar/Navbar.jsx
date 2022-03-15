@@ -2,6 +2,8 @@ import React from 'react'
 import "./NavBar.css"
 import { Link } from "react-router-dom";
 
+
+
 const Navbar = () => {
   return (
     <>
@@ -9,8 +11,8 @@ const Navbar = () => {
       <nav>
 
       <main className="flex flex-col text-center">
-           <div className="t">Bazaara</div>
-           <div className="subtitle">A Super-Charged Saving App</div>
+           <div className="title">Bazaara</div>
+           <div className="title">A Super-Charged Saving App</div>
         </main>
 
       <div>

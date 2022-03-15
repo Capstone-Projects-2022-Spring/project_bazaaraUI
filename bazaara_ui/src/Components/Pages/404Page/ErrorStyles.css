@@ -1,6 +1,6 @@
 
 .bg-purple-50 {
-    background-color: #6977e4;
+    background-color: white;
 }
 
 
@@ -10,6 +10,7 @@
     padding:30;
     text-align:center;
     font-family: cursive;
+    color:rgb(80, 101, 218);
 }
 
 
@@ -19,4 +20,5 @@
     padding:30;
     text-align:center;
     font-family: Arial;
+    color:rgb(80, 101, 218);
 }
