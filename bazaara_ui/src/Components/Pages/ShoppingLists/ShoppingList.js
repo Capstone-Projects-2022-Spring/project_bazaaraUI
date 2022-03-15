@@ -18,8 +18,8 @@ class ShoppingListCollection {
     }
 }
 
-ShoppingListCollection.add('Breakfast', []);
-ShoppingListCollection.add('Dinner', []);
+ShoppingListCollection.add('Breakfast', ['apples', 'bread', 'eggs']);
+ShoppingListCollection.add('Dinner', ['potatoes', 'steak', 'ketchup']);
 
 
 export {ShoppingList, ShoppingListCollection};

@@ -3,14 +3,14 @@ import './styles.css';
 import { ShoppingList, ShoppingListCollection } from './ShoppingList'
 
 export class ShoppingListSelection extends React.Component {
-    constructor(props) {
+   /* constructor(props) {
         super(props)
         this.state = {
-            value: '',
+            
         }
-        this.handleInput = this.handleInput.bind(this);
+        //this.handleInput = this.handleInput.bind(this);
 
-    }
+    }*/
 
     state = {
         seen: false
@@ -22,9 +22,6 @@ export class ShoppingListSelection extends React.Component {
     };
 
 
-    handleInput(event) {
-            this.setState({value: event.target.value});
-    }
 
 
     render() {
@@ -38,15 +35,16 @@ export class ShoppingListSelection extends React.Component {
                         <div className="modal_content">
                             <span className="close"></span>
 
-                                    <input type="text" placeholder="New Shopping List Name" onChange={this.handleInput}/>
+                                    <input type="text" placeholder="New Shopping List Name" onChange={(e) => this.props.handleInput(e)}/>
                                 <br />
-                                <button onClick={(e) => this.props.handleAddList(this.state.value, e)}>Add</button>
+                                <button onClick={(e) => this.props.handleAddList(this.props.value, e)}>Add</button>
+
 
                         </div>
                      </div> : null}
 
                 {
-      
+
                     this.props.lists.map((listName, index) => (
 
                         <p><button onClick={this.props.changeListHandler.bind(this, index)}>

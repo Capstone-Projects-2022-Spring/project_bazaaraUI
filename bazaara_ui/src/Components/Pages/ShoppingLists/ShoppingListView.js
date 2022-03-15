@@ -8,17 +8,32 @@ export class ShoppingListView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            value: "",
             listIndex: 0,
             lists: ShoppingListCollection.collection,
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
         this.handleRemoveList = this.handleRemoveList.bind(this);
+        this.handleInput = this.handleInput.bind(this);
+        this.clearInput = this.clearInput.bind(this);
+        
     }
 
     changeListHandler(newIndex) {
         this.setState({listIndex: newIndex})
     
+    }
+
+    handleInput(event) {
+        this.setState({value: event.target.value});
+    }
+
+    clearInput () {
+        alert('clearing message: ' + this.state.value);
+
+        this.setState({value: ""});
+
     }
 
     handleAddList = (name) => {
@@ -31,14 +46,13 @@ export class ShoppingListView extends React.Component {
         //this.setState({lists: temp})
         let isDuplicate = false;
         
-
         for (let i = 0; i < this.state.lists.length; i++) {
-            if (this.state.lists[i].name == name) {
+            if (this.state.lists[i].name === name) {
                 isDuplicate = true;
             }
         }
 
-        if (name.trim().length == 0) {
+        if (name.trim().length === 0) {
             alert('invalid shopping name list: no empty string');
         } else if (isDuplicate) {
             alert('invalid shopping name list: no duplicate names');
@@ -48,11 +62,11 @@ export class ShoppingListView extends React.Component {
             //alert('size of collection ' + temp.length);
     
             //this.setState({ lists: temp });
-    
-    
+
             this.setState(() => {
                 return {
-                    lists: temp
+                    value: "",
+                    lists: temp,
                 }
             });
         }
@@ -60,15 +74,15 @@ export class ShoppingListView extends React.Component {
     }
 
     handleRemoveList = () => {
-        alert('attempting to remove list at index:' + this.state.listIndex);
+        //alert('attempting to remove list at index:' + this.state.listIndex);
         var prevIndex = this.state.listIndex;
         var temp = [...this.state.lists];
         
         temp.splice(prevIndex, 1);
-        alert('temp contents: ' + temp.toString());
+        //alert('temp contents: ' + temp.toString());
 
 
-        if (prevIndex == this.state.lists.length-1) {
+        if (prevIndex === this.state.lists.length-1) {
             this.setState(() => {
                 return {
                     listIndex: prevIndex-1,
@@ -93,14 +107,13 @@ export class ShoppingListView extends React.Component {
             <section className='container'>
                <section className='viewer'>
                <div className='column'>
-                        <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists}/>
+                        <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value}/>
                     </div>
-                        
                     <div className='column'>
                         <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists}/>
                         
                     </div>
-                    <button className="smallButton" onClick={this.handleRemoveList}>X</button>
+                    <button className="smallButton" onClick={this.handleRemoveList}>delete</button>
 
                </section>
             </section>
