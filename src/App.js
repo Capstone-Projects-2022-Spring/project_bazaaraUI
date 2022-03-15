@@ -21,7 +21,7 @@ import {
 export default function App() {
   return (
     <BrowserRouter>
-
+    <Navbar/>
       <Routes>
         <Route index element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
