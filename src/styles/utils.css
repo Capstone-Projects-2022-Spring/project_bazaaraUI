@@ -1,3 +1,11 @@
+.home{
+    background-color: white; /* #FBE9E8 */
+  }
+
+.text-color{
+    color: white;
+}
+
 .flex{
     display: flex;
 }
@@ -10,6 +18,11 @@
 .justify-evenly{
     justify-content: space-evenly;
 }
+
+.justify-center{
+    justify-content: center;
+}
+
 .justify-between{
     justify-content: space-between;
 }
@@ -30,7 +43,7 @@
     text-align: center;
 }
 .bg-orange-50{
-    background-color:#E3C5C5;
+    background-color: #518FEB;
 }
 .max-w-sm{
     max-width: 400px;
@@ -61,4 +74,17 @@
 .my-6{
     position: relative;
     top:100px;
+}
+
+.companyStatement{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+    align-items: center;
+    background-color: #518FEB;
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%;
+    z-index: 20;
 }
