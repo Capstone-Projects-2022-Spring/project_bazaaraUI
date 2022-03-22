@@ -3,6 +3,8 @@ import './styles.css';
 import ShoppingListSelection from './ShoppingListSelection'
 import ShoppingListDisplay from './ShoppingListDisplay'
 import { ShoppingList, ShoppingListCollection } from './ShoppingList'
+import Navbar from '../../NavBar/Navbar'
+
 
 export class ShoppingListView extends React.Component {
     constructor(props) {
@@ -102,8 +104,10 @@ export class ShoppingListView extends React.Component {
     
 
     render() {
-
+        
         return(
+            <>
+            <Navbar />
             <section className='container'>
                <section className='viewer'>
                <div className='column'>
@@ -117,7 +121,9 @@ export class ShoppingListView extends React.Component {
 
                </section>
             </section>
+            </>
         );
+
     }
 
 }

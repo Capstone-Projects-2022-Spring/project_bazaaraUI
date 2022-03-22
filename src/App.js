@@ -11,6 +11,7 @@ import Navbar from './Components/NavBar/Navbar';
 import ShoppingListView from './Components/Pages/ShoppingLists/ShoppingListView';
 import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
 import ErrorPage from "./Components/Pages/404Page/ErrorPage"
+import Logout from './Components/Pages/Logout/logout';
 
 import {
   BrowserRouter,
@@ -21,15 +22,31 @@ import {
 export default function App() {
   return (
     <BrowserRouter>
-    <Navbar/>
+    {/* <Navbar/> */}
       <Routes>
         <Route index element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/home" element={<HomeForm />} />
         <Route path="/shoppinglists" element={<ShoppingListView />} />
         <Route path="/search" element={<ProductSearch />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
+/*
+
+<>
+<section>
+  <main>
+    <div> You Have
+
+</>
+
+
+
+
+
+*/

@@ -1,15 +1,6 @@
-/* nav selector */
-nav{
-    display: flex;
-    justify-content: space-evenly;
-    padding: 1rem;
-    align-items: center;
-    background-color: #518FEB;
-    position: sticky;
-    top: 0; 
-    left: 0;
-    width: 100%;
-    z-index: 20;
-    color: white;
-}
 
+
+
+.nav-item:hover{
+    background-color: #075985;
+}

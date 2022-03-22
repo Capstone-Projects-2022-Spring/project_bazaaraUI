@@ -2,12 +2,13 @@ import React from 'react'
 import '../../../styles/utils.css'
 import List from '../../List/list'
 import Navbar from '../../NavBar/Navbar'
+import Footer from '../../Footer/Footer'
 
 
 const HomeForm = () => {
   return (
     <>
-     
+     <Navbar/>
     <section className="home w-full min-h-full">
     {/* remove my6 class */}
       
@@ -37,14 +38,14 @@ const HomeForm = () => {
           <List/>
           <List/>
         </main>
-        <main className="flex flex-col companyStatement">
-            <div className="text-center  text-color">Mission</div>
-            <br/>
-            <div className='text-center text-xs'>
-            Found 2022. Baazara App allows users to discover good deals at nearby location by saving both time and money.
-            </div>
-        </main>
+        
+        {/* create a slide show of company */}
+
+
     </section>
+
+    <Footer />
+
     </>  )
 }
 
