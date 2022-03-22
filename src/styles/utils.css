@@ -76,15 +76,41 @@
     top:100px;
 }
 
-.companyStatement{
-    display: flex;
-    justify-content: space-evenly;
-    padding: 1rem;
-    align-items: center;
-    background-color: #518FEB;
-    position: absolute;
-    bottom: 0; 
-    left: 0;
-    width: 100%;
-    z-index: 20;
+
+.slate-50{
+    background-color:#075985;
+}
+.text-white{
+    color: white;
+}
+.text-upper{
+    text-transform: capitalize;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+.hidden{
+    display: none;
+}
+
+
+.nav-item:hover{
+    background-color: #38bdf8;
+}
+@media screen and (max-width:680px) {
+    .ham{
+
+        display: flex;
+        max-width: fit-content; 
+       
+    }
+    .desk-nav{
+        display: none;
+    }
+}
+@media screen and  (min-width:681px) {
+    .ham{
+
+        display: none;
+    }
 }
