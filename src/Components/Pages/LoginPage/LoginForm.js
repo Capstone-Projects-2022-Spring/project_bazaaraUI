@@ -11,42 +11,64 @@ export function LoginForm() {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // const firebaseConfig = {
-  //   apiKey: process.env.apiKey,
-  //   authDomain: process.env.authDomain
-  // };
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_apiKey,
+    authDomain: process.env.REACT_APP_authDomain,
+    projectId: process.env.REACT_APP_projectId,
+    storageBucket: process.env.REACT_APP_storageBucket,
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    appId: process.env.REACT_APP_appId,
+    measurementId: process.env.REACT_APP_measurementId,
+  }
 
-  // const app = initializeApp(firebaseConfig);
+  console.log('api key is ' + firebaseConfig.apiKey)
 
-  // const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig)
 
   const handleFormSubmit = (passedUsername, passedPassword) => {
-    console.log('Called handleFormSubmit function')
-    console.log('Username: ' + username + ' Password: ' + password)
 
-    const errors = {
-      username: 'invalid username',
-      password: 'invalid password',
-    }
+    const auth = getAuth(app)
 
-    const userData = {
-      username: 'user',
-      password: 'password',
-    }
+    createUserWithEmailAndPassword(auth, passedUsername, passedPassword)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log('Login successful. Current user: ' + user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Login failed. Error message: ' + errorCode + ' ' + errorMessage)
+        // ..
+      })
 
-    if (userData) {
-      if (userData.username !== username) {
-        setErrorMessages({ name: 'username', message: errors.username })
-        console.log('Username ' + password + ' does not match ' + userData.username)
-      } else {
-        if (userData.password !== password) {
-          setErrorMessages({ name: 'password', message: errors.password })
-          console.log('Password ' + password + ' does not match ' + userData.password)
-        } else {
-          setIsSubmitted({ status: true, message: 'Logged in successfully!' })
-        }
-      }
-    }
+    // console.log('Called handleFormSubmit function')
+    // console.log('Username: ' + username + ' Password: ' + password)
+
+    // const errors = {
+    //   username: 'invalid username',
+    //   password: 'invalid password',
+    // }
+
+    // const userData = {
+    //   username: 'user',
+    //   password: 'password',
+    // }
+
+    // if (userData) {
+    //   if (userData.username !== username) {
+    //     setErrorMessages({ name: 'username', message: errors.username })
+    //     console.log('Username ' + password + ' does not match ' + userData.username)
+    //   } else {
+    //     if (userData.password !== password) {
+    //       setErrorMessages({ name: 'password', message: errors.password })
+    //       console.log('Password ' + password + ' does not match ' + userData.password)
+    //     } else {
+    //       setIsSubmitted({ status: true, message: 'Logged in successfully!' })
+    //     }
+    //   }
+    // }
 
     // console.log('Username: ' + username + ' Password: ' + password)
     // if (username === 'user' && password === 'password') {
@@ -83,11 +105,11 @@ export function LoginForm() {
       <div className="error">{errorMessages.message}</div>
     );
 
-    const renderLoggedInMessage = () => (
-      true === isSubmitted.status && (
-        <div className="loggedIn">{isSubmitted.message}</div>
-      )
+  const renderLoggedInMessage = () => (
+    true === isSubmitted.status && (
+      <div className="loggedIn">{isSubmitted.message}</div>
     )
+  )
 
 
   const FormHeader = props => (
