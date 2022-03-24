@@ -2,7 +2,8 @@ import React from 'react';
 import './styles.css';
 import ShoppingListSelection from './ShoppingListSelection'
 import ShoppingListDisplay from './ShoppingListDisplay'
-import { ShoppingList, ShoppingListCollection } from './ShoppingList'
+import { ShoppingList, ShoppingListCollection, Product } from './ShoppingList'
+import ListManagementDropdown from './ListManagementDropdown';
 
 export class ShoppingListView extends React.Component {
     constructor(props) {
@@ -11,29 +12,35 @@ export class ShoppingListView extends React.Component {
             value: "",
             listIndex: 0,
             lists: ShoppingListCollection.collection,
+            productIndex: 0,
+            seen: false,
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
         this.handleRemoveList = this.handleRemoveList.bind(this);
         this.handleInput = this.handleInput.bind(this);
-        this.clearInput = this.clearInput.bind(this);
+        this.togglePop = this.togglePop.bind(this);
+        this.handleAddProduct = this.handleAddProduct.bind(this);
+        this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
+      //  this.updateCurrentProductIndex = this.updateCurrentProductIndex.bind(this);
         
     }
 
+
+
     changeListHandler(newIndex) {
-        this.setState({listIndex: newIndex})
-    
+        //alert('new list index: ' + newIndex);
+        this.setState({
+                listIndex: newIndex,
+                //currentList: ShoppingListCollection.collection[newIndex].productCollection,
+        })
     }
+
+
+
 
     handleInput(event) {
         this.setState({value: event.target.value});
-    }
-
-    clearInput () {
-        alert('clearing message: ' + this.state.value);
-
-        this.setState({value: ""});
-
     }
 
     handleAddList = (name) => {
@@ -45,7 +52,9 @@ export class ShoppingListView extends React.Component {
        
         //this.setState({lists: temp})
         let isDuplicate = false;
-        
+
+        this.togglePop();
+
         for (let i = 0; i < this.state.lists.length; i++) {
             if (this.state.lists[i].name === name) {
                 isDuplicate = true;
@@ -99,21 +108,63 @@ export class ShoppingListView extends React.Component {
 
 
     }
+
+    togglePop() {
+        this.setState({
+         seen: !this.state.seen
+        });
+    }
+
+    // save state of the index of list you wanna add product to.
+    // button redirects to product search page + the index of shopping list saved so default add to is selected list
+    handleAddProduct = () => {
+        var temp = [...this.state.lists];
+        temp[this.state.listIndex].productCollection.push(new Product('test', 500, 4.99));
+
+        this.setState(() => {
+            return {
+                lists: temp,
+            }
+        });
+    }
+
     
+    handleRemoveProduct = (clickedIndex) => {
+        //alert('called handleremoveproduct');
+        //this.updateCurrentProductIndex(clickedIndex);
+
+        //alert('clicked index: ' + clickedIndex);
+       // var temp = [...this.state.currentList];
+        var temp = [...this.state.lists];
+        temp[this.state.listIndex].productCollection.splice(clickedIndex, 1);
+
+        this.setState(() => {
+            return {
+                //currentList: temp,
+                lists: temp,
+            }
+        });
+
+        //alert('temp list:' + JSON.stringify(temp))
+        
+
+    }
 
     render() {
 
         return(
             <section className='container'>
                <section className='viewer'>
-               <div className='column'>
-                        <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value}/>
+               <div className='listnamescolumn'>
+                        <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
                     </div>
-                    <div className='column'>
-                        <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists}/>
+                    <div className='productlistcolumn'>
+                        <button onClick={this.handleAddProduct}>+ Add a Product</button>
+                        <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
                         
                     </div>
-                    <button className="smallButton" onClick={this.handleRemoveList}>delete</button>
+                    <ListManagementDropdown handleRemoveList={this.handleRemoveList}/>
+                    
 
                </section>
             </section>
