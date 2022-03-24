@@ -4,6 +4,7 @@ import ShoppingListSelection from './ShoppingListSelection'
 import ShoppingListDisplay from './ShoppingListDisplay'
 import { ShoppingList, ShoppingListCollection, Product } from './ShoppingList'
 import ListManagementDropdown from './ListManagementDropdown';
+import Navbar from '../../NavBar/Navbar'
 
 export class ShoppingListView extends React.Component {
     constructor(props) {
