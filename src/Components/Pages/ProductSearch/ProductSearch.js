@@ -1,11 +1,9 @@
 import React from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
-// import SearchAppBar from '../../Search/Search';
 import Navbar from '../../NavBar/Navbar'
 
 import { styled, alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -14,6 +12,23 @@ const input = [
   { id: 1, prod: 'Apple', price: '$3.00', store: 'Walmart' },
   { id: 2, prod: 'Orange', price: '$5.00', store: 'Target' },
   { id: 3, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
+  { id: 4, prod: 'Apple', price: '$3.00', store: 'Walmart' },
+  { id: 5, prod: 'Orange', price: '$5.00', store: 'Target' },
+  { id: 6, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
+  { id: 7, prod: 'Apple', price: '$3.00', store: 'Walmart' },
+  { id: 8, prod: 'Orange', price: '$5.00', store: 'Target' },
+  { id: 9, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
+  { id: 10, prod: 'Apple', price: '$3.00', store: 'Walmart' },
+  { id: 11, prod: 'Orange', price: '$5.00', store: 'Target' },
+  { id: 12, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
+  { id: 13, prod: 'Orange', price: '$5.00', store: 'Target' },
+  { id: 14, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
+  { id: 15, prod: 'Apple', price: '$3.00', store: 'Walmart' },
+  { id: 16, prod: 'Orange', price: '$5.00', store: 'Target' },
+  { id: 17, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
+  { id: 18, prod: 'Apple', price: '$3.00', store: 'Walmart' },
+  { id: 18, prod: 'Orange', price: '$5.00', store: 'Target' },
+  { id: 19, prod: 'Cereal', price: '$2.00', store: 'Fresh Grocer' },
 ]
 
 const Search = styled('div')(({ theme }) => ({
@@ -58,54 +73,40 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const rows = [
-  // { id: 1, col1: 'Hello', col2: 'World' },
-  // { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-  // { id: 3, col1: 'MUI', col2: 'is Amazing' },
-];
-
 const columns = [
   { field: 'prod', headerName: 'Product', width: 150 },
   { field: 'price', headerName: 'Price', width: 150 },
   { field: 'store', headerName: 'Store', width: 150 },
 ];
 
-export const ProductSearch = () => {
-  const [searchText, setSearchText] = React.useState(null);
-  const [rows, setRows] = React.useState(null);
-
-  const query = () => {
-    const filterQuery = input.filter(item => item.prod.includes(searchText));
-    setRows(filterQuery);
-  }
+export function ProductSearch() {
+  const [rows, setRows] = React.useState(input);
 
   const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value);
-    console.log('searchtext: ' + searchText);
-    query();
+    const searchText = event.target.value.toLowerCase()
+    setRows(input.filter(item => item.prod.toLowerCase().includes(searchText)))
+    console.log('searchtext: ' + searchText)
   };
 
   return (
     <>
-    <Navbar />
-    <div>
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          autoFocus
-          onChange={handleSearchTextChange}
-          placeholder="Search…"
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </Search>
+      <Navbar />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ height: 300, width: '75%' }}>
-          <DataGrid rows={rows} columns={columns} />
+        <div style={{ height: '80vh', width: '75%' }}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              autoFocus
+              onChange={handleSearchTextChange}
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <DataGrid rows={rows} columns={columns} autoPageSize />
         </div>
       </div>
-    </div >
     </>
   );
 }
