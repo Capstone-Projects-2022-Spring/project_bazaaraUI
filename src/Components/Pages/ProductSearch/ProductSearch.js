@@ -2,11 +2,13 @@ import React from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 // import SearchAppBar from '../../Search/Search';
+import Navbar from '../../NavBar/Navbar'
 
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+
 
 const input = [
   { id: 1, prod: 'Apple', price: '$3.00', store: 'Walmart' },
@@ -84,6 +86,8 @@ export const ProductSearch = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div>
       <Search>
         <SearchIconWrapper>
@@ -102,5 +106,6 @@ export const ProductSearch = () => {
         </div>
       </div>
     </div >
+    </>
   );
 }

@@ -151,8 +151,10 @@ export class ShoppingListView extends React.Component {
     }
 
     render() {
-
+        
         return(
+            <>
+            <Navbar />
             <section className='container'>
                <section className='viewer'>
                <div className='listnamescolumn'>
@@ -168,7 +170,9 @@ export class ShoppingListView extends React.Component {
 
                </section>
             </section>
+            </>
         );
+
     }
 
 }
