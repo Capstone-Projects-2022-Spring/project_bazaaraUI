@@ -1,19 +1,19 @@
 import React from 'react'
-import '../../../styles/utils.css'
 import List from '../../List/list'
 import Navbar from '../../NavBar/Navbar'
 import Footer from '../../Footer/Footer'
+import CAROUSEL from '../../Carousel'
 
 
 const HomeForm = () => {
   return (
     <>
      <Navbar/>
-    <section className="home w-full min-h-full">
+    <section className="max-w-[1200px] m-auto my-6">
     {/* remove my6 class */}
       
 
-        <main className="flex flex-col block max-w-sm m-auto bg-orange-50 rounded text-center my-4 p-5">
+        <main className="flex flex-col  max-w-sm md:max-w-lg m-auto bg-purple-100 rounded text-center my-4 p-5">
             <div className="text-bold  text-color">Total Savings</div>
             <div className="flex  items-center justify-evenly p-3">
                 <div className="flex-col items-center justify-betweeen">
@@ -32,7 +32,7 @@ const HomeForm = () => {
                 </div>
             </div>
         </main>
-        <main className="flex flex-col bg-orange-50 rounded text-center  flex-col max-w-sm m-auto p-5">
+        <main className="flex flex-col bg-purple-100 md:max-w-lg rounded text-center  flex-col max-w-sm m-auto p-5">
           <div className="text-bold text-color">List</div>
           <List/>
           <List/>
@@ -44,8 +44,8 @@ const HomeForm = () => {
 
     </section>
 
+    <CAROUSEL/>
     <Footer />
-
     </>  )
 }
 
