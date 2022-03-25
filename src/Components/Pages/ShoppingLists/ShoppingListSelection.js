@@ -12,7 +12,7 @@ export class ShoppingListSelection extends React.Component {
 
     }*/
 
-    state = {
+   /* state = {
         seen: false
         };
        togglePop = () => {
@@ -20,7 +20,7 @@ export class ShoppingListSelection extends React.Component {
          seen: !this.state.seen
         });
     };
-
+*/
 
 
 
@@ -29,8 +29,8 @@ export class ShoppingListSelection extends React.Component {
 
             <section className="">
                 <h1>Shopping Lists</h1>
-                <button onClick={this.togglePop}>+ Create New List</button>
-                {this.state.seen ?    
+                <button onClick={(e) => this.props.togglePop(e)}>+ Create New List</button>
+                {this.props.seen ?    
                     <div className="modal">
                         <div className="modal_content">
                             <span className="close"></span>
@@ -43,12 +43,12 @@ export class ShoppingListSelection extends React.Component {
                         </div>
                      </div> : null}
 
-                {
+                { 
 
                     this.props.lists.map((listName, index) => (
-
                         <p><button onClick={this.props.changeListHandler.bind(this, index)}>
                                 {listName.name}
+        
                             </button></p>
 
 
