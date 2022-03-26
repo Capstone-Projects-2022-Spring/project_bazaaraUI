@@ -34,11 +34,13 @@ const input = [
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
+  border:'0.5px solid rgba(0 0 0 / 0.25)',
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
+  margin:'14px 0px',
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
@@ -54,6 +56,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: '#A020F0',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
