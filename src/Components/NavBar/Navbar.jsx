@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [show,setShow]=React.useState(false);
-  const menu=['home','shoppinglists','search','logout'];
+  const menu=['home','lists','search','logout'];
   return (
     <>
       <main className='shadow-lg sticky top-0 left-0 w-full z-50 bg-white'>
