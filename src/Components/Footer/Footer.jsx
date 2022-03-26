@@ -5,7 +5,7 @@ function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className='sticky flex flex-col bg-zinc-900 font-regular text-white text-center p-3 static bottom-0'>
+        <footer className='flex flex-col bg-zinc-900 font-regular text-white text-center p-3 sticky bottom-0'>
             
                 <div>BAZAARA</div>
                 <div className='text-xs'> SAVE time, money, and energy.</div>
