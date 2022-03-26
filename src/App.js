@@ -27,7 +27,7 @@ export default function App() {
         <Route index element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/home" element={<HomeForm />} />
-        <Route path="/shoppinglists" element={<ShoppingListView />} />
+        <Route path="/lists" element={<ShoppingListView />} />
         <Route path="/search" element={<ProductSearch />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
