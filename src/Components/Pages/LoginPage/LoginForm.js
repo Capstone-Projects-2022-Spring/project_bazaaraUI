@@ -126,7 +126,7 @@ export function LoginForm() {
   // );
 
   const RegisterText = props => (
-    <div className="switchText">
+    <div className="switchText text-center text-gray-500">
       Are you new here?
       <Link to="/register">
         Click here to register.
@@ -164,7 +164,7 @@ export function LoginForm() {
   )
 
   return (
-    <section className='login_form'>
+    <section className='bg-purple-400 p-6 '>
       <div id="loginform">
         {renderLoggedInMessage()}
         <FormHeader title="Login" />
@@ -190,8 +190,8 @@ export function LoginForm() {
           value={password}
           onChange={handlePasswordChange}
         /> */}
-        <div id="button" className="row">
-          <button onClick={(username, password) => handleFormSubmit(username, password)}>
+        <div id="button" className=" flex justify-center items-center my-4   ">
+          <button className="bg-purple-500 px-2 py-1  text-white rounded-full w-48 text-white" onClick={(username, password) => handleFormSubmit(username, password)}>
             Log in
           </button>
         </div>
