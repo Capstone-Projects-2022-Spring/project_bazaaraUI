@@ -91,6 +91,10 @@ export function ProductSearch() {
     console.log('searchtext: ' + searchText)
   };
 
+  function productClicked(param, event) {
+    alert(JSON.stringify(param.row));
+}
+
   return (
     <>
       <Navbar />
@@ -107,7 +111,7 @@ export function ProductSearch() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <DataGrid rows={rows} columns={columns} autoPageSize />
+          <DataGrid rows={rows} columns={columns} onRowClick={productClicked} autoPageSize />
         </div>
       </div>
     </>

@@ -12,6 +12,7 @@ import ShoppingListView from './Components/Pages/ShoppingLists/ShoppingListView'
 import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
 import ErrorPage from "./Components/Pages/404Page/ErrorPage"
 import Logout from './Components/Pages/Logout/logout';
+import ProductListParent from './Components/Pages/ProductListParent';
 
 import {
   BrowserRouter,
@@ -27,8 +28,8 @@ export default function App() {
         <Route index element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/home" element={<HomeForm />} />
-        <Route path="/lists" element={<ShoppingListView />} />
-        <Route path="/search" element={<ProductSearch />} />
+        <Route path="/lists" element={<ProductListParent pageIndex={1} />} />
+        <Route path="/search" element={<ProductListParent pageIndex={0} />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
