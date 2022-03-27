@@ -156,12 +156,12 @@ export class ShoppingListView extends React.Component {
         return(
             <>
             <Navbar />
-            <section className='container'>
-               <section className='viewer'>
+            <section className="bg-purple-200 p-3">
+               <section className='bg-purple-200 flex'>
                <div className='listnamescolumn'>
                         <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
                     </div>
-                    <div className='productlistcolumn'>
+                    <div className='productlistcolumn bg-purple-200'>
                         <button onClick={this.handleAddProduct}>+ Add a Product</button>
                         <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
                         
