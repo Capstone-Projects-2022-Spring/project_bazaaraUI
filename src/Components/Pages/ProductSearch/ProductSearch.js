@@ -61,8 +61,9 @@ const columns = [
 ];
 
 export function ProductSearch(props) {
-  const [searchText, setSearchText] = useState(null);
-  const [rows, setRows] = useState( [] );
+  const [searchText, setSearchText] = useState(null)
+  const [message, setMessage] = React.useState("")
+  const [rows, setRows] = useState( [] )
   const [filter, setFilter] = useState({ column: undefined, value: undefined })
   const [sort, setSort] = useState({ column: undefined, order: undefined })
   const [pageNumber, setPageNumber] = useState(0)
@@ -112,6 +113,7 @@ export function ProductSearch(props) {
     if (searchText)
       input = input.filter(item => item.prod.toLowerCase().includes(searchText))
     setRows(input)
+    setRowCount(input.length)
   }
 
   const handleSearchTextChange = (event) => {
