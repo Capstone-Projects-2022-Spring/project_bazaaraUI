@@ -179,6 +179,7 @@ export function ProductSearch(props) {
             onSortModelChange={handleSortModelChange}
             onPageChange={handlePageChange}
             onPageSizeChange={handlePageSizeChange}
+            onRowClick={productClicked}
           />
         </div>
       </div>
