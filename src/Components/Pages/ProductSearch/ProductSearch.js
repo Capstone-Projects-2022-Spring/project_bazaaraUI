@@ -148,37 +148,6 @@ export function ProductSearch(props) {
   return (
     <>
       <Navbar />
-      <div>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            autoFocus
-            onChange={handleSearchTextChange}
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </Search>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{ height: 300, width: '75%' }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              page={pageNumber}
-              pageSize={pageSize}
-              rowCount={rowCount}
-              filterMode='server'
-              sortingMode='sever'
-              paginationMode='server'
-              onFilterModelChange={handleFilterModelChange}
-              onSortModelChange={handleSortModelChange}
-              onPageChange={handlePageChange}
-              onPageSizeChange={handlePageSizeChange}
-            />
-          </div>
-        </div>
-      </div >
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ height: '80vh', width: '75%' }}>
           <Search>
