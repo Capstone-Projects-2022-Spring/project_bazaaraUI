@@ -112,8 +112,10 @@ export function ProductSearch(props) {
     ]
     if (searchText)
       input = input.filter(item => item.prod.toLowerCase().includes(searchText))
-    setRows(input)
+    
     setRowCount(input.length)
+    input = input.slice(pageNumber * pageSize, pageNumber * pageSize + pageSize)
+    setRows(input)
   }
 
   const handleSearchTextChange = (event) => {
