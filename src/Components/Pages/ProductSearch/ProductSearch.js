@@ -110,7 +110,7 @@ export function ProductSearch(props) {
     { id: 20, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
     ]
     if (searchText)
-      input = input.filter(item => item.prod.toLowerCase().includes(searchText)
+      input = input.filter(item => item.prod.toLowerCase().includes(searchText))
     setRows(input)
   }
 
