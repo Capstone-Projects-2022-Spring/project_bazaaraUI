@@ -3,6 +3,9 @@ import { ShoppingList, ShoppingListCollection, Product } from './ShoppingLists/S
 import ShoppingListView from './ShoppingLists/ShoppingListView';
 import { ProductSearch } from './ProductSearch/ProductSearch';
 import ErrorPage from "./404Page/ErrorPage"
+import './ShoppingLists/styles.css'
+
+// NOT CURRENTLY USED
 
 class ProductListParent extends React.Component {
     constructor(props) {
@@ -15,9 +18,7 @@ class ProductListParent extends React.Component {
     updateShoppingList(updatedList) {
       this.setState({shoppingList: updatedList})
     }
-
-
-            
+    
 
 
     render() {
@@ -25,7 +26,7 @@ class ProductListParent extends React.Component {
 
         switch(this.props.pageIndex) {
             case 0:
-                component = <ProductSearch />;
+                component = <ProductSearch testList={this.state.shoppingList} updateShoppingList={this.updateShoppingList}/>;
                 break;
             case 1:
                 component = <ShoppingListView />;

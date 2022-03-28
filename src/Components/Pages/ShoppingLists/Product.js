@@ -23,7 +23,7 @@ export default function ProductCard(props) {
               <br />
               ${props.price}
               <br />
-              {props.clicked}
+              {props.store}
             </Typography>
           </CardContent>
           <CardActions >

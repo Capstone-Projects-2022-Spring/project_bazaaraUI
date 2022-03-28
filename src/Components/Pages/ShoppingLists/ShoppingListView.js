@@ -5,6 +5,8 @@ import ShoppingListDisplay from './ShoppingListDisplay'
 import { ShoppingList, ShoppingListCollection, Product } from './ShoppingList'
 import ListManagementDropdown from './ListManagementDropdown';
 import Navbar from '../../NavBar/Navbar'
+import { ProductSearch } from '../ProductSearch/ProductSearch';
+import ErrorPage from "../404Page/ErrorPage"
 
 export class ShoppingListView extends React.Component {
     constructor(props) {
@@ -118,9 +120,10 @@ export class ShoppingListView extends React.Component {
 
     // save state of the index of list you wanna add product to.
     // button redirects to product search page + the index of shopping list saved so default add to is selected list
-    handleAddProduct = () => {
+    handleAddProduct = (name, weight, price, store) => {
+        //name, weight, price, store
         var temp = [...this.state.lists];
-        temp[this.state.listIndex].productCollection.push(new Product('test', 500, 4.99));
+        temp[this.state.listIndex].productCollection.push(new Product(name, weight, price, store));
 
         this.setState(() => {
             return {
@@ -147,37 +150,42 @@ export class ShoppingListView extends React.Component {
         });
 
         //alert('temp list:' + JSON.stringify(temp))
-        
-
     }
 
     render() {
-        
+        let component = null;
+
+        switch(this.props.pageIndex) {
+            case 0:
+                component = <ProductSearch addProduct={this.handleAddProduct} lists={this.state.lists} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
+                break;
+            case 1:
+                component = <>
+                    <Navbar />
+                    <section className="bg-purple-200 p-3">
+                    <section className='bg-purple-200 flex'>
+                    <div className='listnamescolumn'>
+                                <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
+                            </div>
+                            <div className='productlistcolumn bg-purple-200'>
+                                <button onClick={this.handleAddProduct}>+ Add a Product</button>
+                                <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
+                                
+                            </div>
+                            <ListManagementDropdown handleRemoveList={this.handleRemoveList}/>
+                    </section>
+                    </section>
+                    </>;
+                break;
+            default:
+                component = <ErrorPage />
+        }
         return(
-            <>
-            <Navbar />
-            <section className="bg-purple-200 p-3">
-               <section className='bg-purple-200 flex'>
-               <div className='listnamescolumn'>
-                        <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
-                    </div>
-                    <div className='productlistcolumn bg-purple-200'>
-                        <button onClick={this.handleAddProduct}>+ Add a Product</button>
-                        <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
-                        
-                    </div>
-                    <ListManagementDropdown handleRemoveList={this.handleRemoveList}/>
-                    
+            <div>{component}</div>
 
-               </section>
-            </section>
-            </>
         );
-
     }
 
 }
-
-
 
 export default ShoppingListView;
