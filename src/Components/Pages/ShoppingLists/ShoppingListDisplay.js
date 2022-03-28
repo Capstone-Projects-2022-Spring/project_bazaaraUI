@@ -17,7 +17,7 @@ export class ShoppingListDisplay extends React.Component {
                 
                 {
                     this.props.lists[this.props.displayIndex].productCollection.map((product, index) => (
-                        <p><ProductCard name={product.productName} weight={product.weight} price={product.price} removeProduct={this.props.removeProduct} clicked={index}/></p>
+                        <p><ProductCard name={product.productName} weight={product.weight} price={product.price} store={product.store} removeProduct={this.props.removeProduct} clicked={index}/></p>
                         ))
                 }
             </p>
