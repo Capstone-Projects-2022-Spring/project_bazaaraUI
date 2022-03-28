@@ -7,6 +7,7 @@ import ListManagementDropdown from './ListManagementDropdown';
 import Navbar from '../../NavBar/Navbar'
 import { ProductSearch } from '../ProductSearch/ProductSearch';
 import ErrorPage from "../404Page/ErrorPage"
+import { Link } from "react-router-dom";
 
 export class ShoppingListView extends React.Component {
     constructor(props) {
@@ -25,11 +26,7 @@ export class ShoppingListView extends React.Component {
         this.togglePop = this.togglePop.bind(this);
         this.handleAddProduct = this.handleAddProduct.bind(this);
         this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
-      //  this.updateCurrentProductIndex = this.updateCurrentProductIndex.bind(this);
-        
     }
-
-
 
     changeListHandler(newIndex) {
         //alert('new list index: ' + newIndex);
@@ -38,9 +35,6 @@ export class ShoppingListView extends React.Component {
                 //currentList: ShoppingListCollection.collection[newIndex].productCollection,
         })
     }
-
-
-
 
     handleInput(event) {
         this.setState({value: event.target.value});
@@ -132,7 +126,6 @@ export class ShoppingListView extends React.Component {
         });
     }
 
-    
     handleRemoveProduct = (clickedIndex) => {
         //alert('called handleremoveproduct');
         //this.updateCurrentProductIndex(clickedIndex);
@@ -168,7 +161,9 @@ export class ShoppingListView extends React.Component {
                                 <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
                             </div>
                             <div className='productlistcolumn bg-purple-200'>
-                                <button onClick={this.handleAddProduct}>+ Add a Product</button>
+                                    <Link to={`/search`} className="">
+                                        <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
+                                    </Link>
                                 <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
                                 
                             </div>
