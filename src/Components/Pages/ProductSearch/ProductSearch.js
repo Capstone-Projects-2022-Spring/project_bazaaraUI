@@ -145,8 +145,7 @@ export function ProductSearch(props) {
     setMessage(param.row.prod + " added to " + props.lists[props.listIndex].name + "!");
     //alert(JSON.stringify(props.lists[props.listIndex].name));
     setTimeout(() => setMessage(""), 3000);
-    
-}
+  }
 
   return (
     <>
