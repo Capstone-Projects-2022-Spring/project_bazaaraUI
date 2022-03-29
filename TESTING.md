@@ -1,14 +1,22 @@
 # ACCEPTANCE TESTING
+paths: / | /register | /home | /lists | /search | /logout
+## User Account Management
 
-## User Account Creation
+##Login
 1. open site
 2. select desired social account
 3. Register Via. Account Username
 4. Navigate to home
 
+##Logout 
+1. navigate to any page containing the nav bar
+2. click "logout"
+3. click "go to login page"
+4. observe being bought back to login page
+
 expectations: User should expect not to see any real functionality for preserving state according to account details
 
-additional: navigate to home page by hardcoding /home path in url... authentication still in progress 🕺
+additional: **please navigate to home page by hardcoding /home path in url... authentication flow is still in progress** 🕺
 
 ## Grocery Lists Management 
 
