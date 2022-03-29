@@ -13,7 +13,7 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 [v2.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v2.0.0)
 
 ## Testing
-[TESTING.md](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/blob/BAZ-124-milestone-2-release/TESTING.md)
+[TESTING.md](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/blob/main/TESTING.md)
 ## Team Members
 - Ryan Babala
 - Lin Li Oechsle
