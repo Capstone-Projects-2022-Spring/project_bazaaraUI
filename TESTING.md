@@ -32,13 +32,13 @@ expectations: created list will delete upon refresh
 
 ### Deleting products from list
 1. navigate to shopping lists
-2. view prodcuts and shopping list
+2. view products and shopping list
 4. delete product from list by clicking "remove from list" within product
 4. delete multiple products by selecting checkboxes and clicking "remove items", then refresh page
 
 ### Adding products to list
 1. navigate to shopping lists
-2. select desired list to add products to
+2. select desired list (to add products to)
 3. click "Add a Product" button, which navigates you to Search page
 4. search for items to add to list
 5. click item and observe it's addition to your list with "item add to ..." prompt
