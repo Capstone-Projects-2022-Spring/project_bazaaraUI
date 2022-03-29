@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
+import Footer from '../../Footer/Footer'
 
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -201,6 +202,7 @@ export function ProductSearch(props) {
           />
         </div>
       </div>
+      {/* <Footer /> */}
     </>
   );
 }
