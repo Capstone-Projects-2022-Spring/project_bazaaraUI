@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 
 import './styles.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export function LoginForm({ handleLogin, usernameErrorMessage, passwordErrorMessage }) {
-  const [username, setUsername] = useState('')
+export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage }) {
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const navigate = useNavigate
-
   function handleLoginSubmit() {
-    handleLogin(username, password)
-    navigate("/home")
+    handleLogin(email, password)
   }
 
-  const handleUsernameChange = event => {
-    setUsername(event.target.value)
+  const handleEmailChange = event => {
+    setEmail(event.target.value)
   }
 
   const handlePasswordChange = event => {
@@ -63,9 +60,9 @@ export function LoginForm({ handleLogin, usernameErrorMessage, passwordErrorMess
         <div id="loginform">
           <FormHeader title="Login" />
           <div className="row">
-            <label>Username</label>
-            <input type="text" placeholder="Enter your username" onChange={handleUsernameChange} value={username} required />
-            {usernameErrorMessage}
+            <label>Email</label>
+            <input type="text" placeholder="Enter your email" onChange={handleEmailChange} value={email} required />
+            {emailErrorMessage}
           </div>
 
           <div className="row">
@@ -75,7 +72,7 @@ export function LoginForm({ handleLogin, usernameErrorMessage, passwordErrorMess
           </div>
 
           <div id="button" className="row">
-            <button onClick={() => handleLoginSubmit(username, password)}>
+            <button onClick={() => handleLoginSubmit()}>
               Log in
             </button>
           </div>

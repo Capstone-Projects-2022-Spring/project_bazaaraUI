@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./themes/GlobalStyles";
 import theme from "./themes/themes";
@@ -18,8 +18,9 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 export default function App() {
-  const [usernameErrorMessage, setUsernameErrorMessage] = useState('')
+  const [emailErrorMessage, setEmailErrorMessage] = useState('')
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+  const [verifyPasswordErrorMessage, setVerifyPasswordErrorMessage] = useState('')
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_apiKey,
@@ -35,12 +36,17 @@ export default function App() {
 
   const auth = getAuth(app)
 
-  function handleLogin(username, password) {
-    setUsernameErrorMessage('')
+  // Re-direct the user to the login screen if they are not logged in yet
+  // useEffect(() => {
+  //   if (!auth.user) window.location.replace('.')
+  // }, [])
+
+  function handleLogin(email, password) {
+    setEmailErrorMessage('')
     setPasswordErrorMessage('')
 
-    if (username.length === 0) { 
-      setUsernameErrorMessage('Please enter your email')
+    if (email.length === 0) { 
+      setEmailErrorMessage('Please enter your email')
       return false
     }
 
@@ -49,16 +55,16 @@ export default function App() {
       return false
     }
 
-    signInWithEmailAndPassword(auth, username, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         console.log('Login successful. Current user: ' + userCredential.user)
-        // ...
+        window.location.assign('/home')
       })
       .catch((error) => {
         switch (error.code) {
           case 'auth/invalid-email':
-            setUsernameErrorMessage('Invalid email')
+            setEmailErrorMessage('Invalid email')
             break;
           case 'auth/wrong-password':
             setPasswordErrorMessage('Invalid password')
@@ -73,15 +79,50 @@ export default function App() {
       return true
   }
 
-  function handleRegister(username, password) {
+  function handleRegister(email, password, verifyPassword) {
+    setEmailErrorMessage('')
+    setPasswordErrorMessage('')
+    setVerifyPasswordErrorMessage('')
 
-    createUserWithEmailAndPassword(auth, username, password)
+    
+    if (email.length === 0) { 
+      setEmailErrorMessage('Please enter your email')
+      return false
+    }
+
+    if (password.length === 0) {
+      setPasswordErrorMessage('Please enter your password')
+      return false
+    }
+
+    if (verifyPassword.length === 0) {
+      setVerifyPasswordErrorMessage('Please re-enter your password')
+      return false
+    }
+
+    if (password !== verifyPassword) {
+      setVerifyPasswordErrorMessage('Passwords should match')
+      return false
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        console.log('Login successful. Current user: ' + userCredential.user)
-        // ...
+        console.log('Register successful. Current user: ' + userCredential.user)
+        window.location.assign('/home')
       })
       .catch((error) => {
+        switch (error.code) {
+          case 'auth/invalid-email':
+            setEmailErrorMessage('Invalid email')
+            break
+          case 'auth/weak-password':
+            setPasswordErrorMessage('Password should be at least 6 characters')
+            break
+          case 'auth/email-already-in-use':
+            setEmailErrorMessage('Email already in use. Do you already have an account?')
+            break
+        }
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Login failed. Error message: ' + errorCode + ' ' + errorMessage)
@@ -105,12 +146,15 @@ export default function App() {
       <Routes>
         <Route index element={<LoginForm
           handleLogin={handleLogin}
-          usernameErrorMessage={usernameErrorMessage}
+          emailErrorMessage={emailErrorMessage}
           passwordErrorMessage={passwordErrorMessage}
           auth={auth}
         />} />
         <Route path="/register" element={<RegisterForm
           handleRegister={handleRegister}
+          emailErrorMessage={emailErrorMessage}
+          passwordErrorMessage={passwordErrorMessage}
+          verifyPasswordErrorMessage={verifyPasswordErrorMessage}
         />} />
         <Route path="/home" element={<HomeForm />} />
         <Route path="/search" element={<ProductSearch />} />
