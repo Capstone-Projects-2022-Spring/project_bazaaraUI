@@ -70,17 +70,15 @@ export function ProductSearch(props) {
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
+  
   // a state to store the location 
   const [location, setLocation] = useState()
-  // this state is used as a trigger for useEffect , so whenever the user clicks on the arrow icon on the ui , 
-  // the showLocation value changes to true and the web asks for location 
-  const [showLocation, setShowLocation] = useState(false)
   useEffect(() => {
     makeRequestForNewData()
   }, [])
   useEffect(() => {
    
-    if (showLocation & !location) {
+    if (!location) {
       if (!navigator.geolocation) {
         alert('Your browser does not support gelocation')
       }
@@ -88,10 +86,12 @@ export function ProductSearch(props) {
 
          navigator.geolocation.getCurrentPosition(
            (pos) => { alert("Succefully Retrieved Your Location"); console.log(pos) },
-            (err) => {alert('Need to allow location'); showLocation(false)})
+            (err) => {alert('Need to allow location')})
        }
     }
-  }, [showLocation, location])
+    
+  }, [location])
+
   useEffect(() => {
     console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
     console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
@@ -146,7 +146,7 @@ export function ProductSearch(props) {
   }
 
   function handleSortModelChange(model) {
-    setShowLocation(true)
+    //setShowLocation(true)
     setSort({ column: model[0]?.field, order: model[0]?.sort })
   }
 
