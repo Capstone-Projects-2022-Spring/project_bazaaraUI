@@ -5,9 +5,11 @@ import ShoppingListDisplay from './ShoppingListDisplay'
 import { ShoppingList, ShoppingListCollection, Product } from './ShoppingList'
 import ListManagementDropdown from './ListManagementDropdown';
 import Navbar from '../../NavBar/Navbar'
+import Footer from '../../Footer/Footer'
 import { ProductSearch } from '../ProductSearch/ProductSearch';
 import ErrorPage from "../404Page/ErrorPage"
 import { Link } from "react-router-dom";
+
 
 export class ShoppingListView extends React.Component {
     constructor(props) {
@@ -170,6 +172,7 @@ export class ShoppingListView extends React.Component {
                             <ListManagementDropdown handleRemoveList={this.handleRemoveList}/>
                     </section>
                     </section>
+                    <Footer />
                     </>;
                 break;
             default:

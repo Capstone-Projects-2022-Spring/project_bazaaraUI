@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
+import Footer from '../../Footer/Footer'
 
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -11,13 +12,13 @@ import AddProductDialog from "./AddProductDialog";
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  border:'0.5px solid rgba(0 0 0 / 0.25)',
+  border: '0.5px solid rgba(0 0 0 / 0.25)',
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  margin:'14px 0px',
+  margin: '14px 0px',
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
@@ -63,16 +64,33 @@ const columns = [
 export function ProductSearch(props) {
   const [searchText, setSearchText] = useState(null)
   const [message, setMessage] = React.useState("")
-  const [rows, setRows] = useState( [] )
+  const [rows, setRows] = useState([])
   const [filter, setFilter] = useState({ column: undefined, value: undefined })
   const [sort, setSort] = useState({ column: undefined, order: undefined })
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
-
+  
+  // a state to store the location 
+  const [location, setLocation] = useState()
   useEffect(() => {
     makeRequestForNewData()
   }, [])
+  useEffect(() => {
+   
+    if (!location) {
+      if (!navigator.geolocation) {
+        alert('Your browser does not support gelocation')
+      }
+       else{
+
+         navigator.geolocation.getCurrentPosition(
+           (pos) => { alert("Succefully Retrieved Your Location"); console.log(pos) },
+            (err) => {alert('Need to allow location')})
+       }
+    }
+    
+  }, [location])
 
   useEffect(() => {
     console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
@@ -89,30 +107,30 @@ export function ProductSearch(props) {
 
   function generateSampleData() {
     let input = [
-    { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1},
-    { id: 2, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 3, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
-    { id: 4, prod: 'Apple', price: 3.99, store: 'Walmart', weight:  5.1},
-    { id: 5, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 6, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
-    { id: 7, prod: 'Apple', price: 3.99, store: 'Walmart', weight:  5.1},
-    { id: 8, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 9, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
-    { id: 10, prod: 'Apple', price: 3.99, store: 'Walmart', weight:  5.1},
-    { id: 11, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 12, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
-    { id: 13, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 14, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
-    { id: 15, prod: 'Apple', price: 3.99, store: 'Walmart', weight:  5.1},
-    { id: 16, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 17, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
-    { id: 18, prod: 'Apple', price: 3.99, store: 'Walmart', weight:  5.1},
-    { id: 19, prod: 'Orange', price: 5.99, store: 'Target', weight:  6.7},
-    { id: 20, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight:  14},
+      { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 2, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 3, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 4, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 5, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 6, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 7, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 8, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 9, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 10, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 11, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 12, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 13, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 14, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 15, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 16, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 17, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 18, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 19, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 20, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
     ]
     if (searchText)
       input = input.filter(item => item.prod.toLowerCase().includes(searchText))
-    
+
     setRowCount(input.length)
     input = input.slice(pageNumber * pageSize, pageNumber * pageSize + pageSize)
     setRows(input)
@@ -128,6 +146,7 @@ export function ProductSearch(props) {
   }
 
   function handleSortModelChange(model) {
+    //setShowLocation(true)
     setSort({ column: model[0]?.field, order: model[0]?.sort })
   }
 
@@ -138,7 +157,7 @@ export function ProductSearch(props) {
   function handlePageSizeChange(pageSize) {
     setPageSize(pageSize)
   }
-  
+
   function productClicked(param, event) {
     //alert(JSON.stringify(param.row.prod));
     props.addProduct(param.row.prod, param.row.weight, param.row.price, param.row.store);
@@ -163,7 +182,7 @@ export function ProductSearch(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList}/>
+          <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
           {message}
           <br />
           <DataGrid
@@ -183,6 +202,7 @@ export function ProductSearch(props) {
           />
         </div>
       </div>
+      {/* <Footer /> */}
     </>
   );
 }
