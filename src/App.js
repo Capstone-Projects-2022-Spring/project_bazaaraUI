@@ -28,13 +28,13 @@ export default function App() {
   const [verifyPasswordErrorMessage, setVerifyPasswordErrorMessage] = useState('')
 
   const firebaseConfig = {
-    apiKey: process.env.REACT_APP_apiKey,
-    authDomain: process.env.REACT_APP_authDomain,
-    projectId: process.env.REACT_APP_projectId,
-    storageBucket: process.env.REACT_APP_storageBucket,
-    messagingSenderId: process.env.REACT_APP_messagingSenderId,
-    appId: process.env.REACT_APP_appId,
-    measurementId: process.env.REACT_APP_measurementId,
+    apiKey: "AIzaSyCvdgBDgUVeVM_RBBskYiBFjdNsRqkN4Bk",
+    authDomain: "bazaara-342116.firebaseapp.com",
+    projectId: "bazaara-342116",
+    storageBucket: "bazaara-342116.appspot.com",
+    messagingSenderId: "295000681294",
+    appId: "1:295000681294:web:cafb5ab1b4d58a7102cc1f",
+    measurementId: "G-Y4R8SLW0KB",
   }
 
   const app = initializeApp(firebaseConfig)
