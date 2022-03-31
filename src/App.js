@@ -74,11 +74,12 @@ export default function App() {
           case 'auth/wrong-password':
             setPasswordErrorMessage('Invalid password')
             break;
+          case 'auth/user-not-found':
+            setEmailErrorMessage('User not found')
         }
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Login failed. Error message: ' + errorCode + ' ' + errorMessage)
-        // ..
         return false
       })
       return true
@@ -112,7 +113,7 @@ export default function App() {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
+        // Registered and signed in
         console.log('Register successful. Current user: ' + userCredential.user)
         window.location.assign('/home')
       })
@@ -131,10 +132,10 @@ export default function App() {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Login failed. Error message: ' + errorCode + ' ' + errorMessage)
-        // ..
       })
   }
 
+  // TODO: This has to get implemented into the Navbar
   function handleSignout() {
     signOut(auth).then(() => {
       // Sign-out successful
