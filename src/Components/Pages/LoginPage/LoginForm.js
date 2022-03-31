@@ -24,7 +24,7 @@ export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage
   );
 
   const RegisterText = props => (
-    <div className="switchText">
+    <div className="switchText text-center text-gray-500">
       Are you new here?
       <Link to="/register">
         Click here to register.
@@ -56,30 +56,27 @@ export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage
   );
 
   return (
-      <section className='login_form'>
-        <div id="loginform">
-          <FormHeader title="Login" />
-          <div className="row">
-            <label>Email</label>
-            <input type="text" placeholder="Enter your email" onChange={handleEmailChange} value={email} required />
-            {emailErrorMessage}
-          </div>
-
-          <div className="row">
-            <label>Password</label>
-            <input type="password" placeholder="Enter your password" onChange={handlePasswordChange} value={password} required />
-            {passwordErrorMessage}
-          </div>
-
-          <div id="button" className="row">
-            <button onClick={() => handleLoginSubmit()}>
-              Log in
-            </button>
-          </div>
-
-          <RegisterText />
-          <OtherMethods />
+    <section className='bg-purple-400 p-6 '>
+      <div id="loginform">
+        <FormHeader title="Login" />
+        <div className="row">
+          <label>Email</label>
+          <input type="text" placeholder="Enter your email" onChange={handleEmailChange} value={email} required />
+          {emailErrorMessage}
         </div>
-      </section>
+        <div className="row">
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" onChange={handlePasswordChange} value={password} required />
+          {passwordErrorMessage}
+        </div>
+        <div id="button" className=" flex justify-center items-center my-4   ">
+          <button className="bg-purple-500 px-2 py-1  text-white rounded-full w-48 text-white" onClick={() => handleLoginSubmit()}>
+            Log in
+          </button>
+        </div>
+        <RegisterText />
+        <OtherMethods />
+      </div>
+    </section>
   )
 }

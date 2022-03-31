@@ -25,7 +25,7 @@ export function RegisterForm({ handleRegister, emailErrorMessage, passwordErrorM
     }
 
     return (
-        <section className='register_form'>
+        <section className='bg-purple-400 p-6'>
             <div id="registerform">
                 <FormHeader title="Register" />
                 <div className="row">
@@ -46,8 +46,8 @@ export function RegisterForm({ handleRegister, emailErrorMessage, passwordErrorM
                     {verifyPasswordErrorMessage}
                 </div>
 
-                <div id="button" className="row">
-                    <button onClick={() => handleRegisterSubmit()}>
+                <div id="button" className="flex justify-center items-center my-4">
+                    <button className="bg-purple-500 px-2 py-1 text-white rounded-full w-48 text-white" onClick={() => handleRegisterSubmit()}>
                         Register
                     </button>
                 </div>
@@ -63,7 +63,7 @@ const FormHeader = props => (
 );
 
 const LoginText = props => (
-    <div class="switchText">
+    <div className="switchText text-center text-gray-500">
         Already have an account?
         <Link to="/">
             Click here to log in.
