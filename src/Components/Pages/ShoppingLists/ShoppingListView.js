@@ -10,8 +10,8 @@ import { ProductSearch } from '../ProductSearch/ProductSearch';
 import ErrorPage from "../404Page/ErrorPage"
 import { Link } from "react-router-dom";
 
-
 export class ShoppingListView extends React.Component {
+    
     constructor(props) {
         super(props)
         this.state = {
@@ -20,6 +20,7 @@ export class ShoppingListView extends React.Component {
             lists: ShoppingListCollection.collection,
             productIndex: 0,
             seen: false,
+            deleteListMessage: "",
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
@@ -90,7 +91,13 @@ export class ShoppingListView extends React.Component {
         //alert('temp contents: ' + temp.toString());
 
 
-        if (prevIndex === this.state.lists.length-1) {
+        if (this.state.lists.length === 1){
+            this.setState({deleteListMessage: "Could not delete list! You must have at least one shopping list."});
+            setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
+        } else if (prevIndex === this.state.lists.length-1) {
+            this.setState({deleteListMessage: "Successfully deleted shopping list!"});
+            setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
+
             this.setState(() => {
                 return {
                     listIndex: prevIndex-1,
@@ -98,6 +105,9 @@ export class ShoppingListView extends React.Component {
                 }
             })
         } else {
+            this.setState({deleteListMessage: "Successfully deleted shopping list!"});
+            setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
+
             this.setState(() => {
                 return {
                     lists: temp,
@@ -166,6 +176,7 @@ export class ShoppingListView extends React.Component {
                                     <Link to={`/search`} className="">
                                         <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
                                     </Link>
+                                    {this.state.deleteListMessage}
                                 <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
                                 
                             </div>
