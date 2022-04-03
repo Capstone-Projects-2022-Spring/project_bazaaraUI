@@ -13,12 +13,30 @@ const ITEM_HEIGHT = 48;
 export default function ListManagementDropdown(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    function handleRemoveItem() {
+      handleClose();
+      props.toggleRemoveItemButton();
+    }
+
+    function handleDeleteList() {
+      handleClose();
+      props.handleRemoveList();
+    }
+
+    function handleRename() {
+      handleClose();
+      props.toggleRenameMenu();
+    }
+
 
     return (
         
@@ -49,15 +67,15 @@ export default function ListManagementDropdown(props) {
           }}
         >
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleRemoveItem}>
             <RemoveCircleOutlineIcon />
             &nbsp;&nbsp;Remove Items
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleRename}>
             <Edit />
             &nbsp;&nbsp;Rename List
         </MenuItem>        
-        <MenuItem onClick={props.handleRemoveList}>
+        <MenuItem onClick={handleDeleteList}>
             <DeleteIcon />
             &nbsp;&nbsp;Delete List
         </MenuItem>

@@ -15,12 +15,14 @@ export class ShoppingListView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: "",
+            value: "", // user input
             listIndex: 0,
             lists: ShoppingListCollection.collection,
             productIndex: 0,
-            seen: false,
             deleteListMessage: "",
+            hideButton: true, // remove items button view
+            seen: false, // new list button view
+            hideRenameView: true,
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
@@ -29,6 +31,10 @@ export class ShoppingListView extends React.Component {
         this.togglePop = this.togglePop.bind(this);
         this.handleAddProduct = this.handleAddProduct.bind(this);
         this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
+        this.toggleRemoveItemButton = this.toggleRemoveItemButton.bind(this);
+        this.renameList = this.renameList.bind(this);
+        this.handleRenameInput = this.handleRenameInput.bind(this);
+        this.toggleRenameMenu = this.toggleRenameMenu.bind(this);
     }
 
     changeListHandler(newIndex) {
@@ -41,6 +47,10 @@ export class ShoppingListView extends React.Component {
 
     handleInput(event) {
         this.setState({value: event.target.value});
+    }
+
+    handleRenameInput(event) {
+        this.setState({renamedValue: event.target.renamedValue});
     }
 
     handleAddList = (name) => {
@@ -82,6 +92,37 @@ export class ShoppingListView extends React.Component {
 
     }
 
+    renameList = (input) => {
+        //alert('trying to rename list ' + input)
+        //alert('NAME OF CURRENT LIST' + this.state.lists[this.state.listIndex].name)
+        let isDuplicate = false;
+
+        this.toggleRenameMenu();
+
+        for (let i = 0; i < this.state.lists.length; i++) {
+            if (this.state.lists[i].name === input) {
+                isDuplicate = true;
+            }
+        }
+
+        //alert('NAME OF CURRENT LIST' + temp[this.state.listIndex].name)
+        if(input.trim().length === 0) {
+            alert('invalid shopping name list: no empty string');
+        } else if (isDuplicate) {
+            alert('invalid shopping name list: no duplicate names');
+        
+        } else {
+            var temp = [...this.state.lists];
+            temp[this.state.listIndex].name = input;
+
+            this.setState(() => {
+                return {
+                    lists: temp,
+                }
+            })
+        }
+    }
+
     handleRemoveList = () => {
         //alert('attempting to remove list at index:' + this.state.listIndex);
         var prevIndex = this.state.listIndex;
@@ -89,7 +130,6 @@ export class ShoppingListView extends React.Component {
         
         temp.splice(prevIndex, 1);
         //alert('temp contents: ' + temp.toString());
-
 
         if (this.state.lists.length === 1){
             this.setState({deleteListMessage: "Could not delete list! You must have at least one shopping list."});
@@ -121,6 +161,18 @@ export class ShoppingListView extends React.Component {
     togglePop() {
         this.setState({
          seen: !this.state.seen
+        });
+    }
+
+    toggleRemoveItemButton() {
+        this.setState({
+            hideButton: !this.state.hideButton,
+        });
+    }
+
+    toggleRenameMenu() {
+        this.setState({
+            hideRenameView: !this.state.hideRenameView,
         });
     }
 
@@ -157,9 +209,11 @@ export class ShoppingListView extends React.Component {
         //alert('temp list:' + JSON.stringify(temp))
     }
 
+
+
+
     render() {
         let component = null;
-
         switch(this.props.pageIndex) {
             case 0:
                 component = <ProductSearch addProduct={this.handleAddProduct} lists={this.state.lists} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
@@ -177,10 +231,10 @@ export class ShoppingListView extends React.Component {
                                         <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
                                     </Link>
                                     {this.state.deleteListMessage}
-                                <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}/>
+                                    <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} />
                                 
                             </div>
-                            <ListManagementDropdown handleRemoveList={this.handleRemoveList}/>
+                            <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>
                     </section>
                     </section>
                     <Footer />

@@ -1,29 +1,7 @@
 import React from 'react';
 import './styles.css';
-import { ShoppingList, ShoppingListCollection } from './ShoppingList'
 
 export class ShoppingListSelection extends React.Component {
-   /* constructor(props) {
-        super(props)
-        this.state = {
-            
-        }
-        //this.handleInput = this.handleInput.bind(this);
-
-    }*/
-
-   /* state = {
-        seen: false
-        };
-       togglePop = () => {
-        this.setState({
-         seen: !this.state.seen
-        });
-    };
-*/
-
-
-
     render() {
         return(
 
