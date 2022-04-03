@@ -27,7 +27,7 @@ export default function ProductCard(props) {
             </Typography>
           </CardContent>
           <CardActions >
-            <Button class='deleteproductbutton' size="small" onClick={(e) => props.removeProduct(props.clicked, e)}>Remove from list</Button>
+            <div className={props.hideButton? 'hideRemoveButton' : undefined}><button onClick={(e) => props.removeProduct(props.clicked, e)}>Remove from list</button></div>
           </CardActions>
         </Card>
       );
