@@ -23,6 +23,7 @@ export class ShoppingListView extends React.Component {
             hideButton: true, // remove items button view
             seen: false, // new list button view
             hideRenameView: true,
+            listTotalCost: 0, // total price of current shopping list, currently unused?
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
@@ -35,6 +36,7 @@ export class ShoppingListView extends React.Component {
         this.renameList = this.renameList.bind(this);
         this.handleRenameInput = this.handleRenameInput.bind(this);
         this.toggleRenameMenu = this.toggleRenameMenu.bind(this);
+        this.calculateTotalListPrice = this.calculateTotalListPrice.bind(this);
     }
 
     changeListHandler(newIndex) {
@@ -209,11 +211,30 @@ export class ShoppingListView extends React.Component {
         //alert('temp list:' + JSON.stringify(temp))
     }
 
+    calculateTotalListPrice() {
+       let temp = 0;
+
+        this.state.lists[this.state.listIndex].productCollection.map((product) => (
+                temp += product.price
+        ))
+        //alert('TEMP TOTAL: ' + temp)
+
+        /*this.setState(() => {
+            return {
+                listTotalCost: temp,
+            }
+        })*/
+        
+        //alert(this.state.listTotalCost);
+        return temp.toFixed(2);
+    }
+
 
 
 
     render() {
         let component = null;
+
         switch(this.props.pageIndex) {
             case 0:
                 component = <ProductSearch addProduct={this.handleAddProduct} lists={this.state.lists} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
@@ -231,7 +252,7 @@ export class ShoppingListView extends React.Component {
                                         <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
                                     </Link>
                                     {this.state.deleteListMessage}
-                                    <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} />
+                                    <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
                                 
                             </div>
                             <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>
