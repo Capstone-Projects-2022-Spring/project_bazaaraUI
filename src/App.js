@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { ThemeProvider } from "styled-components";
-import { GlobalStyles } from "./themes/GlobalStyles";
-import theme from "./themes/themes";
-import Button from "./Components/Button";
+import React, { useState } from 'react';
 import './App.css';
 import { LoginForm } from './Components/Pages/LoginPage/LoginForm';
 import { RegisterForm } from './Components/Pages/RegisterPage/RegisterForm';
 import HomeForm from './Components/Pages/HomePage/HomeForm';
-import Navbar from './Components/NavBar/Navbar';
 import ShoppingListView from './Components/Pages/ShoppingLists/ShoppingListView';
-import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
 import ErrorPage from "./Components/Pages/404Page/ErrorPage"
 import Report from './Components/Pages/Report';
 import Logout from './Components/Pages/Logout/logout';
@@ -70,16 +64,16 @@ export default function App() {
         switch (error.code) {
           case 'auth/invalid-email':
             setEmailErrorMessage('Invalid email')
-            break;
+            break
           case 'auth/wrong-password':
             setPasswordErrorMessage('Invalid password')
-            break;
+            break
           case 'auth/user-not-found':
             setEmailErrorMessage('User not found')
+            break
+          default: setEmailErrorMessage(error.code + ' ' + error.message)
         }
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('Login failed. Error message: ' + errorCode + ' ' + errorMessage)
+        console.log('Login failed. Error message: ' + error.code + ' ' + error.message)
         return false
       })
       return true
@@ -128,10 +122,9 @@ export default function App() {
           case 'auth/email-already-in-use':
             setEmailErrorMessage('Email already in use. Do you already have an account?')
             break
+          default: setEmailErrorMessage(error.code + ' ' + error.message)
         }
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('Login failed. Error message: ' + errorCode + ' ' + errorMessage)
+        console.log('Registration failed. Error message: ' + error.code + ' ' + error.message)
       })
   }
 

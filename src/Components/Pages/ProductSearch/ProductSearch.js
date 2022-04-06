@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
-import Footer from '../../Footer/Footer'
 
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -54,13 +53,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const columns = [
-  { field: 'prod', headerName: 'Product', width: 150 },
-  { field: 'price', headerName: 'Price ($)', width: 150 },
-  { field: 'store', headerName: 'Store', width: 150 },
-  { field: 'weight', headerName: 'Weight (oz.)', width: 150 }
-];
-
 export function ProductSearch(props) {
   const [searchText, setSearchText] = useState(null)
   const [message, setMessage] = React.useState("")
@@ -73,41 +65,54 @@ export function ProductSearch(props) {
   
   // a state to store the location 
   const [location, setLocation] = useState()
+
   useEffect(() => {
     makeRequestForNewData()
   }, [])
   useEffect(() => {
-   
+    
     if (!location) {
       if (!navigator.geolocation) {
         alert('Your browser does not support gelocation')
       }
-       else{
-
-         navigator.geolocation.getCurrentPosition(
-           (pos) => { alert("Succefully Retrieved Your Location"); console.log(pos) },
-            (err) => {alert('Need to allow location')})
-       }
+      else{
+        
+        navigator.geolocation.getCurrentPosition(
+          (pos) => { alert("Successfully Retrieved Your Location"); console.log(pos) },
+          (err) => {alert('Cannot Find Nearby Stores Without Location Access')})
+        }
+      }
+      
+    }, [location])
+    
+    useEffect(() => {
+      console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
+      console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
+      console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
+      console.log('Search text: ' + searchText)
+      makeRequestForNewData()
+    }, [pageNumber, pageSize, filter, sort, searchText])
+    
+    const columns = [
+      { renderCell: (params) => {
+        return (
+          <img src={params.row.img} alt={params.row.prod} />
+        )
+      }},
+      { field: 'prod', headerName: 'Product', width: 150 },
+      { field: 'price', headerName: 'Price ($)', width: 150 },
+      { field: 'store', headerName: 'Store', width: 150 },
+      { field: 'weight', headerName: 'Weight (oz.)', width: 150 }
+    ]
+    
+    function makeRequestForNewData() {
+      // send request to API endpoint
+      generateSampleData()
     }
     
-  }, [location])
-
-  useEffect(() => {
-    console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
-    console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
-    console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
-    console.log('Search text: ' + searchText)
-    makeRequestForNewData()
-  }, [pageNumber, pageSize, filter, sort, searchText])
-
-  function makeRequestForNewData() {
-    // send request to API endpoint
-    generateSampleData()
-  }
-
-  function generateSampleData() {
-    let input = [
-      { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+    function generateSampleData() {
+      let input = [
+        { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
       { id: 2, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
       { id: 3, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
       { id: 4, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
@@ -128,6 +133,7 @@ export function ProductSearch(props) {
       { id: 19, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
       { id: 20, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
     ]
+    input.map((entry) => entry.img = require('./product_placeholder.png'))
     if (searchText)
       input = input.filter(item => item.prod.toLowerCase().includes(searchText))
 
