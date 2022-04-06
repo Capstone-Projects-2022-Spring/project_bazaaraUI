@@ -13,7 +13,6 @@ import { ProductSearch } from './Components/Pages/ProductSearch/ProductSearch';
 import ErrorPage from "./Components/Pages/404Page/ErrorPage"
 import Report from './Components/Pages/Report';
 import Logout from './Components/Pages/Logout/logout';
-import ProductListParent from './Components/Pages/ProductListParent';
 
 import {
   BrowserRouter,

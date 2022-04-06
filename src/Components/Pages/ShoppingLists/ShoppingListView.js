@@ -217,15 +217,7 @@ export class ShoppingListView extends React.Component {
         this.state.lists[this.state.listIndex].productCollection.map((product) => (
                 temp += product.price
         ))
-        //alert('TEMP TOTAL: ' + temp)
-
-        /*this.setState(() => {
-            return {
-                listTotalCost: temp,
-            }
-        })*/
         
-        //alert(this.state.listTotalCost);
         return temp.toFixed(2);
     }
 

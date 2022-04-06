@@ -69,3 +69,40 @@ display: none;
 .hideRenameMenu {
   display: none;
 }
+
+/* Product MUI Card formatting */
+
+.rightAlignItem {
+  margin-right: "center"
+}
+
+.card {
+  background: white;
+  border-radius: 4px;
+  font-family: "Helvetica", sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card__body {
+  display: flex;
+  flex: 1 0 auto;
+  align-items: flex-end;
+  justify-content: left;
+}
+
+.card__content {
+  display: flex;
+  align-items: right;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.card__actions {
+  display: flex;
+  align-items: right;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-size: 12px;
+}
