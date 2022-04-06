@@ -2,36 +2,45 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import './styles.css';
+import CardMedia from '@mui/material/CardMedia';
 
 
 export default function ProductCard(props) {
 
     return (
-        <Card sx={{ minWidth: 275 }}>
-          <CardContent>
-            
-            <Typography variant="h8" component="div">
-              <Checkbox />
-              {props.name}
-            </Typography>
-            <Typography variant="body2">
-              {props.weight} oz.
-              <br />
-              ${props.price}
-              <br />
-              {props.store}
-            </Typography>
-          </CardContent>
-          <CardActions >
-            <div className={props.hideButton? 'hideRemoveButton' : undefined}><button onClick={(e) => props.removeProduct(props.clicked, e)}>Remove from list</button></div>
+      <div class="card">
+        <Card>
+          <div class="card__content" >
+            <CardContent >
+              <Typography variant="h8" component="div">
+                <Checkbox />
+                {props.name}
+              </Typography>
+              <Typography variant="body2">
+                {props.weight} oz.
+                <br />
+                ${props.price}
+                <br />
+                {props.store}
+              </Typography>
+            </CardContent>
+            <CardContent>
+              <CardMedia
+                component="img"
+                sx={{ width: 125 }}
+                image={require('./product_placeholder.png')}
+                alt="Product image"
+              />    
+            </CardContent>      
+          </div>
+          <CardActions class="card__actions">
+            <button></button> 
+            <div className={props.hideButton? 'hideRemoveButton' : undefined}><button onClick={(e) => props.removeProduct(props.clicked, e)}>Remove from list&nbsp;&nbsp;&nbsp;</button></div>
           </CardActions>
         </Card>
+        </div>
       );
 }
-//this.setState({listIndex: newIndex})
-
-//handleRemoveProduct={this.handleRemoveProduct} productIndex={this.state.productIndex}
