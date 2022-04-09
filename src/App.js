@@ -7,6 +7,7 @@ import ShoppingListView from './Components/Pages/ShoppingLists/ShoppingListView'
 import ErrorPage from "./Components/Pages/404Page/ErrorPage"
 import Report from './Components/Pages/Report';
 import Logout from './Components/Pages/Logout/logout';
+import APIUtil from './APIUtil';
 
 import {
   BrowserRouter,
@@ -15,6 +16,7 @@ import {
 } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import axios from 'axios';
 
 export default function App() {
   const [emailErrorMessage, setEmailErrorMessage] = useState('')
@@ -59,6 +61,7 @@ export default function App() {
         // Signed in
         console.log('Login successful. Current user: ' + userCredential.user)
         window.location.assign('/home')
+      
       })
       .catch((error) => {
         switch (error.code) {
@@ -157,7 +160,7 @@ export default function App() {
         />} />
         <Route path="/home" element={<HomeForm />} />
         {/* very messy but ProductSearch is now a child of ShoppingListView so they can access the same list state variable*/}
-        <Route path="/lists" element={<ShoppingListView pageIndex={1} />} />
+        <Route path="/lists" element={<ShoppingListView pageIndex={1} auth={auth} />} />
         <Route path="/search" element={<ShoppingListView pageIndex={0} />} />
         <Route path="/report" element={<Report />} />
         <Route path="/logout" element={<Logout />} />

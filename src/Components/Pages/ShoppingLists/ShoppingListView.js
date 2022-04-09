@@ -9,6 +9,7 @@ import Footer from '../../Footer/Footer'
 import { ProductSearch } from '../ProductSearch/ProductSearch';
 import ErrorPage from "../404Page/ErrorPage"
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export class ShoppingListView extends React.Component {
     
@@ -17,7 +18,8 @@ export class ShoppingListView extends React.Component {
         this.state = {
             value: "", // user input
             listIndex: 0,
-            lists: ShoppingListCollection.collection,
+            currentListId: "6250b88ccff1e6172447d0ad",
+            lists: [],
             productIndex: 0,
             deleteListMessage: "",
             hideButton: true, // remove items button view
@@ -37,12 +39,17 @@ export class ShoppingListView extends React.Component {
         this.handleRenameInput = this.handleRenameInput.bind(this);
         this.toggleRenameMenu = this.toggleRenameMenu.bind(this);
         this.calculateTotalListPrice = this.calculateTotalListPrice.bind(this);
+        this.requestShoppingListData = this.requestShoppingListData.bind(this);
+
+        // render current user's lists
+        this.requestShoppingListData();
     }
 
     changeListHandler(newIndex) {
         //alert('new list index: ' + newIndex);
         this.setState({
                 listIndex: newIndex,
+                currentListId: this.state.lists[newIndex].id,
                 //currentList: ShoppingListCollection.collection[newIndex].productCollection,
         })
     }
@@ -55,7 +62,7 @@ export class ShoppingListView extends React.Component {
         this.setState({renamedValue: event.target.renamedValue});
     }
 
-    handleAddList = (name) => {
+    handleAddList = async(name) => {
         //alert('new list name: ' + name);
         //alert('current lists: ' + this.state.lists.toString())
 
@@ -67,8 +74,9 @@ export class ShoppingListView extends React.Component {
 
         this.togglePop();
 
+        // duplicate checking does not work
         for (let i = 0; i < this.state.lists.length; i++) {
-            if (this.state.lists[i].name === name) {
+            if (this.state.lists[i].label === name) {
                 isDuplicate = true;
             }
         }
@@ -78,18 +86,57 @@ export class ShoppingListView extends React.Component {
         } else if (isDuplicate) {
             alert('invalid shopping name list: no duplicate names');
         } else {
-            var temp = [...this.state.lists];
-            temp.push(new ShoppingList(name, []));
+            let currentJWT = null;
+            let currentUID = null;
+    
+            try {
+                currentJWT = await this.props.auth.currentUser.getIdToken(true);
+                //console.log(currentJWT)
+            } catch (err) {
+                console.log(err.message);
+            }
+             
+            //console.log(currentJWT)
+            try {
+                currentUID = await this.props.auth.currentUser.uid;
+                console.log(currentUID)
+                try {
+                    await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/add/${currentUID}`, 
+                    { 
+                        label: `${name}`,
+                        timestamp: 0,
+                        savings: 0,
+                        products: [],
+                    }, {
+                      headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                        "Authorization": currentJWT,
+                      }
+                    }).then((response) => {
+                        console.log(response);
+                    });
+                  } catch (err) {
+                      console.log(err.message);
+                      return err.message;
+                  }
+            } catch (err) {
+                console.log(err.message);
+            }
+            
+            this.requestShoppingListData();
+
             //alert('size of collection ' + temp.length);
     
             //this.setState({ lists: temp });
 
-            this.setState(() => {
+            /*this.setState(() => {
                 return {
                     value: "",
                     lists: temp,
                 }
-            });
+            });*/
         }
 
     }
@@ -125,36 +172,64 @@ export class ShoppingListView extends React.Component {
         }
     }
 
-    handleRemoveList = () => {
+    handleRemoveList = async() => {
         //alert('attempting to remove list at index:' + this.state.listIndex);
         var prevIndex = this.state.listIndex;
-        var temp = [...this.state.lists];
+        //var temp = [...this.state.lists];
         
-        temp.splice(prevIndex, 1);
+        //temp.splice(prevIndex, 1);
         //alert('temp contents: ' + temp.toString());
 
         if (this.state.lists.length === 1){
             this.setState({deleteListMessage: "Could not delete list! You must have at least one shopping list."});
             setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
-        } else if (prevIndex === this.state.lists.length-1) {
-            this.setState({deleteListMessage: "Successfully deleted shopping list!"});
-            setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
-
-            this.setState(() => {
-                return {
-                    listIndex: prevIndex-1,
-                    lists: temp,
-                }
-            })
         } else {
             this.setState({deleteListMessage: "Successfully deleted shopping list!"});
             setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
 
-            this.setState(() => {
+
+            let currentJWT = null;
+            let currentUID = null;
+    
+            try {
+                currentJWT = await this.props.auth.currentUser.getIdToken(true);
+                //console.log(currentJWT)
+            } catch (err) {
+                console.log(err.message);
+            }
+             
+            //console.log(currentJWT)
+            try {
+                currentUID = await this.props.auth.currentUser.uid;
+                console.log(currentUID)
+                try {
+                    await axios.delete(`https://bazaara-342116.uk.r.appspot.com/lists/delete/${currentUID}/list/${this.state.lists[this.state.listIndex].id}`, 
+{
+                      headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                        "Authorization": currentJWT,
+                      }
+                    }).then((response) => {
+                        console.log(response);
+                    });
+                  } catch (err) {
+                      console.log(err.message);
+                      return err.message;
+                  }
+            } catch (err) {
+                console.log(err.message);
+            }
+            
+            this.requestShoppingListData();
+
+            // old
+            /*this.setState(() => {
                 return {
                     lists: temp,
                 }
-            })
+            })*/
         }
 
 
@@ -212,16 +287,59 @@ export class ShoppingListView extends React.Component {
     }
 
     calculateTotalListPrice() {
-       let temp = 0;
+      /* let temp = 0;
 
         this.state.lists[this.state.listIndex].productCollection.map((product) => (
                 temp += product.price
         ))
         
-        return temp.toFixed(2);
+        return temp.toFixed(2);*/
     }
 
 
+    // populate lists state variable with user's lists stored in database
+    requestShoppingListData = async() => {
+        let currentJWT = null;
+        let currentUID = null;
+
+        try {
+            currentJWT = await this.props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
+         
+        //console.log(currentJWT)
+        try {
+            currentUID = await this.props.auth.currentUser.uid;
+            try {
+                await axios.get(`https://bazaara-342116.uk.r.appspot.com/lists/${currentUID}`, {
+                  headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                  }
+                }).then((response) => {
+                    console.log(response);
+
+                    let tempLists = response.data.message;
+
+                    this.setState(() => {
+                        return {
+                            lists: tempLists,
+                        }
+                    })
+                });
+              } catch (err) {
+                  console.log(err.message);
+                  return err.message;
+              }
+        } catch (err) {
+            console.log(err.message);
+        }
+        
+
+      }
 
 
     render() {
@@ -234,6 +352,7 @@ export class ShoppingListView extends React.Component {
             case 1:
                 component = <>
                     <Navbar />
+                    
                     <section className="bg-purple-200 p-3">
                     <section className='bg-purple-200 flex'>
                     <div className='listnamescolumn'>
@@ -244,12 +363,13 @@ export class ShoppingListView extends React.Component {
                                         <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
                                     </Link>
                                     {this.state.deleteListMessage}
-                                    <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
+                                    {/*<ShoppingListDisplay requestShoppingListData={this.requestShoppingListData} listIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>*/}
                                 
                             </div>
                             <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>
                     </section>
                     </section>
+                    
                     <Footer />
                     </>;
                 break;
@@ -258,7 +378,6 @@ export class ShoppingListView extends React.Component {
         }
         return(
             <div>{component}</div>
-
         );
     }
 

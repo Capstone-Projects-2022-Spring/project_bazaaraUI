@@ -25,7 +25,8 @@ export class ShoppingListSelection extends React.Component {
 
                     this.props.lists.map((listName, index) => (
                         <p><button onClick={this.props.changeListHandler.bind(this, index)}>
-                                {listName.name}
+                                {listName.label}
+                                {listName.id}
         
                             </button></p>
 
