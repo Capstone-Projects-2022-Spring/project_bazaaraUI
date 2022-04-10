@@ -7,7 +7,6 @@ import ShoppingListView from './Components/Pages/ShoppingLists/ShoppingListView'
 import ErrorPage from "./Components/Pages/404Page/ErrorPage"
 import Report from './Components/Pages/Report';
 import Logout from './Components/Pages/Logout/logout';
-import APIUtil from './APIUtil';
 
 import {
   BrowserRouter,
@@ -16,7 +15,6 @@ import {
 } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import axios from 'axios';
 
 export default function App() {
   const [emailErrorMessage, setEmailErrorMessage] = useState('')

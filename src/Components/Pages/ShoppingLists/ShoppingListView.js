@@ -2,7 +2,6 @@ import React from 'react';
 import './styles.css';
 import ShoppingListSelection from './ShoppingListSelection'
 import ShoppingListDisplay from './ShoppingListDisplay'
-import { ShoppingList, ShoppingListCollection, Product } from './ShoppingList'
 import ListManagementDropdown from './ListManagementDropdown';
 import Navbar from '../../NavBar/Navbar'
 import Footer from '../../Footer/Footer'
@@ -18,7 +17,8 @@ export class ShoppingListView extends React.Component {
         this.state = {
             value: "", // user input
             listIndex: 0,
-            currentListId: "6250b88ccff1e6172447d0ad",
+            currentListId: "",
+            currentList: [],
             lists: [],
             productIndex: 0,
             deleteListMessage: "",
@@ -26,6 +26,7 @@ export class ShoppingListView extends React.Component {
             seen: false, // new list button view
             hideRenameView: true,
             listTotalCost: 0, // total price of current shopping list, currently unused?
+            loaded: false,
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
@@ -50,6 +51,7 @@ export class ShoppingListView extends React.Component {
         this.setState({
                 listIndex: newIndex,
                 currentListId: this.state.lists[newIndex].id,
+                currentList: this.state.lists[newIndex]
                 //currentList: ShoppingListCollection.collection[newIndex].productCollection,
         })
     }
@@ -99,7 +101,7 @@ export class ShoppingListView extends React.Component {
             //console.log(currentJWT)
             try {
                 currentUID = await this.props.auth.currentUser.uid;
-                console.log(currentUID)
+                //console.log(currentUID)
                 try {
                     await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/add/${currentUID}`, 
                     { 
@@ -174,16 +176,55 @@ export class ShoppingListView extends React.Component {
 
     handleRemoveList = async() => {
         //alert('attempting to remove list at index:' + this.state.listIndex);
-        var prevIndex = this.state.listIndex;
         //var temp = [...this.state.lists];
         
         //temp.splice(prevIndex, 1);
         //alert('temp contents: ' + temp.toString());
 
-        if (this.state.lists.length === 1){
+        if (this.state.lists.length === 1){ // users cannot have zero shopping lists
             this.setState({deleteListMessage: "Could not delete list! You must have at least one shopping list."});
             setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
-        } else {
+        } else if (this.state.listIndex === this.state.lists.length-1) { // user is deleting the last shopping list in array
+            this.setState({deleteListMessage: "Successfully deleted shopping list!"});
+            setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
+
+            let currentJWT = null;
+            let currentUID = null;
+    
+            try {
+                currentJWT = await this.props.auth.currentUser.getIdToken(true);
+            } catch (err) {
+                console.log(err.message);
+            }
+             
+            try {
+                currentUID = await this.props.auth.currentUser.uid;
+                console.log(currentUID)
+                try {
+                    await axios.delete(`https://bazaara-342116.uk.r.appspot.com/lists/delete/${currentUID}/list/${this.state.lists[this.state.listIndex].id}`, 
+                    {
+                      headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                        "Authorization": currentJWT,
+                      }
+                    }).then((response) => {
+                        console.log(response);
+                    });
+                  } catch (err) {
+                      console.log(err.message);
+                      return err.message;
+                  }
+            } catch (err) {
+                console.log(err.message);
+            }
+            
+            this.requestShoppingListData();
+            this.setState({
+                listIndex: this.state.listIndex-1,
+            })
+        } else { // regular handling of shopping list removal
             this.setState({deleteListMessage: "Successfully deleted shopping list!"});
             setTimeout(() => this.setState({deleteListMessage: ""}), 3000);
 
@@ -204,7 +245,7 @@ export class ShoppingListView extends React.Component {
                 console.log(currentUID)
                 try {
                     await axios.delete(`https://bazaara-342116.uk.r.appspot.com/lists/delete/${currentUID}/list/${this.state.lists[this.state.listIndex].id}`, 
-{
+                    {
                       headers: {
                         "Access-Control-Allow-Origin": "*",
                         "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
@@ -255,8 +296,50 @@ export class ShoppingListView extends React.Component {
 
     // save state of the index of list you wanna add product to.
     // button redirects to product search page + the index of shopping list saved so default add to is selected list
-    handleAddProduct = (name, weight, price, store) => {
-        //name, weight, price, store
+    handleAddProduct = async() => {
+
+        // add dummy product for now with api
+        let currentJWT = null;
+        let currentUID = null;
+
+        try {
+            currentJWT = await this.props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
+         
+        //console.log(currentJWT)
+        try {
+            currentUID = await this.props.auth.currentUser.uid;
+            try {
+                await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/add/${currentUID}/product`,
+                 {
+                    productId: "624220c641d8734c90b3ece6",
+                    listIdx: this.state.listIndex,
+                 },
+                 {
+                  headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                  }
+                }).then((response) => {
+                    console.log(response);
+
+                    this.requestShoppingListData();
+                });
+              } catch (err) {
+                  console.log(err.message);
+                  return err.message;
+              }
+        } catch (err) {
+            console.log(err.message);
+        }
+        
+
+        //OLD
+        /*//name, weight, price, store
         var temp = [...this.state.lists];
         temp[this.state.listIndex].productCollection.push(new Product(name, weight, price, store));
 
@@ -264,10 +347,47 @@ export class ShoppingListView extends React.Component {
             return {
                 lists: temp,
             }
-        });
+        });*/
     }
 
-    handleRemoveProduct = (clickedIndex) => {
+    handleRemoveProduct = async(clickedIndex) => {
+        let currentJWT = null;
+        let currentUID = null;
+
+        try {
+            currentJWT = await this.props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
+         
+        //console.log(currentJWT)
+        try {
+            currentUID = await this.props.auth.currentUser.uid;
+            try {
+                await axios.delete(`https://bazaara-342116.uk.r.appspot.com/lists/delete/${currentUID}/product`,
+
+                 {
+                  headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                    
+                  },
+                }).then((response) => {
+                    console.log(response);
+
+                    this.requestShoppingListData();
+                });
+              } catch (err) {
+                  console.log(err.message);
+                  return err.message;
+              }
+        } catch (err) {
+            console.log(err.message);
+        }
+        //OLD
+        /*
         //alert('called handleremoveproduct');
         //this.updateCurrentProductIndex(clickedIndex);
 
@@ -283,19 +403,18 @@ export class ShoppingListView extends React.Component {
             }
         });
 
-        //alert('temp list:' + JSON.stringify(temp))
+        //alert('temp list:' + JSON.stringify(temp))*/
     }
 
     calculateTotalListPrice() {
-      /* let temp = 0;
+       let temp = 0;
 
-        this.state.lists[this.state.listIndex].productCollection.map((product) => (
+        (this.state.currentList.products).map((product) => (
                 temp += product.price
         ))
         
-        return temp.toFixed(2);*/
+        return temp.toFixed(2);
     }
-
 
     // populate lists state variable with user's lists stored in database
     requestShoppingListData = async() => {
@@ -320,6 +439,7 @@ export class ShoppingListView extends React.Component {
                     "Authorization": currentJWT,
                   }
                 }).then((response) => {
+
                     console.log(response);
 
                     let tempLists = response.data.message;
@@ -327,8 +447,12 @@ export class ShoppingListView extends React.Component {
                     this.setState(() => {
                         return {
                             lists: tempLists,
+                            currentList: response.data.message[this.state.listIndex],
                         }
                     })
+                    this.state.loaded = true;
+                    this.forceUpdate();
+
                 });
               } catch (err) {
                   console.log(err.message);
@@ -344,6 +468,9 @@ export class ShoppingListView extends React.Component {
 
     render() {
         let component = null;
+        if (!this.state.loaded) {
+            return null;
+        }
 
         switch(this.props.pageIndex) {
             case 0:
@@ -352,7 +479,7 @@ export class ShoppingListView extends React.Component {
             case 1:
                 component = <>
                     <Navbar />
-                    
+                    <button onClick={this.handleAddProduct}>ADD PRODUCT</button>
                     <section className="bg-purple-200 p-3">
                     <section className='bg-purple-200 flex'>
                     <div className='listnamescolumn'>
@@ -363,7 +490,7 @@ export class ShoppingListView extends React.Component {
                                         <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
                                     </Link>
                                     {this.state.deleteListMessage}
-                                    {/*<ShoppingListDisplay requestShoppingListData={this.requestShoppingListData} listIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>*/}
+                                    {<ShoppingListDisplay auth={this.props.auth} requestShoppingListData={this.requestShoppingListData} currentList={this.state.currentList} listIndex={this.state.listIndex} lists={this.state.lists} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>}
                                 
                             </div>
                             <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>

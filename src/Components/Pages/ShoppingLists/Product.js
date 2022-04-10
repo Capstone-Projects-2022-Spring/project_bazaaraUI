@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -10,6 +10,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 export default function ProductCard(props) {
 
+    
     return (
       <div class="card">
         <Card>
@@ -17,14 +18,18 @@ export default function ProductCard(props) {
             <CardContent >
               <Typography variant="h8" component="div">
                 <Checkbox />
-                {props.name}
+                {props.product.name}
+                <br />
+                ${props.product.price}
+                <br />
+                ID: {props.product.productId}
+                <br />
+                Available at {props.product.store.name}
+                <br />
+                Barcode: {props.product.upc_code}
               </Typography>
               <Typography variant="body2">
-                {props.weight} oz.
-                <br />
-                ${props.price}
-                <br />
-                {props.store}
+
               </Typography>
             </CardContent>
             <CardContent>
@@ -44,3 +49,10 @@ export default function ProductCard(props) {
         </div>
       );
 }
+
+/*                {props.weight} oz.
+                <br />
+                ${props.price}
+                <br />
+                {props.store}
+                 */
