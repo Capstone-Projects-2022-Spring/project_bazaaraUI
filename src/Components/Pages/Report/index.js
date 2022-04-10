@@ -126,7 +126,7 @@ const Report = () => {
                     <div >
                     <button onClick={() => {setIsStart(true);setBarcode('');setPrice('')}} className='bg-green-400 text-white rounded p-2 text-center'>Click here to scan</button>
                     {isStart && <>
-      <div id="scanner-container" />
+      <div id="scanner-container"  />
       <span>Barcode: {barcode}</span>
     </>}
                     </div>

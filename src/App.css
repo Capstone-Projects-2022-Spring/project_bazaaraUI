@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+#quagga-scanner > video{
+  width: 100%;
+  height: 100%;
+}
+#scanner-container > canvas.drawing, canvas.drawingBuffer {
+  width: 120px;
+  height: 20px;   
+}
