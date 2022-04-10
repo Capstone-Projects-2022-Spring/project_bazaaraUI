@@ -3,6 +3,7 @@ import List from '../../List/list'
 import Navbar from '../../NavBar/Navbar'
 import Footer from '../../Footer/Footer'
 import CAROUSEL from '../../Carousel'
+import ShoppingListView from '../ShoppingLists/ShoppingListView'
 
 
 const HomeForm = () => {

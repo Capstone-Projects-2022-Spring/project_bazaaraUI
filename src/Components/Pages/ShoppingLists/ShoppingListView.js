@@ -407,14 +407,15 @@ export class ShoppingListView extends React.Component {
 
                     let tempLists = response.data.message;
 
-                    this.setState(() => {
-                        return {
-                            lists: tempLists,
-                            currentList: response.data.message[this.state.listIndex],
-                        }
-                    })
-                    this.state.loaded = true;
-                    this.forceUpdate();
+                        this.setState(() => {
+                            return {
+                                lists: tempLists,
+                                currentList: response.data.message[this.state.listIndex],
+                            }
+                        })
+                        this.state.loaded = true;
+                        this.forceUpdate();
+
 
                 });
               } catch (err) {
@@ -423,6 +424,7 @@ export class ShoppingListView extends React.Component {
               }
         } catch (err) {
             console.log(err.message);
+            window.location.replace('/');
         }
 
       }
@@ -430,15 +432,16 @@ export class ShoppingListView extends React.Component {
 
     render() {
         let component = null;
-        if (!this.state.loaded) {
-            return <CircularProgress className="centered" color="secondary" />;
-        }
+
 
         switch(this.props.pageIndex) {
             case 0:
-                component = <ProductSearch addProduct={this.handleAddProduct} lists={this.state.lists} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
+                component = <ProductSearch loaded={this.state.loaded} addProduct={this.handleAddProduct} lists={this.state.lists} currentList={this.state.currentList} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
                 break;
             case 1:
+                if (!this.state.loaded) {
+                    return <div><Navbar /><CircularProgress className="centered" color="secondary" /></div>;
+                }
                 component = <>
                     <Navbar />
                     <section className="bg-purple-200 p-3">
@@ -451,7 +454,7 @@ export class ShoppingListView extends React.Component {
                                         <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
                                     </Link>
                                     {this.state.deleteListMessage}
-                                    {<ShoppingListDisplay auth={this.props.auth} requestShoppingListData={this.requestShoppingListData} currentList={this.state.currentList} listIndex={this.state.listIndex} lists={this.state.lists} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>}
+                                    {<ShoppingListDisplay auth={this.props.auth} currentList={this.state.currentList} listIndex={this.state.listIndex} lists={this.state.lists} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>}
                                 
                             </div>
                             <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>

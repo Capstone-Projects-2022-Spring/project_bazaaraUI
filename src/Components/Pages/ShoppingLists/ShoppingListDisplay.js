@@ -5,55 +5,6 @@ import ProductCard from './Product'
 import axios from 'axios';
 
 export class ShoppingListDisplay extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            listProducts: [],
-        }
-        //this.props.requestShoppingListData();
-        //this.props.listIndex
-        this.getProductsInList();
-    }
-
-    getProductsInList = async() => {
-        let currentJWT = null;
-        let currentUID = null;
-
-        try {
-            currentJWT = await this.props.auth.currentUser.getIdToken(true);
-        } catch (err) {
-            console.log(err.message);
-        }
-         
-        //console.log(currentJWT)
-        try {
-            currentUID = await this.props.auth.currentUser.uid;
-            try {
-                await axios.get(`https://bazaara-342116.uk.r.appspot.com/lists/${currentUID}`, {
-                  headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
-                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
-                    "Authorization": currentJWT,
-                  }
-                }).then((response) => {
-
-                    let tempList = response.data.message[this.props.listIndex].products;
-                    //alert(tempList[0].name);
-
-                    this.setState({ listProducts: tempList });
-                    //alert("staet "+this.state.list[0].name);
-                });
-              } catch (err) {
-                  console.log(err.message);
-                  return err.message;
-              }
-        } catch (err) {
-            console.log(err.message);
-        }
-        
-
-    }
     
     render() {
 
