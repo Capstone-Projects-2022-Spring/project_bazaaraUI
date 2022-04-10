@@ -154,8 +154,10 @@ export class ShoppingListView extends React.Component {
                 currentUID = await this.props.auth.currentUser.uid;
                 console.log(currentUID)
                 try {
-                    await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/delete/${currentUID}/list/${this.state.lists[this.state.listIndex].id}`, 
-                    {
+                    await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/update/${currentUID}/listIndex/${this.state.listIndex}/label`, 
+                    { 
+                        "label": `${input}`,
+                    }, {
                       headers: {
                         "Access-Control-Allow-Origin": "*",
                         "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
@@ -174,23 +176,6 @@ export class ShoppingListView extends React.Component {
                 console.log(err.message);
             }
 
-        /* OLD
-        //alert('NAME OF CURRENT LIST' + temp[this.state.listIndex].name)
-        if(input.trim().length === 0) {
-            alert('invalid shopping name list: no empty string');
-        } else if (isDuplicate) {
-            alert('invalid shopping name list: no duplicate names');
-        
-        } else {
-            var temp = [...this.state.lists];
-            temp[this.state.listIndex].name = input;
-
-            this.setState(() => {
-                return {
-                    lists: temp,
-                }
-            })
-        }*/
     }
 
     handleRemoveList = async() => {
