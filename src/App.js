@@ -14,7 +14,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 
 export default function App() {
   const [emailErrorMessage, setEmailErrorMessage] = useState('')
@@ -34,6 +34,50 @@ export default function App() {
   const app = initializeApp(firebaseConfig)
 
   const auth = getAuth(app)
+
+  // social authentication
+  const provider = new GoogleAuthProvider();
+  const provider2 = new TwitterAuthProvider();
+
+  function handleGoogleAuth() {
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      window.location.assign('/home') // redirects user to homepage after signing in with google
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+    });
+  }
+
+  function handleTwitterAuth() {
+    signInWithPopup(auth, provider2)
+      .then((result) => {
+        // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+        // You can use these server side with your app's credentials to access the Twitter API.
+        const credential = TwitterAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const secret = credential.secret;
+        // The signed-in user info.
+        const user = result.user;
+        window.location.assign('/home') // redirects user to homepage after signing in with twitter
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = TwitterAuthProvider.credentialFromError(error);
+      });
+  }
+
 
   // Re-direct the user to the login screen if they are not logged in yet
   // useEffect(() => {
@@ -148,6 +192,8 @@ export default function App() {
           emailErrorMessage={emailErrorMessage}
           passwordErrorMessage={passwordErrorMessage}
           auth={auth}
+          handleGoogleAuth={handleGoogleAuth}
+          handleTwitterAuth={handleTwitterAuth}
         />} />
         <Route path="/register" element={<RegisterForm
           handleRegister={handleRegister}

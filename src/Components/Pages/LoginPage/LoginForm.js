@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './styles.css';
 import { Link } from 'react-router-dom';
 
-export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage }) {
+export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage, handleGoogleAuth, handleTwitterAuth }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -36,9 +36,9 @@ export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage
     <div id="alternativeLogin">
       <label>Or sign in with:</label>
       <div id="iconGroup">
-        <Facebook />
-        <Twitter />
-        <Google />
+        <Facebook />&nbsp;&nbsp;
+        <Twitter />&nbsp;&nbsp;
+        <Google />&nbsp;&nbsp;
       </div>
     </div>
   );
@@ -48,11 +48,12 @@ export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage
   );
 
   const Twitter = props => (
-    <a id="twitterIcon"></a>
+    <button id="twitterIcon" onClick={handleTwitterAuth} />
   );
 
   const Google = props => (
-    <a id="googleIcon"></a>
+    <button id="googleIcon" onClick={handleGoogleAuth} />
+    
   );
 
   return (
