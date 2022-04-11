@@ -118,15 +118,15 @@ const Report = () => {
   return (
     <>
         <Navbar />
-            <section className='min-h-[600px] flex flex-col justify-center space-y-4 items-center'>
+            <section className='min-h-screen flex flex-col justify-center space-y-4 items-center'>
                 <main className='max-w-md flex flex-col space-y-4 bg-purple-300 p-4 rounded '> 
                     <div> Scan Product Barcode
                     </div>
 
                     <div >
-                    <button onClick={() => setIsStart(true)} className='bg-green-400 text-white rounded p-2 text-center'>Click here to scan</button>
+                    <button onClick={() => {setIsStart(true);setBarcode('');setPrice('')}} className='bg-green-400 text-white rounded p-2 text-center'>Click here to scan</button>
                     {isStart && <>
-      <div id="scanner-container" />
+      <div id="scanner-container"  />
       <span>Barcode: {barcode}</span>
     </>}
                     </div>

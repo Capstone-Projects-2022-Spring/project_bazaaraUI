@@ -229,25 +229,38 @@ export class ShoppingListView extends React.Component {
 
         switch(this.props.pageIndex) {
             case 0:
-                component = <ProductSearch addProduct={this.handleAddProduct} lists={this.state.lists} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
+                component = <><div className='grid grid-rows-auto'>
+
+                <ProductSearch addProduct={this.handleAddProduct} 
+                lists={this.state.lists} listIndex={this.state.listIndex} 
+                changeList={this.changeListHandler}/>
+                <div className='sticky  bottom-0 left-0 w-full z-60'>
+
+                <Footer/>
+                </div>
+                </div> 
+
+                </>;
                 break;
             case 1:
                 component = <>
                     <Navbar />
-                    <section className="bg-purple-200 p-3">
-                    <section className='bg-purple-200 flex'>
-                    <div className='listnamescolumn'>
+                    <section className="bg-purple-200 p-3 ">
+                    <section className='bg-purple-200 max-w-4xl m-auto flex flex-col md:flex-row'>
+                    <div className='px-4 max-w-xl w-full md:max-w-[200px] mb-4 m-auto md:h-screen mt-4'>
                                 <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
                             </div>
-                            <div className='productlistcolumn bg-purple-200'>
+                            <div className='px-4 max-w-xl md:max-w-4xl m-auto flex space-x-2 bg-purple-200'>
+                                    <div className='flex flex-col space-y-2'>
+
                                     <Link to={`/search`} className="">
-                                        <div className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</div>
-                                    </Link>
+                                        <button className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</button>                                   </Link>
                                     {this.state.deleteListMessage}
                                     <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
+                                    </div>
                                 
-                            </div>
                             <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>
+                            </div>
                     </section>
                     </section>
                     <Footer />

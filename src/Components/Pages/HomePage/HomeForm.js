@@ -9,7 +9,7 @@ const HomeForm = () => {
   return (
     <>
      <Navbar/>
-    <section className="max-w-[1200px] m-auto my-6">
+    <section className="max-w-[1200px] min-h-screen m-auto my-6">
     {/* remove my6 class */}
       
 
@@ -42,9 +42,9 @@ const HomeForm = () => {
         {/* create a slide show of company */}
 
 
+    <CAROUSEL/>
     </section>
 
-    <CAROUSEL/>
     <Footer />
     </>  )
 }
