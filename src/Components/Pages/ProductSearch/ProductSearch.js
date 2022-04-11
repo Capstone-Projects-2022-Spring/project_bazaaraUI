@@ -175,8 +175,10 @@ export function ProductSearch(props) {
   return (
     <>
       <Navbar />
+      <section className='min-h-screen mb-[200px]'>
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ height: '80vh', width: '75%' }}>
+        <div style={{ height: '100vh', width: '75%' }}>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -208,6 +210,7 @@ export function ProductSearch(props) {
           />
         </div>
       </div>
+      </section>
       {/* <Footer /> */}
     </>
   );

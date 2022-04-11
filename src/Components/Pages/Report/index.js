@@ -118,7 +118,7 @@ const Report = () => {
   return (
     <>
         <Navbar />
-            <section className='min-h-[600px] flex flex-col justify-center space-y-4 items-center'>
+            <section className='min-h-screen flex flex-col justify-center space-y-4 items-center'>
                 <main className='max-w-md flex flex-col space-y-4 bg-purple-300 p-4 rounded '> 
                     <div> Scan Product Barcode
                     </div>

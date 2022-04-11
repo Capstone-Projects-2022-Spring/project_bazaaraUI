@@ -229,7 +229,18 @@ export class ShoppingListView extends React.Component {
 
         switch(this.props.pageIndex) {
             case 0:
-                component = <ProductSearch addProduct={this.handleAddProduct} lists={this.state.lists} listIndex={this.state.listIndex} changeList={this.changeListHandler}/>;
+                component = <><div className='grid grid-rows-auto'>
+
+                <ProductSearch addProduct={this.handleAddProduct} 
+                lists={this.state.lists} listIndex={this.state.listIndex} 
+                changeList={this.changeListHandler}/>
+                <div className='sticky  bottom-0 left-0 w-full z-60'>
+
+                <Footer/>
+                </div>
+                </div> 
+
+                </>;
                 break;
             case 1:
                 component = <>
