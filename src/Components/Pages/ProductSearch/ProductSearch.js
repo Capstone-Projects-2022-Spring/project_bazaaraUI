@@ -66,6 +66,7 @@ export function ProductSearch(props) {
   // a state to store the location 
   const [location, setLocation] = useState()
 
+
   useEffect(() => {
     makeRequestForNewData()
   }, [])
@@ -188,7 +189,7 @@ export function ProductSearch(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
+          <AddProductDialog loaded={props.loaded} lists={props.lists} selectedList={props.currentList} changeList={props.changeList} />
           {message}
           <br />
           <DataGrid
