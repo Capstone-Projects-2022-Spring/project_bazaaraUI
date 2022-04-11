@@ -432,16 +432,21 @@ export class ShoppingListView extends React.Component {
 
     render() {
         let component = null;
-
+        if (!this.state.loaded) {
+            return <div><Navbar /><CircularProgress className="centered" color="secondary" /></div>;
+        }
 
         switch(this.props.pageIndex) {
             case 0:
                 component = <><div className='grid grid-rows-auto'>
-
-                <ProductSearch loaded={this.state.loaded} addProduct={this.handleAddProduct} 
-                lists={this.state.lists} listIndex={this.state.listIndex} 
-                changeList={this.changeListHandler}/>
-                <div className='sticky  bottom-0 left-0 w-full z-60'>
+                                <ProductSearch 
+                                    loaded={this.state.loaded} 
+                                    addProduct={this.handleAddProduct}
+                                    lists={this.state.lists} 
+                                    currentList={this.state.currentList} 
+                                    listIndex={this.state.listIndex} 
+                                    changeList={this.changeListHandler}/>
+                            <div className='sticky  bottom-0 left-0 w-full z-60'>
 
                 <Footer/>
                 </div>
@@ -450,9 +455,6 @@ export class ShoppingListView extends React.Component {
                 </>;
                 break;
             case 1:
-                if (!this.state.loaded) {
-                    return <div><Navbar /><CircularProgress className="centered" color="secondary" /></div>;
-                }
                 component = <>
                     <Navbar />
                     <section className="bg-purple-200 p-3 ">
