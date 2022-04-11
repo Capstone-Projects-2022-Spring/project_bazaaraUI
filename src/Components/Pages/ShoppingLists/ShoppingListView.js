@@ -234,12 +234,12 @@ export class ShoppingListView extends React.Component {
             case 1:
                 component = <>
                     <Navbar />
-                    <section className="bg-purple-200 p-3">
-                    <section className='bg-purple-200  flex flex-col md:flex-row'>
-                    <div className='listnamescol md:h-screen mt-4 max-w-md w-full md:w-auto m-auto '>
+                    <section className="bg-purple-200 p-3 ">
+                    <section className='bg-purple-200 max-w-4xl m-auto flex flex-col md:flex-row'>
+                    <div className='px-4 max-w-xl w-full md:max-w-[200px] mb-4 m-auto md:h-screen mt-4'>
                                 <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
                             </div>
-                            <div className='productlistcolumn flex space-x-2 bg-purple-200'>
+                            <div className='px-4 max-w-xl md:max-w-4xl m-auto flex space-x-2 bg-purple-200'>
                                     <div className='flex flex-col space-y-2'>
 
                                     <Link to={`/search`} className="">
