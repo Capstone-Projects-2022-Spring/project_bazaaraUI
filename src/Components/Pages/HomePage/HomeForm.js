@@ -9,6 +9,8 @@ import axios from "axios";
 const HomeForm = (props) => {
 
 // integrating w/ backend
+
+//for top3lists
 async function requestHometop3Data() {
     let currentJWT = null;
     let currentUID = null;
@@ -51,7 +53,7 @@ async function requestHometop3Data() {
 
   }
 
-// for savings
+// for savings 
 async function requestHomesavingsData() {
     let currentJWT = null;
     let currentUID = null;
@@ -95,8 +97,8 @@ async function requestHomesavingsData() {
   }
 
 
-
-  //requestHometop3Data()
+  //api func calls
+  requestHometop3Data()
   requestHomesavingsData()
 
 
