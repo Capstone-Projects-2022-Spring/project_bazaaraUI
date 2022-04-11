@@ -201,7 +201,7 @@ export default function App() {
           passwordErrorMessage={passwordErrorMessage}
           verifyPasswordErrorMessage={verifyPasswordErrorMessage}
         />} />
-        <Route path="/home" element={<HomeForm />} />
+        <Route path="/home" element={<HomeForm auth={auth} />} />
         {/* very messy but ProductSearch is now a child of ShoppingListView so they can access the same list state variable*/}
         <Route path="/lists" element={<ShoppingListView pageIndex={1} />} />
         <Route path="/search" element={<ShoppingListView pageIndex={0} />} />
