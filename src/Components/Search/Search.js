@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import InputBase from '@mui/material/InputBase';
 // import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import Footer from '../Footer/Footer';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,6 +60,7 @@ export default function SearchAppBar() {
   };
 
   return (
+    <>
     <Box sx={{ flexGrow: 1 }}>
       <Search>
         <SearchIconWrapper>
@@ -73,5 +75,7 @@ export default function SearchAppBar() {
       </Search>
       {searchText}
     </Box>
+    {/* <Footer/> */}
+    </>
   );
 }

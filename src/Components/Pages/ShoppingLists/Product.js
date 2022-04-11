@@ -12,7 +12,7 @@ export default function ProductCard(props) {
 
     
     return (
-      <div class="card">
+      <div class="card my-2 shadow-2xl bg-white">
         <Card>
           <div class="card__content" >
             <CardContent >
