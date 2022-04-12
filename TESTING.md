@@ -104,7 +104,7 @@ expectations: created list will delete upon refresh due to no saved state on thi
 expectations: User should be able to search and sort default products mentioned above
 
 
-## Report
+## Report Tests
 expectations: Barcode feature is still being worked on and does not consistently snap the correct code if not algined well. The consistency on mobile is worse than desktop.
 
 Additonal: You must enable camera (desktop or mobile) to test this feature. Additonally, use an item that contains both the barcode and it's human readable number
