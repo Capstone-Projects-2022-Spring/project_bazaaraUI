@@ -10,7 +10,7 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 > not needed for web app, access web page via [Web App Url](#web-app-url)
 
 ## Current Release 
-[v2.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v2.0.0)
+[v3.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v3.0.0)
 
 ## Testing
 [TESTING.md](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/blob/main/TESTING.md)
@@ -21,7 +21,8 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 - Terence Peterson
 - Rico Rodriguez
 
-
+## Linked Repositories 
+Backend: [project-bazarra](https://github.com/Capstone-Projects-2022-Spring/project-bazarra)
 
 # Getting Started with Create React App
 
