@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import List from '../../List/list'
 import Navbar from '../../NavBar/Navbar'
 import Footer from '../../Footer/Footer'
@@ -8,9 +8,14 @@ import axios from "axios";
 
 const HomeForm = (props) => {
 
+    const [list,setList]=React.useState([]);
+    const [savings,setSavings]=React.useState();
 // integrating w/ backend
 
 //for top3lists
+
+
+
 async function requestHometop3Data() {
     let currentJWT = null;
     let currentUID = null;
@@ -34,9 +39,9 @@ async function requestHometop3Data() {
               }
             }).then((response) => {
 
-                console.log(response);
+                console.log("TOP 3 : ",response);
 
-                
+                setList(response.data.message.top3Lists)
                     this.state.loaded = true;
                     this.forceUpdate();
 
@@ -77,9 +82,9 @@ async function requestHomesavingsData() {
               }
             }).then((response) => {
 
-                console.log(response);
+                console.log("Savings",response);
 
-                
+                setSavings(response.data.message.savings)
                     // this.state.loaded = true;
                     // this.forceUpdate();
 
@@ -98,11 +103,13 @@ async function requestHomesavingsData() {
 
 
   //api func calls
-  requestHometop3Data()
-  requestHomesavingsData()
-
-
-
+  
+  
+  useEffect(()=>{
+      requestHomesavingsData()
+      requestHometop3Data()
+  
+},[])
   return (
    
     <>
@@ -116,25 +123,23 @@ async function requestHomesavingsData() {
             <div className="flex  items-center justify-evenly p-3">
                 <div className="flex-col items-center justify-betweeen">
                     <div className="text-bold">Weekly</div>
-                    <div className="text-bold">$ 124.00</div>
+                  {savings &&  <div className="text-bold">$ {savings.weekly}</div>}
                     
                 </div>
                 <div className="flex-col items-center justify-betweeen">
                     <div className="text-bold">Monthly</div>
-                    <div className="text-bold">$ 124.00</div>
+                    {savings && <div className="text-bold">$ {savings.monthly}</div>}
                     
                 </div> <div className="flex-col items-center justify-betweeen">
                     <div className="text-bold">Yearly</div>
-                    <div className="text-bold">$ 124.00</div>
+                    {savings && <div className="text-bold">$ {savings.yearly}</div>}
                     
                 </div>
             </div>
         </main>
         <main className="flex flex-col bg-purple-100 md:max-w-lg rounded text-center  flex-col max-w-sm m-auto p-5">
           <div className="text-bold text-color">List</div>
-          <List/>
-          <List/>
-          <List/>
+          {list.map(item=><List key={item.id} label={item.label} price={item.savings} />)}
         </main>
         
         {/* create a slide show of company */}
