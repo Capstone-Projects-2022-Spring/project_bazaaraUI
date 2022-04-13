@@ -445,7 +445,8 @@ export class ShoppingListView extends React.Component {
                                     lists={this.state.lists} 
                                     currentList={this.state.currentList} 
                                     listIndex={this.state.listIndex} 
-                                    changeList={this.changeListHandler}/>
+                                    changeList={this.changeListHandler}
+                                    auth={this.props.auth}/>
                             <div className='sticky  bottom-0 left-0 w-full z-60'>
 
                 <Footer/>
