@@ -250,16 +250,24 @@ export class ShoppingListView extends React.Component {
                     <div className='px-4 max-w-[200px] w-full'>
                                 <ShoppingListSelection changeListHandler={this.changeListHandler} handleAddList={this.handleAddList} lists={this.state.lists} handleInput={this.handleInput} value={this.state.value} togglePop={this.togglePop} seen={this.state.seen}/>
                             </div>
-                            <div className='px-4 w-full justify-center items-center flex space-x-2 bg-purple-200'>
+                            <div className='px-4 w-full justify-center items-start flex space-x-2 bg-purple-200'>
                                     <div className='flex flex-col space-y-2'>
 
                                     <Link to={`/search`} className="">
                                         <button className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</button>                                   </Link>
                                     {this.state.deleteListMessage}
-                                    <ShoppingListDisplay displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
+                                    <ShoppingListDisplay 
+                                    displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
                                     </div>
-                                
-                            <ListManagementDropdown handleRemoveList={this.handleRemoveList} toggleRemoveItemButton={this.toggleRemoveItemButton} toggleRenameMenu={this.toggleRenameMenu}/>
+                                <div className='md:flex justify-start md:h-full items-start'>
+                                <ListManagementDropdown
+                             handleRemoveList={this.handleRemoveList} 
+                             toggleRemoveItemButton={this.toggleRemoveItemButton} 
+                             toggleRenameMenu={this.toggleRenameMenu}
+                                 
+                             />
+                                </div>
+                            
                             </div>
                     </section>
                     </section>

@@ -40,7 +40,7 @@ export default function ListManagementDropdown(props) {
 
     return (
         
-        <div>
+        <>
         <IconButton
           aria-label="more"
           id="long-button"
@@ -81,6 +81,6 @@ export default function ListManagementDropdown(props) {
         </MenuItem>
 
         </Menu>
-      </div>
+      </>
       );
 }
