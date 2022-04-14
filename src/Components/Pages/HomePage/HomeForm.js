@@ -5,12 +5,15 @@ import Footer from '../../Footer/Footer'
 import CAROUSEL from '../../Carousel'
 import ShoppingListView from '../ShoppingLists/ShoppingListView'
 import axios from "axios";
+import { CircularProgress } from '@mui/material'
 
 
 const HomeForm = (props) => {
 
     const [list,setList]=React.useState([]);
     const [savings,setSavings]=React.useState();
+    let loaded = false;
+
 // integrating w/ backend
 
 //for top3lists
@@ -61,6 +64,10 @@ async function requestHometop3Data() {
 
 // for savings 
 async function requestHomesavingsData() {
+    
+    while(loaded = false) {
+        
+    }
     let currentJWT = null;
     let currentUID = null;
 
@@ -101,23 +108,25 @@ async function requestHomesavingsData() {
     }
 
   }
-
-
+ 
+  
   //api func calls
   
-  
-  useEffect(()=>{
-      requestHomesavingsData()
-      requestHometop3Data()
+useEffect(()=>{
+
+    setTimeout(() => { requestHomesavingsData(); }, 500);
+    //requestHometop3Data();
+
+
   
 },[])
+
   return (
-   
     <>
      <Navbar/>
     <section className="max-w-[1200px] min-h-screen m-auto my-6">
     {/* remove my6 class */}
-      
+    
 
         <main className="flex flex-col  max-w-sm md:max-w-lg m-auto bg-purple-100 rounded text-center my-4 p-5">
             <div className="text-bold  text-color">Total Savings</div>
