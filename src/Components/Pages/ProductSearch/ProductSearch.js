@@ -7,6 +7,7 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import AddProductDialog from "./AddProductDialog";
+import axios from "axios";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,7 +63,9 @@ export function ProductSearch(props) {
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
-  
+
+  const auth = props.auth
+
   // a state to store the location 
   const [location, setLocation] = useState()
 
@@ -71,72 +74,135 @@ export function ProductSearch(props) {
     makeRequestForNewData()
   }, [])
   useEffect(() => {
-    
+
     if (!location) {
       if (!navigator.geolocation) {
         alert('Your browser does not support gelocation')
       }
-      else{
-        
+      else {
+
         navigator.geolocation.getCurrentPosition(
           (pos) => { alert("Successfully Retrieved Your Location"); console.log(pos) },
-          (err) => {alert('Cannot Find Nearby Stores Without Location Access')})
-        }
+          (err) => { alert('Cannot Find Nearby Stores Without Location Access') })
       }
-      
-    }, [location])
-    
-    useEffect(() => {
-      console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
-      console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
-      console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
-      console.log('Search text: ' + searchText)
-      makeRequestForNewData()
-    }, [pageNumber, pageSize, filter, sort, searchText])
-    
-    const columns = [
-      { renderCell: (params) => {
-        return (
-          <img src={params.row.img} alt={params.row.prod} />
-        )
-      }},
-      { field: 'prod', headerName: 'Product', width: 150 },
-      { field: 'price', headerName: 'Price ($)', width: 150 },
-      { field: 'store', headerName: 'Store', width: 150 },
-      { field: 'weight', headerName: 'Weight (oz.)', width: 150 }
-    ]
-    
-    function makeRequestForNewData() {
-      // send request to API endpoint
-      generateSampleData()
     }
-    
-    function generateSampleData() {
-      let input = [
-        { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 2, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 3, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 4, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 5, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 6, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 7, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 8, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 9, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 10, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 11, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 12, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 13, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 14, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 15, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 16, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 17, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 18, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 19, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 20, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+
+  }, [location])
+
+  useEffect(() => {
+    console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
+    console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
+    console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
+    console.log('Search text: ' + searchText)
+    makeRequestForNewData(formatSearchParams())
+  }, [pageNumber, pageSize, filter, sort, searchText])
+
+  function formatSearchParams() {
+    if (!filter.column) return ""
+
+    // API is only configured to handle filtering params atm, so this only handles filter params
+    switch (filter.column) {
+      case 'store': return ("store=" + filter.value)
+      case 'price': return ("price=" + filter.value)
+      case 'name': return ("name=" + filter.value)
+      default: return ""
+    }
+  }
+
+  const columns = [
+    {
+      renderCell: (params) => {
+        return (
+          <img src={params.row.image_url} alt={params.row.name} />
+        )
+      }
+    },
+    { field: 'id', hide: true },
+    { field: 'name', headerName: 'Product', width: 150, valueFormatter: (params) => {
+      if (params.value.includes(' ')) {
+        const arrOrig = params.value.split(' ')
+        const arrFormatted = arrOrig.map((word) => {
+          return (word.slice(0,1).toUpperCase() + word.slice(1))
+        })
+        return arrFormatted.join(' ')
+      }
+
+      return (params.value.slice(0,1).toUpperCase() + params.value.slice(1))
+    } },
+    { field: 'price', headerName: 'Price', width: 150, valueFormatter: (params) => {
+      if (!params.value.toString().includes('.')) {
+        return `$${params.value}.00`
+      }
+
+      return `$${params.value}`
+    }},
+    { field: 'productId', hide: true},
+    { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`}},
+    { field: 'upc_code', hide: true },
+    { field: 'weight', headerName: 'Weight (oz.)', width: 150 },
+  ]
+
+  async function makeRequestForNewData(searchParams) {
+    let currentJWT;
+    try {
+      currentJWT = await auth.currentUser.getIdToken(true);
+    } catch (err) {
+      console.log("Error retrieving id token")
+      console.log(err.message);
+    } finally {
+      // send request to API endpoint
+      try {
+        await axios.get(`https://bazaara-342116.uk.r.appspot.com/products/search?${searchParams}`, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+            "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+            "Authorization": currentJWT,
+          }
+        }).then((response) => {
+          console.log('Response from ProductSearch#makeRequestForNewData')
+          console.log(response)
+          const responseData = response.data.message.map((row) => {
+            row.id = row._id
+          })
+          setRows(response.data.message)
+
+        });
+        // generateSampleData()
+      } catch (error) {
+
+        console.log('Error in ProductSearch#makeRequestForNewData')
+        console.log(error)
+      }
+    }
+  }
+
+  function generateSampleData() {
+    let input = [
+      { id: 1, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 2, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 3, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 4, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 5, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 6, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 7, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 8, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 9, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 10, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 11, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 12, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 13, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 14, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 15, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 16, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 17, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 18, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 19, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 20, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
     ]
     input.map((entry) => entry.img = require('./product_placeholder.png'))
     if (searchText)
-      input = input.filter(item => item.prod.toLowerCase().includes(searchText))
+      input = input.filter(item => item.name.toLowerCase().includes(searchText))
 
     setRowCount(input.length)
     input = input.slice(pageNumber * pageSize, pageNumber * pageSize + pageSize)
@@ -166,9 +232,9 @@ export function ProductSearch(props) {
   }
 
   function productClicked(param, event) {
-    //alert(JSON.stringify(param.row.prod));
-    props.addProduct(param.row.prod, param.row.weight, param.row.price, param.row.store);
-    setMessage(param.row.prod + " added to " + props.lists[props.listIndex].name + "!");
+    //alert(JSON.stringify(param.row.name));
+    props.addProduct(param.row.name, param.row.weight, param.row.price, param.row.store);
+    setMessage(param.row.name + " added to " + props.lists[props.listIndex].name + "!");
     //alert(JSON.stringify(props.lists[props.listIndex].name));
     setTimeout(() => setMessage(""), 3000);
   }
@@ -178,39 +244,39 @@ export function ProductSearch(props) {
       <Navbar />
       <section className='min-h-screen mb-[200px]'>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ height: '100vh', width: '75%' }}>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              autoFocus
-              onChange={handleSearchTextChange}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ height: '100vh', width: '75%' }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                autoFocus
+                onChange={handleSearchTextChange}
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+            <AddProductDialog loaded={props.loaded} lists={props.lists} selectedList={props.currentList} changeList={props.changeList} />
+            {message}
+            <br />
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              page={pageNumber}
+              pageSize={pageSize}
+              rowCount={rowCount}
+              filterMode='server'
+              sortingMode='sever'
+              paginationMode='server'
+              onFilterModelChange={handleFilterModelChange}
+              onSortModelChange={handleSortModelChange}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              onRowClick={productClicked}
             />
-          </Search>
-          <AddProductDialog loaded={props.loaded} lists={props.lists} selectedList={props.currentList} changeList={props.changeList} />
-          {message}
-          <br />
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            page={pageNumber}
-            pageSize={pageSize}
-            rowCount={rowCount}
-            filterMode='server'
-            sortingMode='sever'
-            paginationMode='server'
-            onFilterModelChange={handleFilterModelChange}
-            onSortModelChange={handleSortModelChange}
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-            onRowClick={productClicked}
-          />
+          </div>
         </div>
-      </div>
       </section>
       {/* <Footer /> */}
     </>
