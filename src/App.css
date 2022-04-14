@@ -37,11 +37,11 @@
   }
 }
 
-/* #quagga-scanner > video{
-  width: 100%;
-  height: 100%;
+#quagga-scanner > video{
+  width: 640px;
+  height: 480px;
 }
 #scanner-container > canvas.drawing, canvas.drawingBuffer {
-  width: 120px;
-  height: 20px;   
-} */
+  width: 640px;
+  height: 480px;   
+}
