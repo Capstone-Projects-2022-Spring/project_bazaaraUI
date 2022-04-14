@@ -242,7 +242,7 @@ export function ProductSearch(props) {
   return (
     <>
       <Navbar />
-      <section className='min-h-screen mb-[200px]'>
+      <section className='min-h-screen-2xl mb-[200px]'>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ height: '100vh', width: '75%' }}>
