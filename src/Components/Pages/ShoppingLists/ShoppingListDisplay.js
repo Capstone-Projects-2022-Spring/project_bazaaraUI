@@ -2,8 +2,6 @@ import React from 'react';
 import './styles.css';
 import ProductCard from './Product'
 
-import axios from 'axios';
-
 export class ShoppingListDisplay extends React.Component {
     
     render() {

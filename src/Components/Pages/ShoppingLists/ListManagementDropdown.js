@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import './styles.css';
 
 const ITEM_HEIGHT = 48;
-//<button className="smallButton" onClick={props.handleRemoveList}>delete</button>
+
 export default function ListManagementDropdown(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
