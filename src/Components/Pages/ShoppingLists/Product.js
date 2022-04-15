@@ -43,7 +43,10 @@ export default function ProductCard(props) {
           </div>
           <CardActions class="card__actions">
             <button></button> 
-            <div className={props.hideButton? 'hideRemoveButton' : undefined}><button onClick={(e) => props.removeProduct(props.clicked, e)}>Remove from list&nbsp;&nbsp;&nbsp;</button></div>
+
+            
+            <div className={props.hideButton? 'hideRemoveButton' : undefined}><div className='bg-green-500 rounded-full w-28 h-4 text-xs' ><button onClick={(e) => props.removeProduct(props.clicked, e)}>&nbsp;&nbsp;&nbsp;Remove from list&nbsp;&nbsp;&nbsp;</button></div></div>
+
           </CardActions>
         </Card>
         </div>

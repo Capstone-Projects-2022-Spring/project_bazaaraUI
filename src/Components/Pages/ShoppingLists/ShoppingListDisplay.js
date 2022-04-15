@@ -14,7 +14,7 @@ export class ShoppingListDisplay extends React.Component {
                 <p className='text-xl font-semibold'>{this.props.currentList.label}</p>
                 <div className={this.props.hideRenameView? 'hideRenameMenu' : undefined}>
                     <input type="text" className='px-2 text-sm w-48 mr-0 py-1 rounded-full  bg-gray-100 border-2 border-2 border-purple-300' placeholder="Enter updated list name" onChange={(e) => this.props.handleInput(e)}/>
-                    <button onClick={(e) => this.props.renameList(this.props.value, e)}>Update</button>
+                    <button className='bg-green-500 rounded-full w-28 h-8 text-sm'  onClick={(e) => this.props.renameList(this.props.value, e)}>Update</button>
                 </div>
                 <p>Total Cost: ${this.props.totalCost}</p>
                 {        
