@@ -12,114 +12,102 @@ const HomeForm = (props) => {
 
     const [list,setList]=React.useState([]);
     const [savings,setSavings]=React.useState();
-    let loaded = false;
 
 // integrating w/ backend
+// for top3lists
 
-//for top3lists
+    async function requestHometop3Data() {
+        let currentJWT = null;
+        let currentUID = null;
 
-
-
-async function requestHometop3Data() {
-    let currentJWT = null;
-    let currentUID = null;
-
-    try {
-        currentJWT = await props.auth.currentUser.getIdToken(true);
-    } catch (err) {
-        console.log(err.message);
-    }
-     
-    //console.log(currentJWT)
-    try {
-        currentUID = await props.auth.currentUser.uid;
         try {
-            await axios.get(`https://bazaara-342116.uk.r.appspot.com/lists/top3/${currentUID}`, {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
-                "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
-                "Authorization": currentJWT,
-              }
-            }).then((response) => {
-
-                console.log("TOP 3 : ",response);
-
-                setList(response.data.message.top3Lists)
-                    this.state.loaded = true;
-                    this.forceUpdate();
-
-
-            });
-          } catch (err) {
-              console.log(err.message);
-              return err.message;
-          }
-    } catch (err) {
-        console.log(err.message);
-        //window.location.replace('/');
-    }
-
-  }
-
-// for savings 
-async function requestHomesavingsData() {
-    
-    while(loaded = false) {
+            currentJWT = await props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
         
-    }
-    let currentJWT = null;
-    let currentUID = null;
-
-    try {
-        currentJWT = await props.auth.currentUser.getIdToken(true);
-    } catch (err) {
-        console.log(err.message);
-    }
-     
-    //console.log(currentJWT)
-    try {
-        currentUID = await props.auth.currentUser.uid;
+        //console.log(currentJWT)
         try {
-            await axios.get(`https://bazaara-342116.uk.r.appspot.com/user/${currentUID}/savings`, {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
-                "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
-                "Authorization": currentJWT,
-              }
-            }).then((response) => {
+            currentUID = await props.auth.currentUser.uid;
+            try {
+                await axios.get(`https://bazaara-342116.uk.r.appspot.com/lists/top3/${currentUID}`, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                }
+                }).then((response) => {
 
-                console.log("Savings",response);
+                    console.log("TOP 3 : ",response);
 
-                setSavings(response.data.message.savings)
-                    // this.state.loaded = true;
-                    // this.forceUpdate();
+                    setList(response.data.message.top3Lists)
+                        this.state.loaded = true;
+                        this.forceUpdate();
 
 
-            });
-          } catch (err) {
-              console.log(err.message);
-              return err.message;
-          }
-    } catch (err) {
-        console.log(err.message);
-        //window.location.replace('/');
+                });
+            } catch (err) {
+                console.log(err.message);
+                return err.message;
+            }
+        } catch (err) {
+            console.log(err.message);
+            //window.location.replace('/');
+        }
+
     }
 
-  }
+    // for savings 
+    async function requestHomesavingsData() {
+        let currentJWT = null;
+        let currentUID = null;
+
+        try {
+            currentJWT = await props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
+        
+        //console.log(currentJWT)
+        try {
+            currentUID = await props.auth.currentUser.uid;
+            try {
+                await axios.get(`https://bazaara-342116.uk.r.appspot.com/user/${currentUID}/savings`, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                }
+                }).then((response) => {
+
+                    console.log("Savings",response);
+
+                    setSavings(response.data.message.savings)
+                        // this.state.loaded = true;
+                        // this.forceUpdate();
+
+
+                });
+            } catch (err) {
+                console.log(err.message);
+                return err.message;
+            }
+        } catch (err) {
+            console.log(err.message);
+            //window.location.replace('/');
+        }
+
+    }
  
   
   //api func calls
   
-useEffect(()=>{
-
-    setTimeout(() => { requestHomesavingsData(); }, 500);
-    //requestHometop3Data();
-
-
-  
-},[])
+    useEffect(()=>{
+        setTimeout(() => { requestHomesavingsData(); }, 500);
+        setTimeout(() => { requestHometop3Data(); }, 500);
+    },[])
 
   return (
     <>
@@ -148,7 +136,7 @@ useEffect(()=>{
             </div>
         </main>
         <main className="flex flex-col bg-purple-100 md:max-w-lg rounded text-center  flex-col max-w-sm m-auto p-5">
-          <div className="text-bold text-color">List</div>
+          <div className="text-bold text-color">Shopping Lists</div>
           {list.map(item=><List key={item.id} label={item.label} price={item.savings} />)}
         </main>
         
