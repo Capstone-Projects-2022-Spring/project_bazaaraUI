@@ -3,58 +3,6 @@ import Navbar from '../../NavBar/Navbar'
 import Footer from '../../Footer/Footer'
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
-// const Barcode = () => {
-
-//   const [visible, setvisible] = useState(false)
-//   const [streamenable, setstreamenable] = useState(false)
-//   const [data, setData] = React.useState("");
-//   return (
-//     <>
-//       {
-//         visible ?
-//           <BarcodeScannerComponent
-//             width={500}
-//             height={500}
-//             stopStream={streamenable}
-//             onUpdate={(err, result) => {
-
-//               if (result) setData(result.text);
-//               else setData("");
-//             }}
-//           />
-//           : null
-//       }
-
-
-//       <button
-//         onClick={() => setvisible(true)}
-//       >
-//         Click to scan
-//       </button>
-//       <button
-//         onClick={() => setstreamenable(true)}
-//       >
-//         Click to capture
-//       </button>
-
-//       <input 
-//         placeholder={"hello"}
-//         value={data}
-//       />
-//       {/* <p>{data}</p> */}
-
-//     </>
-//   )
-// }
-
-// export default Barcode
-
-
-
-
-
-
-
 
 const Report = () => {
   const firstUpdate = useRef(true);
