@@ -221,9 +221,6 @@ export class ShoppingListView extends React.Component {
         return temp.toFixed(2);
     }
 
-
-
-
     render() {
         let component = null;
 
@@ -233,7 +230,7 @@ export class ShoppingListView extends React.Component {
 
                 <ProductSearch addProduct={this.handleAddProduct} 
                 lists={this.state.lists} listIndex={this.state.listIndex} 
-                changeList={this.changeListHandler}/>
+                changeList={this.changeListHandler} />
                 {/* <div className='sticky  bottom-0 left-0 w-full z-60'> */}
 
                 <Footer/>
