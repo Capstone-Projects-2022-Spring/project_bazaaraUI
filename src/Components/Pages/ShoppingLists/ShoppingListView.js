@@ -9,6 +9,7 @@ import Footer from '../../Footer/Footer'
 import { ProductSearch } from '../ProductSearch/ProductSearch';
 import ErrorPage from "../404Page/ErrorPage"
 import { Link } from "react-router-dom";
+import { Thermostat } from '@mui/icons-material';
 
 export class ShoppingListView extends React.Component {
     
@@ -45,10 +46,12 @@ export class ShoppingListView extends React.Component {
                 listIndex: newIndex,
                 //currentList: ShoppingListCollection.collection[newIndex].productCollection,
         })
+        return this.state.listIndex;
     }
 
     handleInput(event) {
         this.setState({value: event.target.value});
+        return this.state.value;
     }
 
     handleRenameInput(event) {
@@ -90,7 +93,9 @@ export class ShoppingListView extends React.Component {
                     lists: temp,
                 }
             });
+            return this.state.lists[this.state.lists.length-1].name;
         }
+        return -1;
 
     }
 
@@ -122,7 +127,9 @@ export class ShoppingListView extends React.Component {
                     lists: temp,
                 }
             })
+            return this.state.lists[this.state.listIndex].name;
         }
+        return -1;
     }
 
     handleRemoveList = () => {
@@ -155,8 +162,9 @@ export class ShoppingListView extends React.Component {
                     lists: temp,
                 }
             })
+            return 0;
         }
-
+        return 1;
 
     }
 
@@ -190,6 +198,8 @@ export class ShoppingListView extends React.Component {
                 lists: temp,
             }
         });
+
+        return 0;
     }
 
     handleRemoveProduct = (clickedIndex) => {
@@ -209,17 +219,20 @@ export class ShoppingListView extends React.Component {
         });
 
         //alert('temp list:' + JSON.stringify(temp))
+        return 0;
     }
 
-    calculateTotalListPrice() {
+    calculateTotalListPrice(list) {
        let temp = 0;
 
-        this.state.lists[this.state.listIndex].productCollection.map((product) => (
+        list.map((product) => (
                 temp += product.price
         ))
         
         return temp.toFixed(2);
     }
+
+
 
     render() {
         let component = null;
@@ -254,7 +267,7 @@ export class ShoppingListView extends React.Component {
                                         <button className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</button>                                   </Link>
                                     {this.state.deleteListMessage}
                                     <ShoppingListDisplay 
-                                    displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
+                                    displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice(this.state.lists[this.state.listIndex].productCollection)}/>
                                     </div>
                                 <div className='md:flex justify-start md:h-full items-start'>
                                 <ListManagementDropdown
