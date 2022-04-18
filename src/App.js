@@ -205,7 +205,7 @@ export default function App() {
         {/* very messy but ProductSearch is now a child of ShoppingListView so they can access the same list state variable*/}
         <Route path="/lists" element={<ShoppingListView pageIndex={1} />} />
         <Route path="/search" element={<ShoppingListView pageIndex={0} />} />
-        <Route path="/report" element={<Report />} />
+        <Route path="/report" element={<Report auth={auth}/>} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
