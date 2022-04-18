@@ -7,6 +7,8 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import AddProductDialog from "./AddProductDialog";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Link } from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -172,6 +174,7 @@ export function ProductSearch(props) {
     setTimeout(() => setMessage(""), 3000);
   }
 
+
   return (
     <>
       <Navbar />
@@ -190,8 +193,13 @@ export function ProductSearch(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
+          
+          <div className="userOptions">
+            <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
+            <Link to={`/lists`} className='px-1 py-1 text-sm rounded-full text-white bg-purple-600'><ArrowBackIcon />Back to Shopping Lists</Link>
+          </div>
           {message}
+          
           <br />
           <DataGrid
             rows={rows}
