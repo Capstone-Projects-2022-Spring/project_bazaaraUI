@@ -6,8 +6,10 @@ import Navbar from '../../NavBar/Navbar'
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import { useSnackbar } from 'notistack';
 import AddProductDialog from "./AddProductDialog";
 import axios from "axios";
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,15 +56,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
 export function ProductSearch(props) {
   const [searchText, setSearchText] = useState(null)
-  const [message, setMessage] = React.useState("")
   const [rows, setRows] = useState([])
   const [filter, setFilter] = useState({ column: undefined, value: undefined })
   const [sort, setSort] = useState({ column: undefined, order: undefined })
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const auth = props.auth
 
@@ -231,13 +236,14 @@ export function ProductSearch(props) {
     setPageSize(pageSize)
   }
 
-  function productClicked(param, event) {
-    //alert(JSON.stringify(param.row.name));
-    props.addProduct(param.row.name, param.row.weight, param.row.price, param.row.store);
-    setMessage(param.row.name + " added to " + props.lists[props.listIndex].name + "!");
+  function productClicked(param) {
+    let variant = 'success'
+    //alert(JSON.stringify(param.row.id));
+    props.addProduct(param.row.id);
     //alert(JSON.stringify(props.lists[props.listIndex].name));
-    setTimeout(() => setMessage(""), 3000);
+    enqueueSnackbar(param.row.name + " added to " + props.lists[props.listIndex].label + "!", { variant });
   }
+
 
   return (
     <>
@@ -258,7 +264,6 @@ export function ProductSearch(props) {
               />
             </Search>
             <AddProductDialog loaded={props.loaded} lists={props.lists} selectedList={props.currentList} changeList={props.changeList} />
-            {message}
             <br />
             <DataGrid
               rows={rows}
@@ -278,7 +283,7 @@ export function ProductSearch(props) {
           </div>
         </div>
       </section>
-      {/* <Footer /> */}
+      {/* <Footer /> */}            
     </>
   );
 }

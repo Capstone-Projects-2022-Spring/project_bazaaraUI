@@ -10,6 +10,7 @@ import ErrorPage from "../404Page/ErrorPage"
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 
 export class ShoppingListView extends React.Component {
     
@@ -287,7 +288,7 @@ export class ShoppingListView extends React.Component {
 
     // save state of the index of list you wanna add product to.
     // button redirects to product search page + the index of shopping list saved so default add to is selected list
-    handleAddProduct = async() => {
+    handleAddProduct = async(productId) => {
 
         // add dummy product for now with api
         let currentJWT = null;
@@ -305,7 +306,7 @@ export class ShoppingListView extends React.Component {
             try {
                 await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/add/${currentUID}/product`,
                  {
-                    productId: "624220c641d8734c90b3ece6",
+                    productId: productId,
                     listIdx: this.state.listIndex,
                  },
                  {
@@ -345,7 +346,7 @@ export class ShoppingListView extends React.Component {
             try {
                 await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/delete/${currentUID}/product`,
                 {
-                    productId: "624220c641d8734c90b3ece6",
+                    productId: this.state.lists[this.state.listIndex].products[clickedIndex]._id,
                     listIdx: this.state.listIndex,
                  },
                  {
@@ -403,7 +404,7 @@ export class ShoppingListView extends React.Component {
                   }
                 }).then((response) => {
 
-                    console.log(response);
+                    //console.log("Shopping List Data", response);
 
                     let tempLists = response.data.message;
 
@@ -439,7 +440,8 @@ export class ShoppingListView extends React.Component {
         switch(this.props.pageIndex) {
             case 0:
                 component = <><div className='grid grid-rows-auto'>
-                                <ProductSearch 
+                                <SnackbarProvider maxSnack={3}>
+                                    <ProductSearch 
                                     loaded={this.state.loaded} 
                                     addProduct={this.handleAddProduct}
                                     lists={this.state.lists} 
@@ -447,6 +449,7 @@ export class ShoppingListView extends React.Component {
                                     listIndex={this.state.listIndex} 
                                     changeList={this.changeListHandler}
                                     auth={this.props.auth}/>
+                                </SnackbarProvider>
                 {/* <div className='sticky  bottom-0 left-0 w-full z-60'> */}
 
                 <Footer/>
