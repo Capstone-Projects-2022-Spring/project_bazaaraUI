@@ -12,6 +12,8 @@ import { ShoppingListCollection } from './ShoppingList';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+
+// UNIT TESTS
 // testing that parent and child components render successfully
 test("ShoppingListView renders successfully", () => {
     shallow(<ShoppingListView pageIndex={1}/>);
