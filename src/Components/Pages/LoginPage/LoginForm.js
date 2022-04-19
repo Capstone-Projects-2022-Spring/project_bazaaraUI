@@ -36,15 +36,10 @@ export function LoginForm({ handleLogin, emailErrorMessage, passwordErrorMessage
     <div id="alternativeLogin">
       <label>Or sign in with:</label>
       <div id="iconGroup">
-        <Facebook />&nbsp;&nbsp;
         <Twitter />&nbsp;&nbsp;
         <Google />&nbsp;&nbsp;
       </div>
     </div>
-  );
-
-  const Facebook = props => (
-    <a id="facebookIcon"></a>
   );
 
   const Twitter = props => (

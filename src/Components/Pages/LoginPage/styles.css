@@ -106,14 +106,6 @@ html{
   justify-content: center;
 }
 
-#facebookIcon{
-  background-image: url("../../../../res/facebook.png");
-  background-size: 3rem;
-  background-repeat: no-repeat;
-  width: 3rem;
-  height: 3rem;
-}
-
 #twitterIcon{
   background-image: url("../../../../res/twitter.png");
   background-size: 3rem;
