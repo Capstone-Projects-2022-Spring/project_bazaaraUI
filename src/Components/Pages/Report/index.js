@@ -61,6 +61,7 @@ const [streamenable, setstreamenable] = useState(false)
 const handleSubmit = () => {
   if (barcode.length > 0 && price.length > 0) {
     alert('Report sent successfully')
+    requestReportUpcPriceData();
     setBarcode('')
     setPrice('')
     setIsStart(false)
@@ -70,9 +71,9 @@ const handleSubmit = () => {
 }
 
 
-useEffect(()=>{
-  setTimeout(() => { requestReportUpcPriceData(); }, 500);
-},[])
+// useEffect(()=>{
+//   setTimeout(() => { }, 500);
+// },[])
 
 return (
   <>
