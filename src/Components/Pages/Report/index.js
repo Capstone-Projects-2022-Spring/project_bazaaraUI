@@ -6,7 +6,8 @@ import axios from "axios";
 
 
 const Report = (props) => {
-
+  
+  
   //for upc and price
   async function requestReportUpcPriceData() {
     let currentJWT = null;
@@ -24,8 +25,8 @@ const Report = (props) => {
       try {
         await axios.post(`https://bazaara-342116.uk.r.appspot.com/products/barcode/add`, 
           {
-            "upc_code": 4590,
-            "price": 45.67,
+            "upc_code": barcode,
+            "price": price,
           }, {
           headers: {
           "Access-Control-Allow-Origin": "*",
