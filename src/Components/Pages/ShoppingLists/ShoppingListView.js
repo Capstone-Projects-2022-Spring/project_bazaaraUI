@@ -379,6 +379,56 @@ export class ShoppingListView extends React.Component {
         ))
         return temp.toFixed(2);
     }
+    
+    // populate lists state variable with user's lists stored in database
+    requestShoppingListData = async() => {
+        let currentJWT = null;
+        let currentUID = null;
+
+        try {
+            currentJWT = await this.props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
+
+        //console.log(currentJWT)
+        try {
+            currentUID = await this.props.auth.currentUser.uid;
+            try {
+                await axios.get(`https://bazaara-342116.uk.r.appspot.com/lists/${currentUID}`, {
+                  headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                  }
+                }).then((response) => {
+
+                    //console.log("Shopping List Data", response);
+
+                    let tempLists = response.data.message;
+
+                        this.setState(() => {
+                            return {
+                                lists: tempLists,
+                                currentList: response.data.message[this.state.listIndex],
+                            }
+                        })
+                        this.state.loaded = true;
+                        this.forceUpdate();
+
+
+                });
+              } catch (err) {
+                  console.log(err.message);
+                  return err.message;
+              }
+        } catch (err) {
+            console.log(err.message);
+            window.location.replace('/');
+        }
+
+      }
 
     render() {
         let component = null;
