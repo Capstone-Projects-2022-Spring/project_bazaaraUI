@@ -11,7 +11,6 @@ const Report = (props) => {
   //for upc and price
   async function requestReportUpcPriceData() {
     let currentJWT = null;
-    let currentUID = null;
 
     try {
       currentJWT = await props.auth.currentUser.getIdToken(true);
@@ -20,38 +19,33 @@ const Report = (props) => {
     }
 
     //console.log(currentJWT)
+
     try {
-      currentUID = await props.auth.currentUser.uid;
-      try {
-        await axios.post(`https://bazaara-342116.uk.r.appspot.com/products/barcode/add`, 
-          {
-            "upc_code": barcode,
-            "price": price,
-          }, {
-          headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
-          "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
-          "Authorization": currentJWT,
-        }
-        }).then((response) => {
+      await axios.post(`https://bazaara-342116.uk.r.appspot.com/products/barcode/add`, 
+        {
+          "upc_code": barcode,
+          "price": price,
+        }, {
+        headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+        "Authorization": currentJWT,
+      }
+      }).then((response) => {
 
-          console.log(response);
+        console.log(response);
 
 
-          this.state.loaded = true;
-          this.forceUpdate();
+        this.state.loaded = true;
+        this.forceUpdate();
 
 
-        });
+      });
     } catch (err) {
       console.log(err.message);
       return err.message;
     }
-  } catch (err) {
-    console.log(err.message);
-    //window.location.replace('/');
-  }
 
 }
 
