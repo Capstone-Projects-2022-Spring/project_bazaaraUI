@@ -75,7 +75,10 @@ const handleSubmit = () => {
   }
 }
 
-requestReportUpcPriceData()
+
+useEffect(()=>{
+  setTimeout(() => { requestReportUpcPriceData(); }, 500);
+},[])
 
 return (
   <>
