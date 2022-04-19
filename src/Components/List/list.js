@@ -1,6 +1,6 @@
 import React from 'react'
 
-const List = () => {
+const List = ({label,price}) => {
     return (
         <>
             <main className="flex justify-evenly items-center p-3 w-full">
@@ -10,10 +10,10 @@ const List = () => {
                     </svg>
                 </div>
                 <div className="text-bold">
-                    Snacks
+                    {label}
                 </div>
                 <div>
-                $123.00
+                ${price}
                 </div>
             </main>
         </>

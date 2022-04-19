@@ -25,7 +25,7 @@ export default function AlertDialog(props) {
   return (
     <div>
       <button onClick={handleClickOpen} className="px-2 py-1 text-sm rounded-full text-white bg-purple-600">
-        Adding Products To: {props.selectedList.name}
+        Adding Products To: {props.selectedList.label}
       </button>
       <Dialog
         open={open}
@@ -46,7 +46,7 @@ export default function AlertDialog(props) {
 
         <List sx={{ pt: 0 }}>
             {props.lists.map((list, index) => (
-                <ListItem><button className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" onClick={() => changeCurrentList(index)}>{list.name} </button></ListItem>
+                <ListItem><button className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" onClick={() => changeCurrentList(index)}>{list.label} </button></ListItem>
 
             ))}
         </List>
