@@ -71,6 +71,13 @@ const handleSubmit = () => {
   }
 }
 
+// const startAgain = () => {
+//   setTimeout(() => {
+//     setstreamenable(false)
+//     setIsStart(false)
+//     setIsStart(true)
+//   }, 5000)
+// }
 
 // useEffect(()=>{
 //   setTimeout(() => { }, 500);
@@ -88,11 +95,19 @@ return (
             <BarcodeScannerComponent
               width={500}
               height={500}
+              //facingMode="environment"
+              //delay={2000}
               stopStream={streamenable}
               onUpdate={(err, result) => {
-
-                if (result) setBarcode(result.text);
-                else setBarcode("");
+                if(result){
+                  //setstreamenable(true)
+                  setBarcode(result.text)
+                  //startAgain()
+                }else{
+                  setstreamenable(false)
+                }
+                // if (result) setBarcode(result.text);
+                // else setBarcode("");
               }}
             />
             : null
