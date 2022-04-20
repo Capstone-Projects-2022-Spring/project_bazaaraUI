@@ -103,6 +103,7 @@ export default function App() {
         // Signed in
         console.log('Login successful. Current user: ' + userCredential.user)
         window.location.assign('/home')
+      
       })
       .catch((error) => {
         switch (error.code) {
@@ -203,8 +204,8 @@ export default function App() {
         />} />
         <Route path="/home" element={<HomeForm auth={auth} />} />
         {/* very messy but ProductSearch is now a child of ShoppingListView so they can access the same list state variable*/}
-        <Route path="/lists" element={<ShoppingListView pageIndex={1} />} />
-        <Route path="/search" element={<ShoppingListView pageIndex={0} />} />
+        <Route path="/lists" element={<ShoppingListView pageIndex={1} auth={auth} />} />
+        <Route path="/search" element={<ShoppingListView pageIndex={0} auth={auth} />} />
         <Route path="/report" element={<Report />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<ErrorPage />} />
