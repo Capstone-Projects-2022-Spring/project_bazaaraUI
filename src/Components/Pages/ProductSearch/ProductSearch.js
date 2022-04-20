@@ -105,6 +105,7 @@ export function ProductSearch(props) {
   }, [pageNumber, pageSize, filter, sort, searchText])
 
   function formatSearchParams() {
+    if (searchText) return ("name=" + searchText)
     if (!filter.column) return ""
 
     // API is only configured to handle filtering params atm, so this only handles filter params
