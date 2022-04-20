@@ -23,8 +23,8 @@ const Report = (props) => {
     try {
       await axios.post(`https://bazaara-342116.uk.r.appspot.com/products/barcode/add`, 
         {
-          "upc_code": barcode,
-          "price": price,
+          "upc_code": String(barcode),
+          "price": Number(price),
         }, {
         headers: {
         "Access-Control-Allow-Origin": "*",
@@ -65,6 +65,7 @@ const handleSubmit = () => {
     setBarcode('')
     setPrice('')
     setIsStart(false)
+    setstreamenable(false)
   } else {
     alert('Please Enter Price!!')
   }
