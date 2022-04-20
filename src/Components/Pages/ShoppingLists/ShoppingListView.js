@@ -382,7 +382,7 @@ export class ShoppingListView extends React.Component {
         ))
         return temp.toFixed(2);
     }
-
+    
     // populate lists state variable with user's lists stored in database
     requestShoppingListData = async() => {
         let currentJWT = null;
@@ -393,7 +393,7 @@ export class ShoppingListView extends React.Component {
         } catch (err) {
             console.log(err.message);
         }
-         
+
         //console.log(currentJWT)
         try {
             currentUID = await this.props.auth.currentUser.uid;
