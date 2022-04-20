@@ -55,10 +55,12 @@ export class ShoppingListView extends React.Component {
                 currentList: this.state.lists[newIndex]
                 //currentList: ShoppingListCollection.collection[newIndex].productCollection,
         })
+        return this.state.listIndex;
     }
 
     handleInput(event) {
         this.setState({value: event.target.value});
+        return this.state.value;
     }
 
     handleAddList = async(name) => {
@@ -126,6 +128,7 @@ export class ShoppingListView extends React.Component {
             this.requestShoppingListData();
 
         }
+        return -1;
 
     }
 
@@ -264,7 +267,7 @@ export class ShoppingListView extends React.Component {
             
             this.requestShoppingListData();
         }
-
+        return 1;
 
     }
 
@@ -429,7 +432,6 @@ export class ShoppingListView extends React.Component {
         }
 
       }
-
 
     render() {
         let component = null;

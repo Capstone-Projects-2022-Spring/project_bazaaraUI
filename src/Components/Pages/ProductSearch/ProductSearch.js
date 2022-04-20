@@ -10,6 +10,8 @@ import { useSnackbar } from 'notistack';
 import AddProductDialog from "./AddProductDialog";
 import axios from "axios";
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Link } from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
