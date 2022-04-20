@@ -104,7 +104,7 @@ export function ProductSearch(props) {
     makeRequestForNewData(formatSearchParams())
   }, [pageNumber, pageSize, filter, sort, searchText])
 
-  function formatSearchParams() {
+  function determineFilterParam() {
     if (searchText) return ("name=" + searchText)
     if (!filter.column) return ""
 
@@ -127,7 +127,7 @@ export function ProductSearch(props) {
   }
 
   function 
-    SearchParams() {
+    formatSearchParams() {
     const filterParam = determineFilterParam()
     const [sortParam, orderParam] = determineSortParam()
     const pageParam = determinePageParam()
