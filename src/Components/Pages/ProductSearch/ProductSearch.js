@@ -104,16 +104,33 @@ export function ProductSearch(props) {
     makeRequestForNewData(formatSearchParams())
   }, [pageNumber, pageSize, filter, sort, searchText])
 
-  function formatSearchParams() {
+  function determineFilterParam() {
     if (!filter.column) return ""
 
-    // API is only configured to handle filtering params atm, so this only handles filter params
     switch (filter.column) {
       case 'store': return ("store=" + filter.value)
       case 'price': return ("price=" + filter.value)
       case 'name': return ("name=" + filter.value)
       default: return ""
     }
+  }
+
+  function determineSortParam() {
+    if (!sort.column) return [null, null]
+
+    return [sort.column, sort.order]
+  }
+
+  function determinePageParam() {
+    return pageNumber+1 // backend starts counting at page 1
+  }
+
+  function formatSearchParams() {
+    const filterParam = determineFilterParam()
+    const [sortParam, orderParam] = determineSortParam()
+    const pageParam = determinePageParam()
+
+    return (filterParam?? "" + (sortParam ? (sortParam + orderParam) : "") + pageParam?? "")
   }
 
   const columns = [
