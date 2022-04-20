@@ -382,11 +382,7 @@ export class ShoppingListView extends React.Component {
         ))
         return temp.toFixed(2);
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> origin/development
     // populate lists state variable with user's lists stored in database
     requestShoppingListData = async() => {
         let currentJWT = null;
@@ -446,18 +442,6 @@ export class ShoppingListView extends React.Component {
         switch(this.props.pageIndex) {
             case 0:
                 component = <><div className='grid grid-rows-auto'>
-<<<<<<< HEAD
-                        <SnackbarProvider maxSnack={3}>
-                            <ProductSearch 
-                            loaded={this.state.loaded} 
-                            addProduct={this.handleAddProduct}
-                            lists={this.state.lists} 
-                            currentList={this.state.currentList} 
-                            listIndex={this.state.listIndex} 
-                            changeList={this.changeListHandler}
-                            auth={this.props.auth}/>
-                        </SnackbarProvider>
-=======
                                 <SnackbarProvider maxSnack={3}>
                                     <ProductSearch 
                                     loaded={this.state.loaded} 
@@ -468,7 +452,6 @@ export class ShoppingListView extends React.Component {
                                     changeList={this.changeListHandler}
                                     auth={this.props.auth}/>
                                 </SnackbarProvider>
->>>>>>> origin/development
                 {/* <div className='sticky  bottom-0 left-0 w-full z-60'> */}
 
                 <Footer/>
