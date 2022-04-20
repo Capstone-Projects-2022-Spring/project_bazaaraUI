@@ -89,12 +89,52 @@ export function ProductSearch(props) {
       else {
 
         navigator.geolocation.getCurrentPosition(
-          (pos) => { alert("Successfully Retrieved Your Location"); console.log(pos) },
+          (pos) => { 
+          alert("Successfully Retrieved Your Location"); console.log(pos)
+          postLocationToDB(pos.coords)
+        },
           (err) => { alert('Cannot Find Nearby Stores Without Location Access') })
       }
     }
 
   }, [location])
+
+  async function postLocationToDB(pos) {
+    console.log('Latitude: ' + pos.latitude)
+    console.log(typeof pos.latitude)
+    console.log('Longitude: ' + pos.longitude)
+    console.log(typeof pos.longitude)
+    let currentJWT;
+    const uid = auth.currentUser.uid
+    try {
+      currentJWT = await auth.currentUser.getIdToken(true);
+    } catch (err) {
+      console.log("Error retrieving id token")
+      console.log(err.message);
+    } finally {
+      // send request to API endpoint
+      try {
+        await axios.post(`https://bazaara-342116.uk.r.appspot.com/user/${uid}/location`,
+          {
+            "latitude": pos.latitude,
+            "longitude": pos.longitude
+          }, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+            "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+            "Authorization": currentJWT,
+          }
+        }).then((response) => {
+          console.log('Response from ProductSearch#postLocationToDB')
+          console.log(response)
+        });
+      } catch (error) {
+        console.log('Error in ProductSearch#postLocationToDB')
+        console.log(error)
+      }
+    }
+  }
 
   useEffect(() => {
     console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
@@ -144,7 +184,8 @@ export function ProductSearch(props) {
       return `$${params.value}`
     }},
     { field: 'productId', hide: true},
-    { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`}},
+    { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`} },
+    { field: 'distance', headerName: 'Distance to Store', width: 150 },
     { field: 'upc_code', hide: true },
     { field: 'weight', headerName: 'Weight (oz.)', width: 150 },
   ]
