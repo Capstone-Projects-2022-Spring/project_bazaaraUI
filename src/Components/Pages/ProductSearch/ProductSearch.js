@@ -3,57 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
 
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
 import AddProductDialog from "./AddProductDialog";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  border: '0.5px solid rgba(0 0 0 / 0.25)',
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  margin: '14px 0px',
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#A020F0',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
+import ProductSearchBar from "./ProductSearchBar";
 
 export function ProductSearch(props) {
   const [searchText, setSearchText] = useState(null)
@@ -64,7 +17,7 @@ export function ProductSearch(props) {
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
-  
+
   // a state to store the location 
   const [location, setLocation] = useState()
 
@@ -72,49 +25,51 @@ export function ProductSearch(props) {
     makeRequestForNewData()
   }, [])
   useEffect(() => {
-    
+
     if (!location) {
       if (!navigator.geolocation) {
         alert('Your browser does not support gelocation')
       }
-      else{
-        
+      else {
+
         navigator.geolocation.getCurrentPosition(
           (pos) => { alert("Successfully Retrieved Your Location"); console.log(pos) },
-          (err) => {alert('Cannot Find Nearby Stores Without Location Access')})
-        }
+          (err) => { alert('Cannot Find Nearby Stores Without Location Access') })
       }
-      
-    }, [location])
-    
-    useEffect(() => {
-      console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
-      console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
-      console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
-      console.log('Search text: ' + searchText)
-      makeRequestForNewData()
-    }, [pageNumber, pageSize, filter, sort, searchText])
-    
-    const columns = [
-      { renderCell: (params) => {
+    }
+
+  }, [location])
+
+  useEffect(() => {
+    console.log('Current Filter: column=' + filter.column + ' value=' + filter.value)
+    console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
+    console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
+    console.log('Search text: ' + searchText)
+    makeRequestForNewData()
+  }, [pageNumber, pageSize, filter, sort, searchText])
+
+  const columns = [
+    {
+      renderCell: (params) => {
         return (
           <img src={params.row.img} alt={params.row.prod} />
         )
-      }},
-      { field: 'prod', headerName: 'Product', width: 150 },
-      { field: 'price', headerName: 'Price ($)', width: 150 },
-      { field: 'store', headerName: 'Store', width: 150 },
-      { field: 'weight', headerName: 'Weight (oz.)', width: 150 }
-    ]
-    
-    function makeRequestForNewData() {
-      // send request to API endpoint
-      generateSampleData()
-    }
-    
-    function generateSampleData() {
-      let input = [
-        { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      }
+    },
+    { field: 'prod', headerName: 'Product', width: 150 },
+    { field: 'price', headerName: 'Price ($)', width: 150 },
+    { field: 'store', headerName: 'Store', width: 150 },
+    { field: 'weight', headerName: 'Weight (oz.)', width: 150 }
+  ]
+
+  function makeRequestForNewData() {
+    // send request to API endpoint
+    generateSampleData()
+  }
+
+  function generateSampleData() {
+    let input = [
+      { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
       { id: 2, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
       { id: 3, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
       { id: 4, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
@@ -144,10 +99,7 @@ export function ProductSearch(props) {
     setRows(input)
   }
 
-  const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value.toLowerCase());
-    console.log('searchtext: ' + searchText);
-  };
+  
 
   function handleFilterModelChange(model) {
     setFilter({ column: model.items[0].columnField, value: model.items[0].value })
@@ -173,51 +125,43 @@ export function ProductSearch(props) {
     //alert(JSON.stringify(props.lists[props.listIndex].name));
     setTimeout(() => setMessage(""), 3000);
   }
-
+  
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value.toLowerCase());
+  };
 
   return (
     <>
       <Navbar />
       <section className='min-h-screen-2xl mb-[200px]'>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ height: '100vh', width: '75%' }}>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              autoFocus
-              onChange={handleSearchTextChange}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ height: '100vh', width: '75%' }}>
+            <ProductSearchBar handleSearchTextChange={handleSearchTextChange} value={searchText} />
+            <div className="userOptions">
+              <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
+              <Link to={`/lists`} className='px-1 py-1 text-sm rounded-full text-white bg-purple-600'><ArrowBackIcon />Back to Shopping Lists</Link>
+            </div>
+            {message}
+
+            <br />
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              page={pageNumber}
+              pageSize={pageSize}
+              rowCount={rowCount}
+              filterMode='server'
+              sortingMode='sever'
+              paginationMode='server'
+              onFilterModelChange={handleFilterModelChange}
+              onSortModelChange={handleSortModelChange}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              onRowClick={productClicked}
             />
-          </Search>
-          
-          <div className="userOptions">
-            <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
-            <Link to={`/lists`} className='px-1 py-1 text-sm rounded-full text-white bg-purple-600'><ArrowBackIcon />Back to Shopping Lists</Link>
           </div>
-          {message}
-          
-          <br />
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            page={pageNumber}
-            pageSize={pageSize}
-            rowCount={rowCount}
-            filterMode='server'
-            sortingMode='sever'
-            paginationMode='server'
-            onFilterModelChange={handleFilterModelChange}
-            onSortModelChange={handleSortModelChange}
-            onPageChange={handlePageChange}
-            onPageSizeChange={handlePageSizeChange}
-            onRowClick={productClicked}
-          />
         </div>
-      </div>
       </section>
       {/* <Footer /> */}
     </>
