@@ -230,7 +230,6 @@ export function ProductSearch(props) {
               <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
               <Link to={`/lists`} className='px-1 py-1 text-sm rounded-full text-white bg-purple-600'><ArrowBackIcon />Back to Shopping Lists</Link>
             </div>
-            {message}
             <br />
             <DataGrid
               rows={rows}
