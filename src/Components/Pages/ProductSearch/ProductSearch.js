@@ -105,6 +105,7 @@ export function ProductSearch(props) {
   }, [pageNumber, pageSize, filter, sort, searchText])
 
   function determineFilterParam() {
+    if (searchText) return ("name=" + searchText)
     if (!filter.column) return ""
 
     switch (filter.column) {
@@ -125,7 +126,8 @@ export function ProductSearch(props) {
     return pageNumber+1 // backend starts counting at page 1
   }
 
-  function formatSearchParams() {
+  function 
+    formatSearchParams() {
     const filterParam = determineFilterParam()
     const [sortParam, orderParam] = determineSortParam()
     const pageParam = determinePageParam()
