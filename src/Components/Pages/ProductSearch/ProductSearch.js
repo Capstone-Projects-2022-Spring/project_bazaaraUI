@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
-
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,51 +11,7 @@ import axios from "axios";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  border: '0.5px solid rgba(0 0 0 / 0.25)',
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  margin: '14px 0px',
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#A020F0',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
+import ProductSearchBar from "./ProductSearchBar";
 
 
 
@@ -68,7 +23,6 @@ export function ProductSearch(props) {
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
-
   const { enqueueSnackbar } = useSnackbar();
 
   const auth = props.auth
@@ -235,10 +189,7 @@ export function ProductSearch(props) {
     setRows(input)
   }
 
-  const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value.toLowerCase());
-    console.log('searchtext: ' + searchText);
-  };
+  
 
   function handleFilterModelChange(model) {
     setFilter({ column: model.items[0].columnField, value: model.items[0].value })
@@ -264,7 +215,10 @@ export function ProductSearch(props) {
     //alert(JSON.stringify(props.lists[props.listIndex].name));
     enqueueSnackbar(param.row.name + " added to " + props.lists[props.listIndex].label + "!", { variant });
   }
-
+  
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value.toLowerCase());
+  };
 
   return (
     <>
@@ -273,18 +227,11 @@ export function ProductSearch(props) {
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ height: '100vh', width: '75%' }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                autoFocus
-                onChange={handleSearchTextChange}
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-            <AddProductDialog loaded={props.loaded} lists={props.lists} selectedList={props.currentList} changeList={props.changeList} />
+            <ProductSearchBar handleSearchTextChange={handleSearchTextChange} value={searchText} />
+            <div className="userOptions">
+              <AddProductDialog lists={props.lists} selectedList={props.lists[props.listIndex]} changeList={props.changeList} />
+              <Link to={`/lists`} className='px-1 py-1 text-sm rounded-full text-white bg-purple-600'><ArrowBackIcon />Back to Shopping Lists</Link>
+            </div>
             <br />
             <DataGrid
               rows={rows}
