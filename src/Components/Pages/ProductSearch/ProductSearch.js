@@ -2,24 +2,34 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
-
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import { useSnackbar } from 'notistack';
 import AddProductDialog from "./AddProductDialog";
+import axios from "axios";
+
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
 import ProductSearchBar from "./ProductSearchBar";
 
+
+
 export function ProductSearch(props) {
   const [searchText, setSearchText] = useState(null)
-  const [message, setMessage] = React.useState("")
   const [rows, setRows] = useState([])
   const [filter, setFilter] = useState({ column: undefined, value: undefined })
   const [sort, setSort] = useState({ column: undefined, order: undefined })
   const [pageNumber, setPageNumber] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [rowCount, setRowCount] = useState(10)
+  const { enqueueSnackbar } = useSnackbar();
+
+  const auth = props.auth
 
   // a state to store the location 
   const [location, setLocation] = useState()
+
 
   useEffect(() => {
     makeRequestForNewData()
@@ -45,54 +55,132 @@ export function ProductSearch(props) {
     console.log('Current Sort: column=' + sort.column + ' order=' + sort.order)
     console.log('Current Page: number=' + pageNumber + ' size=' + pageSize)
     console.log('Search text: ' + searchText)
-    makeRequestForNewData()
+    makeRequestForNewData(formatSearchParams())
   }, [pageNumber, pageSize, filter, sort, searchText])
+
+  function determineFilterParam() {
+    if (!filter.column) return ""
+
+    switch (filter.column) {
+      case 'store': return ("store=" + filter.value)
+      case 'price': return ("price=" + filter.value)
+      case 'name': return ("name=" + filter.value)
+      default: return ""
+    }
+  }
+
+  function determineSortParam() {
+    if (!sort.column) return [null, null]
+
+    return [sort.column, sort.order]
+  }
+
+  function determinePageParam() {
+    return pageNumber+1 // backend starts counting at page 1
+  }
+
+  function formatSearchParams() {
+    const filterParam = determineFilterParam()
+    const [sortParam, orderParam] = determineSortParam()
+    const pageParam = determinePageParam()
+
+    return (filterParam?? "" + (sortParam ? (sortParam + orderParam) : "") + pageParam?? "")
+  }
 
   const columns = [
     {
       renderCell: (params) => {
         return (
-          <img src={params.row.img} alt={params.row.prod} />
+          <img src={params.row.image_url} alt={params.row.name} />
         )
       }
     },
-    { field: 'prod', headerName: 'Product', width: 150 },
-    { field: 'price', headerName: 'Price ($)', width: 150 },
-    { field: 'store', headerName: 'Store', width: 150 },
-    { field: 'weight', headerName: 'Weight (oz.)', width: 150 }
+    { field: 'id', hide: true },
+    { field: 'name', headerName: 'Product', width: 150, valueFormatter: (params) => {
+      if (params.value.includes(' ')) {
+        const arrOrig = params.value.split(' ')
+        const arrFormatted = arrOrig.map((word) => {
+          return (word.slice(0,1).toUpperCase() + word.slice(1))
+        })
+        return arrFormatted.join(' ')
+      }
+
+      return (params.value.slice(0,1).toUpperCase() + params.value.slice(1))
+    } },
+    { field: 'price', headerName: 'Price', width: 150, valueFormatter: (params) => {
+      if (!params.value.toString().includes('.')) {
+        return `$${params.value}.00`
+      }
+
+      return `$${params.value}`
+    }},
+    { field: 'productId', hide: true},
+    { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`}},
+    { field: 'upc_code', hide: true },
+    { field: 'weight', headerName: 'Weight (oz.)', width: 150 },
   ]
 
-  function makeRequestForNewData() {
-    // send request to API endpoint
-    generateSampleData()
+  async function makeRequestForNewData(searchParams) {
+    let currentJWT;
+    try {
+      currentJWT = await auth.currentUser.getIdToken(true);
+    } catch (err) {
+      console.log("Error retrieving id token")
+      console.log(err.message);
+    } finally {
+      // send request to API endpoint
+      try {
+        await axios.get(`https://bazaara-342116.uk.r.appspot.com/products/search?${searchParams}`, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+            "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+            "Authorization": currentJWT,
+          }
+        }).then((response) => {
+          console.log('Response from ProductSearch#makeRequestForNewData')
+          console.log(response)
+          const responseData = response.data.message.map((row) => {
+            row.id = row._id
+          })
+          setRows(response.data.message)
+
+        });
+        // generateSampleData()
+      } catch (error) {
+
+        console.log('Error in ProductSearch#makeRequestForNewData')
+        console.log(error)
+      }
+    }
   }
 
   function generateSampleData() {
     let input = [
-      { id: 1, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 2, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 3, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 4, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 5, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 6, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 7, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 8, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 9, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 10, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 11, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 12, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 13, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 14, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 15, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 16, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 17, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
-      { id: 18, prod: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
-      { id: 19, prod: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
-      { id: 20, prod: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 1, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 2, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 3, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 4, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 5, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 6, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 7, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 8, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 9, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 10, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 11, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 12, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 13, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 14, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 15, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 16, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 17, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
+      { id: 18, name: 'Apple', price: 3.99, store: 'Walmart', weight: 5.1 },
+      { id: 19, name: 'Orange', price: 5.99, store: 'Target', weight: 6.7 },
+      { id: 20, name: 'Cereal', price: 2.99, store: 'Fresh Grocer', weight: 14 },
     ]
     input.map((entry) => entry.img = require('./product_placeholder.png'))
     if (searchText)
-      input = input.filter(item => item.prod.toLowerCase().includes(searchText))
+      input = input.filter(item => item.name.toLowerCase().includes(searchText))
 
     setRowCount(input.length)
     input = input.slice(pageNumber * pageSize, pageNumber * pageSize + pageSize)
@@ -118,12 +206,12 @@ export function ProductSearch(props) {
     setPageSize(pageSize)
   }
 
-  function productClicked(param, event) {
-    //alert(JSON.stringify(param.row.prod));
-    props.addProduct(param.row.prod, param.row.weight, param.row.price, param.row.store);
-    setMessage(param.row.prod + " added to " + props.lists[props.listIndex].name + "!");
+  function productClicked(param) {
+    let variant = 'success'
+    //alert(JSON.stringify(param.row.id));
+    props.addProduct(param.row.id);
     //alert(JSON.stringify(props.lists[props.listIndex].name));
-    setTimeout(() => setMessage(""), 3000);
+    enqueueSnackbar(param.row.name + " added to " + props.lists[props.listIndex].label + "!", { variant });
   }
   
   const handleSearchTextChange = (event) => {
@@ -143,7 +231,6 @@ export function ProductSearch(props) {
               <Link to={`/lists`} className='px-1 py-1 text-sm rounded-full text-white bg-purple-600'><ArrowBackIcon />Back to Shopping Lists</Link>
             </div>
             {message}
-
             <br />
             <DataGrid
               rows={rows}
@@ -163,7 +250,7 @@ export function ProductSearch(props) {
           </div>
         </div>
       </section>
-      {/* <Footer /> */}
+      {/* <Footer /> */}            
     </>
   );
 }
