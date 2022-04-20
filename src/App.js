@@ -206,7 +206,7 @@ export default function App() {
         <Route path="/lists" element={<ShoppingListView pageIndex={1} />} />
         <Route path="/search" element={<ShoppingListView pageIndex={0} />} />
         <Route path="/report" element={<Report />} />
-        <Route path="/logout" element={<Logout />} />
+        <Route path="/logout" element={<Logout handleSignout={handleSignout}/>} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

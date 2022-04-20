@@ -17,6 +17,7 @@
     "firebase": "^9.6.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-modal": "^3.14.4",
     "react-multi-carousel": "^2.8.0",
     "react-qr-barcode-scanner": "^1.0.6",
     "react-router-dom": "^6.2.1",
