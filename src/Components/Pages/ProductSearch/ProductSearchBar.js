@@ -2,7 +2,7 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function ProductSearchBar({ handleSearchTextChange }) {
+export default function ProductSearchBar({ handleSearchTextChange, value }) {
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -57,7 +57,8 @@ export default function ProductSearchBar({ handleSearchTextChange }) {
                 autoFocus
                 onChange={handleSearchTextChange}
                 placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }} />
+                inputProps={{ 'aria-label': 'search' }}
+                value={value} />
         </Search>
     )
 }
