@@ -18,6 +18,7 @@ const Report = () => {
       setBarcode('')
       setPrice('')
       setIsStart(false)
+      setstreamenable(false)
     } else {
       alert('Please Enter Price!!')
     }
