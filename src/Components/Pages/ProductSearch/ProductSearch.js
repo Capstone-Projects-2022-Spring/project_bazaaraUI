@@ -121,6 +121,8 @@ export function ProductSearch(props) {
         order = null
     }
 
+    if (sort.column === 'distance') return ["sort=location", "order=" + order]
+
     return ["sort=" + sort.column, "order=" + order]
   }
 
