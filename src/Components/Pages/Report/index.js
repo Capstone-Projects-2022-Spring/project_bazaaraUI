@@ -40,7 +40,6 @@ const Report = (props) => {
         this.state.loaded = true;
         this.forceUpdate();
 
-
       });
     } catch (err) {
       console.log(err.message);
