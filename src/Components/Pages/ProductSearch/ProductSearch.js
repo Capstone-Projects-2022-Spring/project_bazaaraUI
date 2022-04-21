@@ -2,17 +2,12 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import './styles.css';
 import Navbar from '../../NavBar/Navbar'
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
 import { useSnackbar } from 'notistack';
 import AddProductDialog from "./AddProductDialog";
 import axios from "axios";
-
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
 import ProductSearchBar from "./ProductSearchBar";
-
 
 
 export function ProductSearch(props) {
@@ -101,6 +96,7 @@ export function ProductSearch(props) {
   function determineFilterParam() {
     if (searchText) return ("name=" + searchText)
     if (!filter.column) return ""
+    if (!filter.value) return ""
 
     switch (filter.column) {
       case 'store': return ("store=" + filter.value)
@@ -113,20 +109,51 @@ export function ProductSearch(props) {
   function determineSortParam() {
     if (!sort.column) return [null, null]
 
-    return [sort.column, sort.order]
+    let order = null
+    switch (sort.order) {
+      case "asc":
+        order = 0
+        break;
+      case "desc":
+        order = 1
+        break;
+      default:
+        order = null
+    }
+
+    if (sort.column === 'distance') return ["sort=location", "order=" + order]
+
+    return ["sort=" + sort.column, "order=" + order]
   }
 
   function determinePageParam() {
-    return pageNumber+1 // backend starts counting at page 1
+    return ("page=" + (pageNumber+1)) // backend starts counting at page 1
   }
 
-  function 
-    formatSearchParams() {
+  function formatSearchParams() {
+    let response = "uid=" + auth.currentUser.uid + "&"
     const filterParam = determineFilterParam()
-    const [sortParam, orderParam] = determineSortParam()
-    const pageParam = determinePageParam()
+    console.log('filterParam=' + filterParam)
+    if (filterParam) {
+      response += filterParam + "&"
+    }
 
-    return (filterParam?? "" + (sortParam ? (sortParam + orderParam) : "") + pageParam?? "")
+    const [sortParam, orderParam] = determineSortParam()
+    console.log('sortParam=' + sortParam)
+    console.log('orderParam=' + orderParam)
+    if (sortParam) {
+      response += sortParam + "&" + orderParam + "&"
+    }
+
+    const pageParam = determinePageParam()
+    console.log('pageParam=' + pageParam)
+    if (pageParam) {
+      response += pageParam + "&"
+    }
+
+    response = response.slice(0, -1)
+
+    return response
   }
 
   const columns = [
@@ -137,8 +164,8 @@ export function ProductSearch(props) {
         )
       }
     },
-    { field: 'id', hide: true },
-    { field: 'name', headerName: 'Product', width: 150, valueFormatter: (params) => {
+    { field: 'id', hide: true, flex: 1 },
+    { field: 'name', headerName: 'Product', minWidth: 150, flex: 2, valueFormatter: (params) => {
       if (params.value.includes(' ')) {
         const arrOrig = params.value.split(' ')
         const arrFormatted = arrOrig.map((word) => {
@@ -149,18 +176,23 @@ export function ProductSearch(props) {
 
       return (params.value.slice(0,1).toUpperCase() + params.value.slice(1))
     } },
-    { field: 'price', headerName: 'Price', width: 150, valueFormatter: (params) => {
+    { field: 'price', headerName: 'Price', minWidth: 100, flex: 1, valueFormatter: (params) => {
       if (!params.value.toString().includes('.')) {
         return `$${params.value}.00`
+      }
+
+      // $5|.5 <-- this part has a length of 2 and not 3
+      if (params.value.toString().slice(params.value.toString().indexOf('.')).length === 2) {
+        return `$${params.value}0`
       }
 
       return `$${params.value}`
     }},
     { field: 'productId', hide: true},
-    { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`} },
-    { field: 'distance', headerName: 'Distance to Store', width: 150 },
+    { field: 'store', headerName: 'Store', minWidth: 100, flex: 1, valueFormatter: (params) => {return `${params.value.name}`} },
+    { field: 'distance', headerName: 'Distance to Store', minWidth: 150, flex: 1, valueFormatter: (params) => {return `${params.value.toFixed(2)} miles`}},
     { field: 'upc_code', hide: true },
-    { field: 'weight', headerName: 'Weight (oz.)', width: 150 },
+    { field: 'weight', headerName: 'Weight', minWidth: 150, flex: 1 },
   ]
 
   async function makeRequestForNewData(searchParams) {
@@ -187,6 +219,7 @@ export function ProductSearch(props) {
             row.id = row._id
           })
           setRows(response.data.message)
+          setRowCount(response.data.total)
 
         });
         // generateSampleData()
@@ -229,7 +262,6 @@ export function ProductSearch(props) {
     input = input.slice(pageNumber * pageSize, pageNumber * pageSize + pageSize)
     setRows(input)
   }
-
   
 
   function handleFilterModelChange(model) {
@@ -258,7 +290,7 @@ export function ProductSearch(props) {
   }
   
   const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value.toLowerCase());
+    setSearchText(event.target.value);
   };
 
   return (
@@ -280,8 +312,9 @@ export function ProductSearch(props) {
               page={pageNumber}
               pageSize={pageSize}
               rowCount={rowCount}
+              autoHeight
               filterMode='server'
-              sortingMode='sever'
+              sortingMode='server'
               paginationMode='server'
               onFilterModelChange={handleFilterModelChange}
               onSortModelChange={handleSortModelChange}
