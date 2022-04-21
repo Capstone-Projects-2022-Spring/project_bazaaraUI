@@ -188,7 +188,7 @@ export function ProductSearch(props) {
     }},
     { field: 'productId', hide: true},
     { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`} },
-    { field: 'distance', headerName: 'Distance to Store', width: 150 },
+    { field: 'distance', headerName: 'Distance to Store', width: 150, valueFormatter: (params) => {return `${params.value.toFixed(2)} miles`}},
     { field: 'upc_code', hide: true },
     { field: 'weight', headerName: 'Weight (oz.)', width: 150 },
   ]
