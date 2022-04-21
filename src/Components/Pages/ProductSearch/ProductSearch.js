@@ -162,8 +162,8 @@ export function ProductSearch(props) {
         )
       }
     },
-    { field: 'id', hide: true },
-    { field: 'name', headerName: 'Product', width: 150, valueFormatter: (params) => {
+    { field: 'id', hide: true, flex: 1 },
+    { field: 'name', headerName: 'Product', minWidth: 150, flex: 2, valueFormatter: (params) => {
       if (params.value.includes(' ')) {
         const arrOrig = params.value.split(' ')
         const arrFormatted = arrOrig.map((word) => {
@@ -174,7 +174,7 @@ export function ProductSearch(props) {
 
       return (params.value.slice(0,1).toUpperCase() + params.value.slice(1))
     } },
-    { field: 'price', headerName: 'Price', width: 150, valueFormatter: (params) => {
+    { field: 'price', headerName: 'Price', minWidth: 100, flex: 1, valueFormatter: (params) => {
       if (!params.value.toString().includes('.')) {
         return `$${params.value}.00`
       }
@@ -187,10 +187,10 @@ export function ProductSearch(props) {
       return `$${params.value}`
     }},
     { field: 'productId', hide: true},
-    { field: 'store', headerName: 'Store', width: 150, valueFormatter: (params) => {return `${params.value.name}`} },
-    { field: 'distance', headerName: 'Distance to Store', width: 150, valueFormatter: (params) => {return `${params.value.toFixed(2)} miles`}},
+    { field: 'store', headerName: 'Store', minWidth: 100, flex: 1, valueFormatter: (params) => {return `${params.value.name}`} },
+    { field: 'distance', headerName: 'Distance to Store', minWidth: 150, flex: 1, valueFormatter: (params) => {return `${params.value.toFixed(2)} miles`}},
     { field: 'upc_code', hide: true },
-    { field: 'weight', headerName: 'Weight (oz.)', width: 150 },
+    { field: 'weight', headerName: 'Weight (oz.)', minWidth: 150, flex: 1 },
   ]
 
   async function makeRequestForNewData(searchParams) {
