@@ -48,12 +48,7 @@ export default function ProductCard(props) {
               </Typography>
             </CardContent>
             <CardContent>
-              <CardMedia
-                component="img"
-                sx={{ width: 125 }}
-                image={require('./product_placeholder.png')}
-                alt="Product image"
-              />    
+              <img className="productImage" src={props.product.image_url} alt={props.product.name} max-width="100px"/>
             </CardContent>      
           </div>
           <CardActions class="card__actions">
