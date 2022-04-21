@@ -3,13 +3,28 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Checkbox from '@mui/material/Checkbox';
 import './styles.css';
 import CardMedia from '@mui/material/CardMedia';
 
-
+// props.addToSavings
 export default function ProductCard(props) {
 
+
+
+  function handleChecked() {
+    props.addToSavings(props.product._id);
+
+  }
+
+  function Checkbox() {
+    if (!props.purchased) { // unchecked
+      return <input type="checkbox" onChange={handleChecked} />
+    } else { // checked
+      return <input type="checkbox" checked readOnly/>
+    }
+
+    
+  }
     
     return (
       <div class="card my-2 shadow-2xl bg-white">
@@ -17,7 +32,7 @@ export default function ProductCard(props) {
           <div class="card__content" >
             <CardContent >
               <Typography variant="h8" component="div">
-                <Checkbox />
+                <Checkbox />&nbsp;&nbsp;
                 {props.product.name}
                 <br />
                 ${props.product.price}
@@ -53,9 +68,9 @@ export default function ProductCard(props) {
       );
 }
 
-/*                {props.weight} oz.
-                <br />
-                ${props.price}
-                <br />
-                {props.store}
-                 */
+// image url: `${props.product.image}` 
+
+
+/*<Checkbox checked={checked}
+                          onChange={handleChecked}
+                          inputProps={{ 'aria-label': 'controlled' }} />*/

@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
+import { async } from 'regenerator-runtime';
 
 export class ShoppingListView extends React.Component {
     
@@ -29,6 +30,7 @@ export class ShoppingListView extends React.Component {
             hideRenameView: true,
             listTotalCost: 0, // total price of current shopping list, currently unused?
             loaded: false,
+
         }
         this.changeListHandler = this.changeListHandler.bind(this);
         this.handleAddList = this.handleAddList.bind(this);
@@ -49,10 +51,11 @@ export class ShoppingListView extends React.Component {
 
     changeListHandler(newIndex) {
         //alert('new list index: ' + newIndex);
+
         this.setState({
                 listIndex: newIndex,
                 currentListId: this.state.lists[newIndex].id,
-                currentList: this.state.lists[newIndex]
+                currentList: this.state.lists[newIndex],
                 //currentList: ShoppingListCollection.collection[newIndex].productCollection,
         })
         return this.state.listIndex;
@@ -407,7 +410,7 @@ export class ShoppingListView extends React.Component {
                   }
                 }).then((response) => {
 
-                    //console.log("Shopping List Data", response);
+                    console.log("Shopping List Data", response);
 
                     let tempLists = response.data.message;
 
@@ -430,6 +433,48 @@ export class ShoppingListView extends React.Component {
             console.log(err.message);
             window.location.replace('/');
         }
+
+      }
+
+      addCheckedProductToSavings = async(productId) => {
+        let currentJWT = null;
+        let currentUID = null;
+
+        try {
+            currentJWT = await this.props.auth.currentUser.getIdToken(true);
+        } catch (err) {
+            console.log(err.message);
+        }
+
+        //console.log(currentJWT)
+        try {
+            currentUID = await this.props.auth.currentUser.uid;
+            try {
+                await axios.post(`https://bazaara-342116.uk.r.appspot.com/lists/update/${currentUID}/listIndex/${this.state.listIndex}/selected`,
+                  { 
+                    productId: productId,
+                  }, { headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, X-Request-With",
+                    "Authorization": currentJWT,
+                  }
+                }).then((response) => {
+
+                    console.log(response);
+                    this.requestShoppingListData();
+               
+
+
+                });
+              } catch (err) {
+                  console.log(err.message);
+                  return err.message;
+              }
+        } catch (err) {
+            console.log(err.message);
+        }
+        this.forceUpdate();
 
       }
 
@@ -475,7 +520,20 @@ export class ShoppingListView extends React.Component {
                                         <button className="px-2 py-1 text-sm rounded-full text-white bg-purple-600" >+ Add a Product</button>                                   </Link>
                                     {this.state.deleteListMessage}
                                     <ShoppingListDisplay 
-                                    displayIndex={this.state.listIndex} lists={this.state.lists} currentList={this.state.currentList} removeProduct={this.handleRemoveProduct} productIndex={this.state.productIndex} hideButton={this.state.hideButton} handleInput={this.handleInput} renameList={this.renameList} value={this.state.value} hideRenameView={this.state.hideRenameView} calculateTotalListPrice={this.calculateTotalListPrice} totalCost={this.calculateTotalListPrice()}/>
+                                        displayIndex={this.state.listIndex}
+                                        lists={this.state.lists}
+                                        currentList={this.state.currentList}
+                                        removeProduct={this.handleRemoveProduct}
+                                        productIndex={this.state.productIndex}
+                                        hideButton={this.state.hideButton}
+                                        handleInput={this.handleInput}
+                                        renameList={this.renameList}
+                                        value={this.state.value}
+                                        hideRenameView={this.state.hideRenameView}
+                                        calculateTotalListPrice={this.calculateTotalListPrice}
+                                        totalCost={this.calculateTotalListPrice()}
+                                        addToSavings={this.addCheckedProductToSavings}
+                                        />
                                     </div>
                                 <div className='md:flex justify-start md:h-full items-start'>
                                 <ListManagementDropdown
@@ -488,7 +546,6 @@ export class ShoppingListView extends React.Component {
                             </div>
                     </section>
                     </section>
-                    <button onClick={this.handleAddProduct}>Add sample product</button>
                     <Footer />
                     </>;
                 break;
