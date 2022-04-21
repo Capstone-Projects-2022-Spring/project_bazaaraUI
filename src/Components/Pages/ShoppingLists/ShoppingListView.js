@@ -546,7 +546,6 @@ export class ShoppingListView extends React.Component {
                             </div>
                     </section>
                     </section>
-                    <button onClick={this.handleAddProduct}>Add sample product</button>
                     <Footer />
                     </>;
                 break;

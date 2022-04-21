@@ -32,7 +32,7 @@ export default function ProductCard(props) {
           <div class="card__content" >
             <CardContent >
               <Typography variant="h8" component="div">
-                <Checkbox />
+                <Checkbox />&nbsp;&nbsp;
                 {props.product.name}
                 <br />
                 ${props.product.price}
@@ -42,8 +42,6 @@ export default function ProductCard(props) {
                 Available at {props.product.store.name}
                 <br />
                 Barcode: {props.product.upc_code}
-                <br />
-                DEBUG purchased: {props.product.purchased.toString()}
               </Typography>
               <Typography variant="body2">
 
