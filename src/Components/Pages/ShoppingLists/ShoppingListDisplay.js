@@ -1,12 +1,22 @@
 import React from 'react';
 import './styles.css';
 import ProductCard from './Product'
+import { CheckRounded } from '@mui/icons-material';
 
 export class ShoppingListDisplay extends React.Component {
+
+
+    renderChecked(product) {
+        if (!product.purchased) { // not purchased, no check
+            return false;
+        } else { // check off box
+            return true;
+        }
+    }
     
     render() {
 
-
+        //purchasedIndicators
         return (
             <div>
                 <p className='text-xl font-semibold'>{this.props.currentList.label}</p>
@@ -18,7 +28,7 @@ export class ShoppingListDisplay extends React.Component {
                 {        
                
                     this.props.currentList.products.map((product, index) => (
-                        <ProductCard product={product} name={product.name} price={product.price} removeProduct={this.props.removeProduct} clicked={index} hideButton={this.props.hideButton}/>
+                        <ProductCard product={product} name={product.name} price={product.price} purchased={product.purchased} image={product.image_url} removeProduct={this.props.removeProduct} clicked={index} hideButton={this.props.hideButton} addToSavings={this.props.addToSavings} />
 
             
                     ))
