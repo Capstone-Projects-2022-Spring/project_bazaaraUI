@@ -192,7 +192,7 @@ export function ProductSearch(props) {
     { field: 'store', headerName: 'Store', minWidth: 100, flex: 1, valueFormatter: (params) => {return `${params.value.name}`} },
     { field: 'distance', headerName: 'Distance to Store', minWidth: 150, flex: 1, valueFormatter: (params) => {return `${params.value.toFixed(2)} miles`}},
     { field: 'upc_code', hide: true },
-    { field: 'weight', headerName: 'Weight (oz.)', minWidth: 150, flex: 1 },
+    { field: 'weight', headerName: 'Weight', minWidth: 150, flex: 1 },
   ]
 
   async function makeRequestForNewData(searchParams) {
