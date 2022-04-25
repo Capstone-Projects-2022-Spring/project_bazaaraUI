@@ -11,7 +11,7 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 > This link is compatible on mobile, desktop, and tablets.
 
 ## Current Release 
-[v3.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v4.0.0)
+[v4.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v4.0.0)
 
 ## Testing
 [TESTING.md](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/blob/main/TESTING.md)
@@ -38,7 +38,7 @@ BAZAARA is an app created with the intent of saving people money while shopping 
   - Rename shopping lists
   - View total cost of shopping lists
   - Check off purchased items
-- Shopping lists page
+- Product search page
   - Displays all products in pages of 10
   - Obtain user's location
   - Estimate user's distance from nearest stores
