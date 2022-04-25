@@ -23,8 +23,8 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 - Rico Rodriguez
 
 ## Linked Repositories 
-Backend: [project-bazarra](https://github.com/Capstone-Projects-2022-Spring/project-bazarra)
-Scraper: [BAZAARA_Scraper](https://github.com/Capstone-Projects-2022-Spring/project-BAZAARA-scraper)
+> Backend: [project-bazarra](https://github.com/Capstone-Projects-2022-Spring/project-bazarra)
+> Scraper: [BAZAARA_Scraper](https://github.com/Capstone-Projects-2022-Spring/project-BAZAARA-scraper)
 
 ## Features Implemented
 - Traditional login/registration with email and password (with input validation)
@@ -33,23 +33,23 @@ Scraper: [BAZAARA_Scraper](https://github.com/Capstone-Projects-2022-Spring/proj
 - "Money Saved" banner that compares the prices of purchased products from a user's shopping list and computes the user's savings
 - Homepage with carousel UI
 - Shopping lists page
- - Create and delete shopping lists
- - Add and remove products to shopping list
- - Rename shopping lists
- - View total cost of shopping lists
- - Check off purchased items
+  - Create and delete shopping lists
+  - Add and remove products to shopping list
+  - Rename shopping lists
+  - View total cost of shopping lists
+  - Check off purchased items
 - Shopping lists page
- - Displays all products in pages of 10
- - Obtain user's location
- - Estimate user's distance from nearest stores
- - Sort by product name, price, store, distance to store, and weight
- - Functional search bar that shows relevant search results
- - Add products in search page to a shopping list
+  - Displays all products in pages of 10
+  - Obtain user's location
+  - Estimate user's distance from nearest stores
+  - Sort by product name, price, store, distance to store, and weight
+  - Functional search bar that shows relevant search results
+  - Add products in search page to a shopping list
 - Report page
--  Functional barcode scanner that works on both mobile phone cameras and webcams
--  Can accurately capture a product's UPC code
--  User can enter the correct price of the scanned product
--  User can see scanned product price changes reflected in the product search page when searching for the product
+  -  Functional barcode scanner that works on both mobile phone cameras and webcams
+  -  Can accurately capture a product's UPC code
+  -  User can enter the correct price of the scanned product
+  -  User can see scanned product price changes reflected in the product search page when searching for the product
 
 ## Known Bugs
 - Barcode scanner price input does not have input validation
