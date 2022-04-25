@@ -8,6 +8,7 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 
 ## Installation
 > not needed for web app, access web page via [Web App Url](#web-app-url)
+> This link is compatible on mobile, desktop, and tablets.
 
 ## Current Release 
 [v3.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v3.0.0)
@@ -23,74 +24,34 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 
 ## Linked Repositories 
 Backend: [project-bazarra](https://github.com/Capstone-Projects-2022-Spring/project-bazarra)
+Scraper: [BAZAARA_Scraper](https://github.com/Capstone-Projects-2022-Spring/project-BAZAARA-scraper)
 
-# Getting Started with Create React App
+## Features Implemented
+- Traditional login/registration with email and password (with input validation)
+- Social media authentication login with Twitter and Google accounts
+- Responsive navigation bar that adapts to screen width
+- "Money Saved" banner that compares the prices of purchased products from a user's shopping list and computes the user's savings
+- Homepage with carousel UI
+- Shopping lists page
+ - Create and delete shopping lists
+ - Add and remove products to shopping list
+ - Rename shopping lists
+ - View total cost of shopping lists
+ - Check off purchased items
+- Shopping lists page
+ - Displays all products in pages of 10
+ - Obtain user's location
+ - Estimate user's distance from nearest stores
+ - Sort by product name, price, store, distance to store, and weight
+ - Functional search bar that shows relevant search results
+ - Add products in search page to a shopping list
+- Report page
+-  Functional barcode scanner that works on both mobile phone cameras and webcams
+-  Can accurately capture a product's UPC code
+-  User can enter the correct price of the scanned product
+-  User can see scanned product price changes reflected in the product search page when searching for the product
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Known Bugs
+- Barcode scanner price input does not have input validation
+- Shopping list total cost should update to subtract purchased/"checked-off" items
+- Logout page does not redirect to login page following logout, instead users are navigated to a white screen
