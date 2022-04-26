@@ -10,6 +10,14 @@ BAZAARA is an app created with the intent of saving people money while shopping 
 > not needed for web app, access web page via [Web App Url](https://bazaara-342116.web.app/)
 > This link is compatible on mobile, desktop, and tablets.
 
+## How to Build
+- People who wish to run BAZAARA themselves will need to install Node.js and its associated dependencies. Installing Node.Js will allow for the use of npm.
+- To run and install BAZAARA's frontend, users will have to run the following commands in their IDE:
+1. ``` git clone https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI.git ```
+2. ``` npm install ```
+3. ``` npm start ```
+- Next, users will have to clone and run the backend and scraper repositories according to the build instructions in their README files.
+
 ## Current Release 
 [v4.0.0](https://github.com/Capstone-Projects-2022-Spring/project_bazaaraUI/releases/tag/v4.0.0)
 
